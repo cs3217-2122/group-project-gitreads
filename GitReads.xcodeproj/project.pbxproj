@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
+		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */; };
 		B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D027D9DDA7008ACEEF /* ContentView.swift */; };
 		B223E1D327D9DDA8008ACEEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B223E1D227D9DDA8008ACEEF /* Assets.xcassets */; };
 		B223E1D627D9DDA8008ACEEF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B223E1D527D9DDA8008ACEEF /* Preview Assets.xcassets */; };
-		B223E1D827D9DDA8008ACEEF /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D727D9DDA8008ACEEF /* Persistence.swift */; };
+		B223E1D827D9DDA8008ACEEF /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D727D9DDA8008ACEEF /* PersistenceController.swift */; };
 		B223E1DB27D9DDA8008ACEEF /* GitReads.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D927D9DDA8008ACEEF /* GitReads.xcdatamodeld */; };
 		B223E1E527D9DDA8008ACEEF /* GitReadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1E427D9DDA8008ACEEF /* GitReadsTests.swift */; };
 		B223E1EF27D9DDA8008ACEEF /* GitReadsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1EE27D9DDA8008ACEEF /* GitReadsUITests.swift */; };
@@ -42,12 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		B223E1CB27D9DDA7008ACEEF /* GitReads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitReads.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitReadsApp.swift; sourceTree = "<group>"; };
 		B223E1D027D9DDA7008ACEEF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B223E1D227D9DDA8008ACEEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B223E1D527D9DDA8008ACEEF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B223E1D727D9DDA8008ACEEF /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		B223E1D727D9DDA8008ACEEF /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		B223E1DA27D9DDA8008ACEEF /* GitReads.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GitReads.xcdatamodel; sourceTree = "<group>"; };
 		B223E1E027D9DDA8008ACEEF /* GitReadsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitReadsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B223E1E427D9DDA8008ACEEF /* GitReadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitReadsTests.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 		B223E1C227D9DDA7008ACEEF = {
 			isa = PBXGroup;
 			children = (
+				6ED3225027D9F77E00F0AD09 /* .gitignore */,
+				6ED3225227D9F82000F0AD09 /* .swiftlint.yml */,
 				B223E1CD27D9DDA7008ACEEF /* GitReads */,
 				B223E1E327D9DDA8008ACEEF /* GitReadsTests */,
 				B223E1ED27D9DDA8008ACEEF /* GitReadsUITests */,
@@ -118,7 +124,7 @@
 				B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */,
 				B223E1D027D9DDA7008ACEEF /* ContentView.swift */,
 				B223E1D227D9DDA8008ACEEF /* Assets.xcassets */,
-				B223E1D727D9DDA8008ACEEF /* Persistence.swift */,
+				B223E1D727D9DDA8008ACEEF /* PersistenceController.swift */,
 				B223E1D927D9DDA8008ACEEF /* GitReads.xcdatamodeld */,
 				B223E1D427D9DDA8008ACEEF /* Preview Content */,
 			);
@@ -198,6 +204,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B223E1F427D9DDA8008ACEEF /* Build configuration list for PBXNativeTarget "GitReads" */;
 			buildPhases = (
+				6ED3225427D9F84C00F0AD09 /* Swiftlint */,
 				B223E1C727D9DDA7008ACEEF /* Sources */,
 				B223E1C827D9DDA7008ACEEF /* Frameworks */,
 				B223E1C927D9DDA7008ACEEF /* Resources */,
@@ -295,7 +302,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */,
 				B223E1D627D9DDA8008ACEEF /* Preview Assets.xcassets in Resources */,
+				6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */,
 				B223E1D327D9DDA8008ACEEF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +325,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6ED3225427D9F84C00F0AD09 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B223E1C727D9DDA7008ACEEF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -324,7 +354,7 @@
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
 				B223E20D27D9E6F0008ACEEF /* Token.swift in Sources */,
 				B223E1DB27D9DDA8008ACEEF /* GitReads.xcdatamodeld in Sources */,
-				B223E1D827D9DDA8008ACEEF /* Persistence.swift in Sources */,
+				B223E1D827D9DDA8008ACEEF /* PersistenceController.swift in Sources */,
 				B223E20727D9DF24008ACEEF /* File.swift in Sources */,
 				B223E20327D9DEAD008ACEEF /* Repo.swift in Sources */,
 				B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */,
