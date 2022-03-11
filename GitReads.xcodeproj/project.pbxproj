@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
+		6ED3225627DBD6F500F0AD09 /* GitRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225527DBD6F500F0AD09 /* GitRepo.swift */; };
+		6ED3225827DBDBB500F0AD09 /* GitContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225727DBDBB500F0AD09 /* GitContent.swift */; };
+		6ED3225A27DBDBDA00F0AD09 /* GitContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225927DBDBDA00F0AD09 /* GitContentType.swift */; };
+		6ED3225C27DBDD5900F0AD09 /* GitClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225B27DBDD5900F0AD09 /* GitClient.swift */; };
+		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
+		6ED3226227DBF03300F0AD09 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3226127DBF03300F0AD09 /* GitHubClient.swift */; };
+		6ED3226427DBF11600F0AD09 /* GitHubApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3226327DBF11600F0AD09 /* GitHubApi.swift */; };
+		6ED3226727DBF1DB00F0AD09 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = 6ED3226627DBF1DB00F0AD09 /* Get */; };
 		B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */; };
 		B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D027D9DDA7008ACEEF /* ContentView.swift */; };
 		B223E1D327D9DDA8008ACEEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B223E1D227D9DDA8008ACEEF /* Assets.xcassets */; };
@@ -46,6 +54,13 @@
 /* Begin PBXFileReference section */
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		6ED3225527DBD6F500F0AD09 /* GitRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepo.swift; sourceTree = SOURCE_ROOT; };
+		6ED3225727DBDBB500F0AD09 /* GitContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitContent.swift; sourceTree = SOURCE_ROOT; };
+		6ED3225927DBDBDA00F0AD09 /* GitContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitContentType.swift; sourceTree = SOURCE_ROOT; };
+		6ED3225B27DBDD5900F0AD09 /* GitClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitClient.swift; sourceTree = SOURCE_ROOT; };
+		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
+		6ED3226127DBF03300F0AD09 /* GitHubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GitHubClient.swift; path = GitReads/Utils/GitHubClient.swift; sourceTree = SOURCE_ROOT; };
+		6ED3226327DBF11600F0AD09 /* GitHubApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GitHubApi.swift; path = GitReads/Utils/GitHubApi.swift; sourceTree = SOURCE_ROOT; };
 		B223E1CB27D9DDA7008ACEEF /* GitReads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitReads.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitReadsApp.swift; sourceTree = "<group>"; };
 		B223E1D027D9DDA7008ACEEF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ED3226727DBF1DB00F0AD09 /* Get in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +107,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6ED3225D27DBE8E900F0AD09 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		6ED3226027DBF02400F0AD09 /* GitHub */ = {
+			isa = PBXGroup;
+			children = (
+				6ED3226127DBF03300F0AD09 /* GitHubClient.swift */,
+				6ED3226327DBF11600F0AD09 /* GitHubApi.swift */,
+			);
+			name = GitHub;
+			path = GitReads/Git/GitHub;
+			sourceTree = "<group>";
+		};
 		B223E1C227D9DDA7008ACEEF = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +150,7 @@
 		B223E1CD27D9DDA7008ACEEF /* GitReads */ = {
 			isa = PBXGroup;
 			children = (
+				6ED3225D27DBE8E900F0AD09 /* Utils */,
 				B223E20127D9DE46008ACEEF /* Git */,
 				B223E20027D9DDDC008ACEEF /* View */,
 				B223E1FF27D9DDD3008ACEEF /* ViewModel */,
@@ -193,6 +228,11 @@
 		B223E20127D9DE46008ACEEF /* Git */ = {
 			isa = PBXGroup;
 			children = (
+				6ED3226027DBF02400F0AD09 /* GitHub */,
+				6ED3225527DBD6F500F0AD09 /* GitRepo.swift */,
+				6ED3225727DBDBB500F0AD09 /* GitContent.swift */,
+				6ED3225927DBDBDA00F0AD09 /* GitContentType.swift */,
+				6ED3225B27DBDD5900F0AD09 /* GitClient.swift */,
 			);
 			path = Git;
 			sourceTree = "<group>";
@@ -214,6 +254,9 @@
 			dependencies = (
 			);
 			name = GitReads;
+			packageProductDependencies = (
+				6ED3226627DBF1DB00F0AD09 /* Get */,
+			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
 			productType = "com.apple.product-type.application";
@@ -286,6 +329,9 @@
 				Base,
 			);
 			mainGroup = B223E1C227D9DDA7008ACEEF;
+			packageReferences = (
+				6ED3226527DBF1DB00F0AD09 /* XCRemoteSwiftPackageReference "Get" */,
+			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -352,15 +398,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
+				6ED3225827DBDBB500F0AD09 /* GitContent.swift in Sources */,
+				6ED3225A27DBDBDA00F0AD09 /* GitContentType.swift in Sources */,
 				B223E20D27D9E6F0008ACEEF /* Token.swift in Sources */,
 				B223E1DB27D9DDA8008ACEEF /* GitReads.xcdatamodeld in Sources */,
 				B223E1D827D9DDA8008ACEEF /* PersistenceController.swift in Sources */,
 				B223E20727D9DF24008ACEEF /* File.swift in Sources */,
 				B223E20327D9DEAD008ACEEF /* Repo.swift in Sources */,
 				B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */,
+				6ED3225C27DBDD5900F0AD09 /* GitClient.swift in Sources */,
+				6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
+				6ED3226427DBF11600F0AD09 /* GitHubApi.swift in Sources */,
+				6ED3225627DBD6F500F0AD09 /* GitRepo.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
+				6ED3226227DBF03300F0AD09 /* GitHubClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +740,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6ED3226527DBF1DB00F0AD09 /* XCRemoteSwiftPackageReference "Get" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Get";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6ED3226627DBF1DB00F0AD09 /* Get */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6ED3226527DBF1DB00F0AD09 /* XCRemoteSwiftPackageReference "Get" */;
+			productName = Get;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		B223E1D927D9DDA8008ACEEF /* GitReads.xcdatamodeld */ = {
