@@ -24,6 +24,10 @@
 		B223E20927D9DF87008ACEEF /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E20827D9DF87008ACEEF /* Line.swift */; };
 		B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E20A27D9DF9B008ACEEF /* TokenType.swift */; };
 		B223E20D27D9E6F0008ACEEF /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E20C27D9E6F0008ACEEF /* Token.swift */; };
+		B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F027DB0F7B00CD5E01 /* CodeView.swift */; };
+		B22D52F327DB224800CD5E01 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F227DB224800CD5E01 /* LineView.swift */; };
+		B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */; };
+		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,10 @@
 		B223E20827D9DF87008ACEEF /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		B223E20A27D9DF9B008ACEEF /* TokenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
 		B223E20C27D9E6F0008ACEEF /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		B22D52F027DB0F7B00CD5E01 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
+		B22D52F227DB224800CD5E01 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
+		B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
+		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +187,7 @@
 		B223E1FF27D9DDD3008ACEEF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -186,6 +195,9 @@
 		B223E20027D9DDDC008ACEEF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B22D52F027DB0F7B00CD5E01 /* CodeView.swift */,
+				B22D52F227DB224800CD5E01 /* LineView.swift */,
+				B22D52F827DB46EA00CD5E01 /* TokenView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -357,7 +369,11 @@
 				B223E1D827D9DDA8008ACEEF /* PersistenceController.swift in Sources */,
 				B223E20727D9DF24008ACEEF /* File.swift in Sources */,
 				B223E20327D9DEAD008ACEEF /* Repo.swift in Sources */,
+				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,
+				B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */,
 				B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */,
+				B22D52F327DB224800CD5E01 /* LineView.swift in Sources */,
+				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
