@@ -2,9 +2,11 @@
 //  GitRepo.swift
 //  GitReads
 
+import Foundation
+
 struct GitRepo {
     let fullName: String
-    let htmlUrl: String
+    let htmlURL: URL
     let description: String
 
     let defaultBranch: String
