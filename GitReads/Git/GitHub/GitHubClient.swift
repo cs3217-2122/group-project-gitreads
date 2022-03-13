@@ -6,6 +6,9 @@ import Foundation
 
 enum GitHubClientError: Error {
     case unexpectedContentType(owner: String, repo: String, path: String)
+    case cannotFetchFileContents(err: Error)
+    case notUtf8Encoded(data: Data)
+    case cannotBase64Decode(string: String)
 }
 
 class GitHubClient: GitClient {
@@ -55,8 +58,13 @@ class GitHubClient: GitClient {
                 }
 
                 let gitContents = directoryContents.map { content in
-                    GitContent(from: content, contentTypeFunc: { type in
-                        self.makeGitContentType(for: type, at: content.path, owner: owner, repo: repo)
+                    GitContent(from: content, contentTypeFunc: { content in
+                        self.makeGitContentType(
+                            for: content,
+                            at: content.path,
+                            owner: owner,
+                            repo: repo
+                        )
                     })
                 }
 
@@ -65,27 +73,67 @@ class GitHubClient: GitClient {
         }
     }
 
-    private func makeFileContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<String> {
+    private func makeFileContentFetcher(
+        downloadURL: URL?,
+        owner: String,
+        repo: String,
+        path: String
+    ) -> AnyDataFetcher<String> {
         AnyDataFetcher {
-            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+            let data = await self.fetchFileData(
+                downloadURL: downloadURL,
+                owner: owner,
+                repo: repo,
+                path: path
+            )
 
-            return contents.flatMap {
-                guard case let .file(fileContent) = $0 else {
-                    return .failure(
-                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                    )
+            return data.flatMap {
+                let content = String(data: $0, encoding: .utf8)
+                guard let content = content else {
+                    return .failure(GitHubClientError.notUtf8Encoded(data: $0))
                 }
 
-                assert(fileContent.encoding == .base64, "Unexpected encoding \(fileContent.encoding)")
-                // There should only be base64 encoded contents, but we fail gracefully
-                // by providing the encoded content if it is not base64 encoded.
-                guard case .base64 = fileContent.encoding else {
-                    return .success(fileContent.content)
-                }
-
-                return .success(fileContent.content.base64Decoded() ?? "")
+                return .success(content)
             }
         }
+    }
+
+    private func fetchFileData(
+        downloadURL: URL?,
+        owner: String,
+        repo: String,
+        path: String
+    ) async -> Result<Data, Error> {
+        // if the download URL is available we use it directly
+        if let downloadURL = downloadURL {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: downloadURL)
+                return .success(data)
+            } catch {
+                return .failure(GitHubClientError.cannotFetchFileContents(err: error))
+            }
+        }
+
+        // otherwise we can still obtain the file data by retrieving it from the API
+        let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+        return contents.flatMap {
+            guard case let .file(fileContent) = $0 else {
+                return .failure(
+                    GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                )
+            }
+
+            assert(fileContent.encoding == .base64, "Unexpected encoding \(fileContent.encoding)")
+            let content = fileContent.content
+
+            let data = Data(base64Encoded: content, options: .ignoreUnknownCharacters)
+            guard let data = data else {
+                return .failure(GitHubClientError.cannotBase64Decode(string: content))
+            }
+
+            return .success(data)
+        }
+
     }
 
     private func makeSubmoduleContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<URL> {
@@ -121,12 +169,12 @@ class GitHubClient: GitClient {
     }
 
     private func makeGitContentType(
-        for contentType: GitHubRepoSummaryContent.ContentType,
+        for content: GitHubRepoSummaryContent,
         at path: String,
         owner: String,
         repo: String
     ) -> GitContentType {
-        switch contentType {
+        switch content.actualType {
         case .directory:
             let directory = GitDirectory(contents: LazyDataSource(
                 fetcher: self.makeDirectoryContentFetcher(owner: owner, repo: repo, path: path)
@@ -135,7 +183,12 @@ class GitHubClient: GitClient {
 
         case .file:
             let file = GitFile(contents: LazyDataSource(
-                fetcher: self.makeFileContentFetcher(owner: owner, repo: repo, path: path)
+                fetcher: self.makeFileContentFetcher(
+                    downloadURL: content.downloadURL,
+                    owner: owner,
+                    repo: repo,
+                    path: path
+                )
             ))
             return .file(file)
 

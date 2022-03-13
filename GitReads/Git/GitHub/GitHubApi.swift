@@ -44,12 +44,15 @@ class GitHubErrorHandlingDelegate: APIClientDelegate {
 
 class GitHubApi {
 
-    private let client: APIClient
+    // We use a proxy to handle basic authentication on the server side
+    static let DefaultClientHost = "gitreads-proxy.fly.dev"
 
-    static let DefaultClient = APIClient(host: "api.github.com") {
+    static let DefaultClient = APIClient(host: DefaultClientHost) {
         $0.sessionConfiguration.httpAdditionalHeaders = ["Accept": "application/vnd.github.v3+json"]
         $0.delegate = GitHubErrorHandlingDelegate()
     }
+
+    private let client: APIClient
 
     init(client: APIClient = GitHubApi.DefaultClient) {
         self.client = client
@@ -100,7 +103,7 @@ class GitHubApi {
     }
 
     private func path(_ pathComponents: String...) -> String {
-        "/" + pathComponents.joined(separator: "/")
+        "/github/" + pathComponents.joined(separator: "/")
     }
 
     /// Performs the given throwable action. If successful, returns `.success` with the returned value from the action.

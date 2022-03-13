@@ -104,9 +104,9 @@ struct GitHubRepoSummaryContent: Codable {
 extension GitContent {
     init(
         from content: GitHubRepoSummaryContent,
-        contentTypeFunc: (GitHubRepoSummaryContent.ContentType) -> GitContentType
+        contentTypeFunc: (GitHubRepoSummaryContent) -> GitContentType
     ) {
-        self.type = contentTypeFunc(content.actualType)
+        self.type = contentTypeFunc(content)
         self.name = content.name
         self.path = content.path
         self.sha = content.sha

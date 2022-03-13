@@ -19,10 +19,15 @@ class GitHubClientTests: XCTestCase {
             XCTFail("API request failed with error: \(err)")
 
         case let .success(res):
-            if case let .success(contents) = await res.rootDir.contents.value {
+            let value = await res.rootDir.contents.value
+            switch value {
+            case let .success(contents):
                 await contents.concurrentForEach { content in
                     await self.traverseGitContent(content: content)
                 }
+
+            case let .failure(err):
+                XCTFail("Retriving contents of root dir failed with error: \(err)")
             }
         }
     }
@@ -47,8 +52,9 @@ class GitHubClientTests: XCTestCase {
                 }
             }
         case let .file(file):
-            if case let .failure(err) = await file.contents.value {
-                indentedPrint("ERROR")
+            let value = await file.contents.value
+            if case let .failure(err) = value {
+                indentedPrint("ERROR for file: \(content.name)")
                 indentedPrint(err)
             }
 
