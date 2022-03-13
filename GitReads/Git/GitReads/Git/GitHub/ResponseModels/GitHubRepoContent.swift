@@ -53,7 +53,6 @@ enum GitHubRepoContent: Decodable {
             }
         }
     }
-
 }
 
 typealias GitHubDirectoryContent = [GitHubRepoSummaryContent]
@@ -64,16 +63,20 @@ typealias GitHubDirectoryContent = [GitHubRepoSummaryContent]
 /// For more details, see:
 /// https://docs.github.com/en/rest/overview/resources-in-the-rest-api#summary-representations
 struct GitHubRepoSummaryContent: Codable {
-    let type: SummaryContentType
+    let type: ContentType
     let name: String
     let path: String
     let sha: String
     let size: Int
-    let htmlURL: URL
 
-    enum SummaryContentType: String, Codable {
-        case file
+    let htmlURL: URL
+    let downloadURL: URL?
+
+    enum ContentType: String, Codable {
         case directory = "dir"
+        case file
+        case submodule
+        case symlink
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -83,6 +86,32 @@ struct GitHubRepoSummaryContent: Codable {
         case sha
         case size
         case htmlURL = "html_url"
+        case downloadURL = "download_url"
+    }
+
+    /// GitHub's API appears to have a bug where submodules are labelled as files
+    /// in their summary representation. To handle that, we can distinguish between
+    /// actual files and submodules by checking if the `downloadURL` is nil.
+    var actualType: ContentType {
+        if type == .file && downloadURL == nil {
+            return .submodule
+        }
+
+        return type
+    }
+}
+
+extension GitContent {
+    init(
+        from content: GitHubRepoSummaryContent,
+        contentTypeFunc: (GitHubRepoSummaryContent.ContentType) -> GitContentType
+    ) {
+        self.type = contentTypeFunc(content.actualType)
+        self.name = content.name
+        self.path = content.path
+        self.sha = content.sha
+        self.htmlURL = content.htmlURL
+        self.sizeInBytes = content.size
     }
 }
 
@@ -91,7 +120,9 @@ struct GitHubFileContent: Codable {
     let path: String
     let sha: String
     let size: Int
+
     let htmlURL: URL
+    let downloadURL: URL?
 
     let content: String
     let encoding: Encoding
@@ -102,6 +133,7 @@ struct GitHubFileContent: Codable {
         case sha
         case size
         case htmlURL = "html_url"
+        case downloadURL = "download_url"
         case content
         case encoding
     }
@@ -116,7 +148,9 @@ struct GitHubSubmoduleContent: Codable {
     let path: String
     let sha: String
     let size: Int
+
     let htmlURL: URL
+    let downloadURL: URL?
 
     let submoduleGitURL: URL
 
@@ -126,6 +160,7 @@ struct GitHubSubmoduleContent: Codable {
         case sha
         case size
         case htmlURL = "html_url"
+        case downloadURL = "download_url"
         case submoduleGitURL = "submodule_git_url"
     }
 }
@@ -135,7 +170,9 @@ struct GitHubSymlinkContent: Codable {
     let path: String
     let sha: String
     let size: Int
+
     let htmlURL: URL
+    let downloadURL: URL?
 
     let target: String
 
@@ -145,6 +182,7 @@ struct GitHubSymlinkContent: Codable {
         case sha
         case size
         case htmlURL = "html_url"
+        case downloadURL = "download_url"
         case target
     }
 }

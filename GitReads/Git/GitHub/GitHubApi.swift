@@ -82,9 +82,6 @@ class GitHubApi {
             )
 
             let result = try await client.send(req)
-            if let response = result.response as? HTTPURLResponse {
-                print(response.allHeaderFields)
-            }
             return result.value
         }
     }

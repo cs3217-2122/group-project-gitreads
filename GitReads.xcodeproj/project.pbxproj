@@ -23,6 +23,7 @@
 		6ED322AF27DD24B900F0AD09 /* GitHubClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322AE27DD24B900F0AD09 /* GitHubClientTests.swift */; };
 		6ED322B127DD365200F0AD09 /* GitHubErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322B027DD365200F0AD09 /* GitHubErrorResponse.swift */; };
 		6ED322B327DD3B7D00F0AD09 /* String+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322B227DD3B7D00F0AD09 /* String+Base64.swift */; };
+		6ED322B627DD636D00F0AD09 /* CollectionConcurrencyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6ED322B527DD636D00F0AD09 /* CollectionConcurrencyKit */; };
 		B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */; };
 		B223E1D127D9DDA7008ACEEF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D027D9DDA7008ACEEF /* ContentView.swift */; };
 		B223E1D327D9DDA8008ACEEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B223E1D227D9DDA8008ACEEF /* Assets.xcassets */; };
@@ -99,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ED3226727DBF1DB00F0AD09 /* Get in Frameworks */,
+				6ED322B627DD636D00F0AD09 /* CollectionConcurrencyKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +300,7 @@
 			name = GitReads;
 			packageProductDependencies = (
 				6ED3226627DBF1DB00F0AD09 /* Get */,
+				6ED322B527DD636D00F0AD09 /* CollectionConcurrencyKit */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -373,6 +376,7 @@
 			mainGroup = B223E1C227D9DDA7008ACEEF;
 			packageReferences = (
 				6ED3226527DBF1DB00F0AD09 /* XCRemoteSwiftPackageReference "Get" */,
+				6ED322B427DD636D00F0AD09 /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */,
 			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
@@ -798,6 +802,14 @@
 				minimumVersion = 0.5.0;
 			};
 		};
+		6ED322B427DD636D00F0AD09 /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/CollectionConcurrencyKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -805,6 +817,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6ED3226527DBF1DB00F0AD09 /* XCRemoteSwiftPackageReference "Get" */;
 			productName = Get;
+		};
+		6ED322B527DD636D00F0AD09 /* CollectionConcurrencyKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6ED322B427DD636D00F0AD09 /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */;
+			productName = CollectionConcurrencyKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

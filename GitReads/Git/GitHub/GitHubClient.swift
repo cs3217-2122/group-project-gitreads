@@ -2,6 +2,8 @@
 //  GitHubClient.swift
 //  GitReads
 
+import Foundation
+
 enum GitHubClientError: Error {
     case unexpectedContentType(owner: String, repo: String, path: String)
 }
@@ -15,13 +17,14 @@ class GitHubClient: GitClient {
     }
 
     func getRepository(owner: String, name: String) async -> Result<GitRepo, Error> {
-        let repo = await api.getRepo(owner: owner, name: name)
-        let branches = await api.getRepoBranches(owner: owner, name: name)
+        async let asyncRepo = api.getRepo(owner: owner, name: name)
+        async let asyncBranches = api.getRepoBranches(owner: owner, name: name)
 
         let rootDirFetcher = makeDirectoryContentFetcher(owner: owner, repo: name)
         let rootDirLazyDataSource = LazyDataSource(fetcher: rootDirFetcher)
         rootDirLazyDataSource.preload()
 
+        let (repo, branches) = await (asyncRepo, asyncBranches)
         return repo.flatMap { repo in
             branches.map { branches in
                 GitRepo(
@@ -36,17 +39,41 @@ class GitHubClient: GitClient {
         }
     }
 
+    private func makeDirectoryContentFetcher(
+        owner: String,
+        repo: String,
+        path: String = ""
+    ) -> AnyDataFetcher<[GitContent]> {
+        AnyDataFetcher {
+            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+
+            return contents.flatMap {
+                guard case let .directory(directoryContents) = $0 else {
+                    return .failure(
+                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                    )
+                }
+
+                let gitContents = directoryContents.map { content in
+                    GitContent(from: content, contentTypeFunc: { type in
+                        self.makeGitContentType(for: type, at: content.path, owner: owner, repo: repo)
+                    })
+                }
+
+                return .success(gitContents)
+            }
+        }
+    }
+
     private func makeFileContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<String> {
         AnyDataFetcher {
             let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
 
             return contents.flatMap {
                 guard case let .file(fileContent) = $0 else {
-                    return .failure(GitHubClientError.unexpectedContentType(
-                        owner: owner,
-                        repo: repo,
-                        path: path
-                    ))
+                    return .failure(
+                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                    )
                 }
 
                 assert(fileContent.encoding == .base64, "Unexpected encoding \(fileContent.encoding)")
@@ -61,73 +88,68 @@ class GitHubClient: GitClient {
         }
     }
 
-    private func makeDirectoryContentFetcher(
-        owner: String,
-        repo: String,
-        path: String = ""
-    ) -> AnyDataFetcher<[GitContent]> {
+    private func makeSubmoduleContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<URL> {
         AnyDataFetcher {
             let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
 
             return contents.flatMap {
-                guard case let .directory(directoryContents) = $0 else {
-                    return .failure(GitHubClientError.unexpectedContentType(
-                        owner: owner,
-                        repo: repo,
-                        path: path
-                    ))
+                guard case let .submodule(submoduleContent) = $0 else {
+                    return .failure(
+                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                    )
                 }
 
-                let gitContents: [GitContent] = directoryContents.map { content in
-                    self.gitHubRepoContentToGitContent(content, owner: owner, repo: repo)
-                }
-
-                return .success(gitContents)
+                return .success(submoduleContent.submoduleGitURL)
             }
         }
     }
 
-    private func gitHubRepoContentToGitContent(
-        _ content: GitHubRepoSummaryContent,
+    private func makeSymlinkContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<String> {
+        AnyDataFetcher {
+            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+
+            return contents.flatMap {
+                guard case let .symlink(symlinkContent) = $0 else {
+                    return .failure(
+                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                    )
+                }
+
+                return .success(symlinkContent.target)
+            }
+        }
+    }
+
+    private func makeGitContentType(
+        for contentType: GitHubRepoSummaryContent.ContentType,
+        at path: String,
         owner: String,
-        repo name: String
-    ) -> GitContent {
-        switch content.type {
-        case .file:
-            let file = GitFile(contents: LazyDataSource(
-                fetcher: self.makeFileContentFetcher(
-                    owner: owner,
-                    repo: name,
-                    path: content.path
-                )
-            ))
-
-            return GitContent(
-                type: .file(file),
-                name: content.name,
-                path: content.path,
-                sha: content.sha,
-                htmlURL: content.htmlURL,
-                sizeInBytes: content.size
-            )
-
+        repo: String
+    ) -> GitContentType {
+        switch contentType {
         case .directory:
             let directory = GitDirectory(contents: LazyDataSource(
-                fetcher: self.makeDirectoryContentFetcher(
-                    owner: owner,
-                    repo: name,
-                    path: content.path
-                )
+                fetcher: self.makeDirectoryContentFetcher(owner: owner, repo: repo, path: path)
             ))
+            return .directory(directory)
 
-            return GitContent(
-                type: .directory(directory),
-                name: content.name,
-                path: content.path,
-                sha: content.sha,
-                htmlURL: content.htmlURL,
-                sizeInBytes: content.size
-            )
+        case .file:
+            let file = GitFile(contents: LazyDataSource(
+                fetcher: self.makeFileContentFetcher(owner: owner, repo: repo, path: path)
+            ))
+            return .file(file)
+
+        case .submodule:
+            let submodule = GitSubmodule(gitURL: LazyDataSource(
+                fetcher: self.makeSubmoduleContentFetcher(owner: owner, repo: repo, path: path)
+            ))
+            return .submodule(submodule)
+
+        case .symlink:
+            let symlink = GitSymlink(target: LazyDataSource(
+                fetcher: self.makeSymlinkContentFetcher(owner: owner, repo: repo, path: path)
+            ))
+            return .symlink(symlink)
         }
     }
  }

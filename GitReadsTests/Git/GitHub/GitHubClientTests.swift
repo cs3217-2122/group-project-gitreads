@@ -3,6 +3,7 @@
 //  GitReadsTests
 
 import XCTest
+import CollectionConcurrencyKit
 @testable import GitReads
 
 class GitHubClientTests: XCTestCase {
@@ -16,39 +17,49 @@ class GitHubClientTests: XCTestCase {
         switch result {
         case let .failure(err):
             XCTFail("API request failed with error: \(err)")
-            
+
         case let .success(res):
             if case let .success(contents) = await res.rootDir.contents.value {
-                for content in contents {
-                    await traverseGitContent(content: content)
+                await contents.concurrentForEach { content in
+                    await self.traverseGitContent(content: content)
                 }
             }
         }
     }
 
     func traverseGitContent(content: GitContent, depth: Int = 0) async {
-        if depth > 1 {
+        if depth > 2 {
             return
         }
 
-        func indentedPrint(_ lala: Any) {
-            print(String(repeating: "  ", count: depth) + String(describing: lala))
+        func indentedPrint(_ str: Any) {
+            print(String(repeating: "    ", count: depth) + String(describing: str))
         }
 
-        indentedPrint("\nname: \(content.name)")
+        print("")
+        indentedPrint("name: \(content.name)")
         indentedPrint(content.type)
         switch content.type {
         case let .directory(dir):
             if case let .success(contents) = await dir.contents.value {
-                for content in contents {
-                    await traverseGitContent(content: content, depth: depth + 1)
+                await contents.concurrentForEach { content in
+                    await self.traverseGitContent(content: content, depth: depth + 1)
                 }
             }
         case let .file(file):
-            switch await file.contents.value {
-            case let .success(contents):
-                indentedPrint(contents)
-            case let .failure(err):
+            if case let .failure(err) = await file.contents.value {
+                indentedPrint("ERROR")
+                indentedPrint(err)
+            }
+
+        case let .submodule(submodule):
+            if case let .failure(err) = await submodule.gitURL.value {
+                indentedPrint("ERROR")
+                indentedPrint(err)
+            }
+
+        case let .symlink(symlink):
+            if case let .failure(err) = await symlink.target.value {
                 indentedPrint("ERROR")
                 indentedPrint(err)
             }
