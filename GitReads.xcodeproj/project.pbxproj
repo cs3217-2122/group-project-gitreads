@@ -28,6 +28,7 @@
 		B22D52F327DB224800CD5E01 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F227DB224800CD5E01 /* LineView.swift */; };
 		B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */; };
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
+		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		B22D52F227DB224800CD5E01 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
+		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				B223E20827D9DF87008ACEEF /* Line.swift */,
 				B223E20A27D9DF9B008ACEEF /* TokenType.swift */,
 				B223E20C27D9E6F0008ACEEF /* Token.swift */,
+				B297732C27DF371400E117EE /* DummyFile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				B223E20D27D9E6F0008ACEEF /* Token.swift in Sources */,
 				B223E1DB27D9DDA8008ACEEF /* GitReads.xcdatamodeld in Sources */,
 				B223E1D827D9DDA8008ACEEF /* PersistenceController.swift in Sources */,
+				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				B223E20727D9DF24008ACEEF /* File.swift in Sources */,
 				B223E20327D9DEAD008ACEEF /* Repo.swift in Sources */,
 				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,

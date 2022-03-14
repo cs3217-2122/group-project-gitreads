@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TokenView: View {
-    var token = Token(type: .keyword, value: "TEST")
+    var token: Token
     var body: some View {
         Menu(token.value) {
             Text(token.type.rawValue)
@@ -18,6 +18,6 @@ struct TokenView: View {
 
 struct TokenView_Previews: PreviewProvider {
     static var previews: some View {
-        TokenView()
+        TokenView(token: Token(type: .keyword, value: "TEST"))
     }
 }

@@ -9,12 +9,46 @@ import SwiftUI
 
 struct LineView: View {
     // will be in viewmodel logic
-    let text: String
+    let screenWidth = UIScreen.main.bounds.width
+    let line: Line
+    var group = [[String]]()
+
+    init(line: Line) {
+        self.line = line
+        self.group = createGroup(line)
+    }
+
+    private func createGroup(_ line: Line) -> [[String]] {
+        var group = [[String]]()
+        var subGroup = [String]()
+        var width: CGFloat = 100
+        for token in line.tokens {
+            let test = UILabel()
+            test.text = token.value
+            test.sizeToFit()
+
+            if width + test.frame.width < screenWidth {
+                width += test.frame.width
+                subGroup.append(token.value)
+            } else {
+                group.append(subGroup)
+                subGroup = [token.value]
+                width = test.frame.width + 100
+            }
+        }
+        group.append(subGroup)
+        return group
+    }
+
     var body: some View {
-        HStack {
-            Text(text)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .fixedSize(horizontal: false, vertical: true)
+        VStack(alignment: .leading) {
+            ForEach(group, id: \.self) { subGroup in
+                HStack {
+                    ForEach(subGroup, id: \.self) { word in
+                        TokenView(token: Token(type: .keyword, value: word)).fixedSize()
+                    }
+                }
+            }
         }
 
     }
@@ -22,6 +56,15 @@ struct LineView: View {
 
 struct LineView_Previews: PreviewProvider {
     static var previews: some View {
-        LineView(text: "TEST test")
+        LineView(line: Line(tokens: [Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST"),
+                                     Token(type: .keyword, value: "TEST")], indentLevel: 0))
     }
 }
