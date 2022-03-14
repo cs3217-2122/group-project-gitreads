@@ -4,15 +4,37 @@
 
 import XCTest
 import CollectionConcurrencyKit
+import Cache
 @testable import GitReads
+
+extension Array {
+    subscript(safe range: Range<Index>) -> ArraySlice<Element> {
+        if range.endIndex > endIndex {
+            if range.startIndex >= endIndex {
+                return []
+            } else {
+                return self[range.startIndex..<endIndex]
+            }
+        } else {
+            return self[range]
+        }
+    }
+}
 
 class GitHubClientTests: XCTestCase {
 
     func testGitHubClient() async throws {
         let api = GitHubApi()
-        let client = GitHubClient(gitHubApi: api)
+        let storage: Storage<GitHubClient.CacheKey, String> = try Storage(
+            diskConfig: GitHubClient.DefaultCacheDiskConfig,
+            memoryConfig: GitHubClient.DefaultCacheMemoryConfig,
+            transformer: TransformerFactory.forCodable(ofType: String.self)
+        )
+        defer { try? storage.removeAll() }
 
-        let result = await client.getRepository(owner: "weiijiie", name: "nuscats")
+        let client = GitHubClient(gitHubApi: api, storage: storage)
+
+        let result = await client.getRepository(owner: "go-resty", name: "resty")
 
         switch result {
         case let .failure(err):
@@ -56,6 +78,10 @@ class GitHubClientTests: XCTestCase {
             if case let .failure(err) = value {
                 indentedPrint("ERROR for file: \(content.name)")
                 indentedPrint(err)
+            } else if case let .success(contents) = value {
+                print("\nFile path: \(content.path)")
+                print(contents.split(separator: "\n")[safe: 0..<3].joined(separator: "\n"))
+                print("")
             }
 
         case let .submodule(submodule):

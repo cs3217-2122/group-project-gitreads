@@ -2,6 +2,7 @@
 //  GitHubClient.swift
 //  GitReads
 
+import Cache
 import Foundation
 
 enum GitHubClientError: Error {
@@ -13,13 +14,32 @@ enum GitHubClientError: Error {
 
 class GitHubClient: GitClient {
 
-    private let api: GitHubApi
+    static let DefaultCacheDiskConfig = DiskConfig(
+        name: "github",
+        expiry: .date(Date().addingTimeInterval(14 * 86_400)), // 14 days
+        maxSize: 1_000_000_000 // 1GB
+    )
 
-    init(gitHubApi: GitHubApi) {
-        self.api = gitHubApi
+    static let DefaultCacheMemoryConfig = MemoryConfig(
+        expiry: .date(Date().addingTimeInterval(30 * 60)), // 30 minutes
+        countLimit: 30
+    )
+
+    private let api: GitHubApi
+    private let cachedDataFetcherFactory: CachedDataFetcherFactory<CacheKey>
+
+    struct CacheKey: Hashable {
+        let owner: String
+        let repo: String
+        let sha: String
     }
 
-    func getRepository(owner: String, name: String) async -> Result<GitRepo, Error> {
+    init(gitHubApi: GitHubApi, storage: Storage<CacheKey, String>) {
+        self.api = gitHubApi
+        self.cachedDataFetcherFactory = CachedDataFetcherFactory(storage: storage)
+    }
+
+    func getRepository(owner: String, name: String) async -> Swift.Result<GitRepo, Error> {
         async let asyncRepo = api.getRepo(owner: owner, name: name)
         async let asyncBranches = api.getRepoBranches(owner: owner, name: name)
 
@@ -45,31 +65,43 @@ class GitHubClient: GitClient {
     private func makeDirectoryContentFetcher(
         owner: String,
         repo: String,
-        path: String = ""
+        path: String = "",
+        sha: String? = nil
     ) -> AnyDataFetcher<[GitContent]> {
-        AnyDataFetcher {
-            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
 
-            return contents.flatMap {
-                guard case let .directory(directoryContents) = $0 else {
-                    return .failure(
-                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                    )
-                }
-
-                let gitContents = directoryContents.map { content in
-                    GitContent(from: content, contentTypeFunc: { content in
-                        self.makeGitContentType(
-                            for: content,
-                            at: content.path,
-                            owner: owner,
-                            repo: repo
-                        )
-                    })
-                }
-
-                return .success(gitContents)
+        func gitHubContentToGitContent(contents: GitHubRepoContent) -> Swift.Result<[GitContent], Error> {
+            guard case let .directory(directoryContents) = contents else {
+                return .failure(
+                    GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
+                )
             }
+
+            let gitContents = directoryContents.map { content in
+                GitContent(from: content, contentTypeFunc: { content in
+                    self.makeGitContentType(
+                        for: content,
+                        at: content.path,
+                        owner: owner,
+                        repo: repo
+                    )
+                })
+            }
+
+            return .success(gitContents)
+        }
+
+        // only cache the repo contents result if the sha is given
+        if let sha = sha {
+            return cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
+                let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+                return contents
+
+            }.flatMap(gitHubContentToGitContent)
+        }
+
+        return AnyDataFetcher {
+            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
+            return contents.flatMap(gitHubContentToGitContent)
         }
     }
 
@@ -77,9 +109,10 @@ class GitHubClient: GitClient {
         downloadURL: URL?,
         owner: String,
         repo: String,
-        path: String
-    ) -> AnyDataFetcher<String> {
-        AnyDataFetcher {
+        path: String,
+        sha: String
+    ) -> CachedDataFetcher<CacheKey, String> {
+        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
             let data = await self.fetchFileData(
                 downloadURL: downloadURL,
                 owner: owner,
@@ -103,7 +136,7 @@ class GitHubClient: GitClient {
         owner: String,
         repo: String,
         path: String
-    ) async -> Result<Data, Error> {
+    ) async -> Swift.Result<Data, Error> {
         // if the download URL is available we use it directly
         if let downloadURL = downloadURL {
             do {
@@ -136,8 +169,13 @@ class GitHubClient: GitClient {
 
     }
 
-    private func makeSubmoduleContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<URL> {
-        AnyDataFetcher {
+    private func makeSubmoduleContentFetcher(
+        owner: String,
+        repo: String,
+        path: String,
+        sha: String
+    ) -> CachedDataFetcher<CacheKey, URL> {
+        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
             let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
 
             return contents.flatMap {
@@ -152,8 +190,13 @@ class GitHubClient: GitClient {
         }
     }
 
-    private func makeSymlinkContentFetcher(owner: String, repo: String, path: String) -> AnyDataFetcher<String> {
-        AnyDataFetcher {
+    private func makeSymlinkContentFetcher(
+        owner: String,
+        repo: String,
+        path: String,
+        sha: String
+    ) -> CachedDataFetcher<CacheKey, String> {
+        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
             let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
 
             return contents.flatMap {
@@ -177,7 +220,12 @@ class GitHubClient: GitClient {
         switch content.actualType {
         case .directory:
             let directory = GitDirectory(contents: LazyDataSource(
-                fetcher: self.makeDirectoryContentFetcher(owner: owner, repo: repo, path: path)
+                fetcher: self.makeDirectoryContentFetcher(
+                    owner: owner,
+                    repo: repo,
+                    path: path,
+                    sha: content.sha
+                )
             ))
             return .directory(directory)
 
@@ -187,22 +235,43 @@ class GitHubClient: GitClient {
                     downloadURL: content.downloadURL,
                     owner: owner,
                     repo: repo,
-                    path: path
+                    path: path,
+                    sha: content.sha
                 )
             ))
             return .file(file)
 
         case .submodule:
             let submodule = GitSubmodule(gitURL: LazyDataSource(
-                fetcher: self.makeSubmoduleContentFetcher(owner: owner, repo: repo, path: path)
+                fetcher: self.makeSubmoduleContentFetcher(
+                    owner: owner,
+                    repo: repo,
+                    path: path,
+                    sha: content.sha
+                )
             ))
             return .submodule(submodule)
 
         case .symlink:
             let symlink = GitSymlink(target: LazyDataSource(
-                fetcher: self.makeSymlinkContentFetcher(owner: owner, repo: repo, path: path)
+                fetcher: self.makeSymlinkContentFetcher(
+                    owner: owner,
+                    repo: repo,
+                    path: path,
+                    sha: content.sha
+                )
             ))
             return .symlink(symlink)
         }
+    }
+
+    private func cachedDataFetcher<T>(
+        owner: String,
+        repo: String,
+        sha: String,
+        fetcher: @escaping () async -> Swift.Result<T, Error>
+    ) -> CachedDataFetcher<CacheKey, T> where T: Codable {
+        let key = CacheKey(owner: owner, repo: repo, sha: sha)
+        return cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
     }
  }

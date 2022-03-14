@@ -8,6 +8,16 @@ protocol DataFetcher {
     func fetchValue() async -> Result<Value, Error>
 }
 
+extension DataFetcher {
+    func map<T>(_ transform: @escaping (Value) -> T) -> AnyDataFetcher<T> {
+        AnyDataFetcher { (await fetchValue()).map(transform) }
+    }
+
+    func flatMap<T>(_ transform: @escaping (Value) -> Result<T, Error>) -> AnyDataFetcher<T> {
+        AnyDataFetcher { (await fetchValue()).flatMap(transform) }
+    }
+}
+
 struct AnyDataFetcher<T>: DataFetcher {
     typealias Value = T
 

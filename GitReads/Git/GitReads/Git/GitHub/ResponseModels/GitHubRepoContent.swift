@@ -5,53 +5,17 @@
 import Foundation
 import SwiftUI
 
-enum GitHubRepoContent: Decodable {
+enum GitHubRepoContent {
     case directory(GitHubDirectoryContent)
     case file(GitHubFileContent)
     case submodule(GitHubSubmoduleContent)
     case symlink(GitHubSymlinkContent)
     case unsupported
 
-    private enum SingularContentType: String, Decodable {
+    enum SingularContentType: String, Decodable {
         case file
         case submodule
         case symlink
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type
-    }
-
-    init(from decoder: Decoder) throws {
-        do {
-            // try to decode as a directory first, which is an array of values
-            let container = try decoder.singleValueContainer()
-            let value = try container.decode(GitHubDirectoryContent.self)
-            self = .directory(value)
-
-        } catch DecodingError.typeMismatch {
-            // otherwise, the data is a singular object, we extract the `type` key to
-            // figure out which case to decode to.
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let contentType = try container.decodeIfPresent(SingularContentType.self, forKey: .type)
-
-            switch contentType {
-            case .some(.file):
-                let fileContent = try GitHubFileContent(from: decoder)
-                self = .file(fileContent)
-
-            case .some(.submodule):
-                let submoduleContent = try GitHubSubmoduleContent(from: decoder)
-                self = .submodule(submoduleContent)
-
-            case .some(.symlink):
-                let symlinkContent = try GitHubSymlinkContent(from: decoder)
-                self = .symlink(symlinkContent)
-
-            case .none:
-                self = .unsupported
-            }
-        }
     }
 }
 
