@@ -1,5 +1,5 @@
 //
-//  LineView.swift
+//  WrapLineView.swift
 //  GitReads
 //
 //  Created by Zhou Jiahao on 11/3/22.
@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-struct LineView: View {
+struct WrapLineView: View {
     // will be in viewmodel logic
     let screenWidth = UIScreen.main.bounds.width
+    let padding: CGFloat = 100
+    var indetationLevel = 4
     let line: Line
     var group = [[String]]()
 
@@ -21,7 +23,14 @@ struct LineView: View {
     private func createGroup(_ line: Line) -> [[String]] {
         var group = [[String]]()
         var subGroup = [String]()
-        var width: CGFloat = 100
+        var width: CGFloat = padding
+        var space = ""
+        for _ in 0..<indetationLevel {
+            space += " "
+        }
+        let indentation = UILabel()
+        indentation.text = space
+
         for token in line.tokens {
             let test = UILabel()
             test.text = token.value
@@ -32,8 +41,8 @@ struct LineView: View {
                 subGroup.append(token.value)
             } else {
                 group.append(subGroup)
-                subGroup = [token.value]
-                width = test.frame.width + 100
+                subGroup = [space, token.value]
+                width = test.frame.width + indentation.frame.width + padding
             }
         }
         group.append(subGroup)
@@ -45,7 +54,7 @@ struct LineView: View {
             ForEach(group, id: \.self) { subGroup in
                 HStack {
                     ForEach(subGroup, id: \.self) { word in
-                        TokenView(token: Token(type: .keyword, value: word)).fixedSize()
+                        TokenView(token: Token(type: .keyword, value: word))
                     }
                 }
             }
@@ -54,17 +63,8 @@ struct LineView: View {
     }
 }
 
-struct LineView_Previews: PreviewProvider {
+struct WrapLineView_Previews: PreviewProvider {
     static var previews: some View {
-        LineView(line: Line(tokens: [Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST"),
-                                     Token(type: .keyword, value: "TEST")], indentLevel: 0))
+        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST")], indentLevel: 0))
     }
 }

@@ -12,14 +12,13 @@ struct CodeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack {
                 ForEach(0..<file.lines.count, id: \.self) { line in
-                    HStack {
+                    HStack(alignment: .top) {
                         Text(String(line + 1))
-                            .padding(.leading) // need to address the width problem
-                        LineView(line: file.lines[line])
-                            .padding(.horizontal)
-                    }
+                        WrapLineView(line: file.lines[line]).padding(.horizontal)
+                        Spacer()
+                    }.frame(width: UIScreen.main.bounds.width)
                 }
             }
         }

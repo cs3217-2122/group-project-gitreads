@@ -12,7 +12,7 @@ struct TokenView: View {
     var body: some View {
         Menu(token.value) {
             Text(token.type.rawValue)
-        }
+        }.fixedSize(horizontal: false, vertical: true)
     }
 }
 
