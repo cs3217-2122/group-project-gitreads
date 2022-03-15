@@ -13,3 +13,9 @@ struct File {
     let declarations: [String] // create another type
     let lines: [Line]
 }
+
+extension File: Equatable {
+    static func == (lhs: File, rhs: File) -> Bool {
+        lhs.name == rhs.name
+    }
+}
