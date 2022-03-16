@@ -12,7 +12,8 @@ struct TokenView: View {
     var body: some View {
         Menu(token.value) {
             Text(token.type.rawValue)
-        }.fixedSize(horizontal: false, vertical: true)
+        }.fixedSize(horizontal: false, vertical: true).accentColor(.blue)
+        // here can use config file to set colour based on the tokenType
     }
 }
 

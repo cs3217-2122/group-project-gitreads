@@ -16,7 +16,8 @@ struct CodeView: View {
                 ForEach(0..<file.lines.count, id: \.self) { line in
                     HStack(alignment: .top) {
                         Text(String(line + 1))
-                        WrapLineView(line: file.lines[line]).padding(.horizontal)
+                        // WrapLineView(line: file.lines[line]).padding(.horizontal)
+                        ScrollLineView(line: file.lines[line])
                         Spacer()
                     }.frame(width: UIScreen.main.bounds.width)
                 }
