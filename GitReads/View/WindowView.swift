@@ -56,8 +56,7 @@ struct WindowView: View {
             }
 
             if let file = openFile {
-                Text(file.name)
-                    .frame(maxHeight: .infinity)
+                CodeView(file: file)
             } else {
                 Text("No open files...")
                     .frame(maxHeight: .infinity)

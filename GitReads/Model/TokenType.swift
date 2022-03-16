@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TokenType {
+enum TokenType: String {
     case keyword
     case function
     case type
