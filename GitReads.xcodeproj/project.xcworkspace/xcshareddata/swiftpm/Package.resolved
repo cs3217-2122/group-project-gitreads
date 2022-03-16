@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SwiftTreeSitter",
+        "repositoryURL": "https://github.com/viktorstrate/swift-tree-sitter",
+        "state": {
+          "branch": null,
+          "revision": "3aa6f8d567e1d4d96a71c5bc0f483173d8213159",
+          "version": "0.1.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

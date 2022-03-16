@@ -37,6 +37,9 @@
 		B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */; };
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
+		FF11942C27E041E1001BE497 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = FF11942B27E041E1001BE497 /* SwiftTreeSitter */; };
+		FF11943227E04356001BE497 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF11943127E04356001BE497 /* Parser.swift */; };
+		FF11943827E0702E001BE497 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF11943727E0702E001BE497 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,8 @@
 		B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
+		FF11943127E04356001BE497 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		FF11943727E0702E001BE497 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF11942C27E041E1001BE497 /* SwiftTreeSitter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +148,7 @@
 		B223E1CD27D9DDA7008ACEEF /* GitReads */ = {
 			isa = PBXGroup;
 			children = (
+				FF11943627E0701F001BE497 /* Constants */,
 				B223E20127D9DE46008ACEEF /* Git */,
 				B223E20027D9DDDC008ACEEF /* View */,
 				B223E1FF27D9DDD3008ACEEF /* ViewModel */,
@@ -186,6 +193,7 @@
 		B223E1FD27D9DDC4008ACEEF /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				FF11943127E04356001BE497 /* Parser.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -236,6 +244,14 @@
 			path = Git;
 			sourceTree = "<group>";
 		};
+		FF11943627E0701F001BE497 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FF11943727E0702E001BE497 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -253,6 +269,9 @@
 			dependencies = (
 			);
 			name = GitReads;
+			packageProductDependencies = (
+				FF11942B27E041E1001BE497 /* SwiftTreeSitter */,
+			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
 			productType = "com.apple.product-type.application";
@@ -325,6 +344,9 @@
 				Base,
 			);
 			mainGroup = B223E1C227D9DDA7008ACEEF;
+			packageReferences = (
+				FF11942A27E041E1001BE497 /* XCRemoteSwiftPackageReference "swift-tree-sitter" */,
+			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -393,6 +415,7 @@
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
 				DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */,
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
+				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				B223E20D27D9E6F0008ACEEF /* Token.swift in Sources */,
 				DE580D5727DF6C1100C37142 /* DirectoryBarView.swift in Sources */,
 				B223E1DB27D9DDA8008ACEEF /* GitReads.xcdatamodeld in Sources */,
@@ -413,6 +436,7 @@
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
 				DE580D5B27DF6D0F00C37142 /* Mock.swift in Sources */,
+				FF11943827E0702E001BE497 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,7 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitReads/Preview Content\"";
-				DEVELOPMENT_TEAM = UX5B5ZUKD9;
+				DEVELOPMENT_TEAM = RV4FA83ZT9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -586,7 +610,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZhouJiahao.GitReads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs3217.GitReads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -602,7 +626,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitReads/Preview Content\"";
-				DEVELOPMENT_TEAM = UX5B5ZUKD9;
+				DEVELOPMENT_TEAM = RV4FA83ZT9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -615,7 +639,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZhouJiahao.GitReads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs3217.GitReads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -739,6 +763,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF11942A27E041E1001BE497 /* XCRemoteSwiftPackageReference "swift-tree-sitter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/viktorstrate/swift-tree-sitter";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF11942B27E041E1001BE497 /* SwiftTreeSitter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF11942A27E041E1001BE497 /* XCRemoteSwiftPackageReference "swift-tree-sitter" */;
+			productName = SwiftTreeSitter;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		B223E1D927D9DDA8008ACEEF /* GitReads.xcdatamodeld */ = {
