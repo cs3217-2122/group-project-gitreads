@@ -11,7 +11,7 @@ struct File {
     let name: String
     let language: String // enum
     let declarations: [String] // create another type
-    let lines: [Line]
+    var lines: [Line]
 }
 
 extension File: Equatable {

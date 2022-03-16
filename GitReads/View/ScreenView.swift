@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ScreenView: View {
-    @StateObject var viewModel = ScreenViewModel()
+    @StateObject var viewModel: ScreenViewModel
+
+    init(repo: Repo) {
+        _viewModel = StateObject(wrappedValue: ScreenViewModel(repo: repo))
+    }
 
     var body: some View {
         HStack {
@@ -43,6 +47,6 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView()
+        ScreenView(repo: Repo(root: MOCK_ROOT_DIRECTORY))
     }
 }

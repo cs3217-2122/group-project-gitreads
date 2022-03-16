@@ -8,7 +8,7 @@
 import Foundation
 
 struct Directory {
-    let files: [File]
-    let directories: [Directory]
+    var files: [File]
+    var directories: [Directory]
     let name: String
 }

@@ -14,6 +14,10 @@ class ScreenViewModel: ObservableObject {
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
 
+    init(repo: Repo) {
+        self.repository = repo
+    }
+
     func toggleSideBar() {
         withAnimation {
             showSideBar.toggle()

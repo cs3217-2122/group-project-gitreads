@@ -26,6 +26,55 @@ class Parser {
         self.init(sourceCode: Parser.readFile(filePath), language: language)
     }
 
+    public static func parse(gitRepo: GitRepo) async -> Repo? {
+
+        if let rootDir = await parse(gitDir: gitRepo.tree.rootDir, name: "root") {
+            return Repo(root: rootDir)
+        }
+        return nil
+    }
+
+    private static func parse(gitDir: GitDirectory, name: String) async -> Directory? {
+        if let currentDir = try? await gitDir.contents.value.get() {
+            var directory = Directory(files: [], directories: [], name: name)
+
+            for content in currentDir {
+                switch content.type {
+                case .directory(let dir):
+                    if let dir = await parse(gitDir: dir, name: content.name) {
+                        directory.directories.append(dir)
+                    }
+                case .file(let file):
+                    if let file = await parse(gitFile: file, name: content.name) {
+                        directory.files.append(file)
+                    }
+                default:
+                    break
+                }
+            }
+
+            return directory
+        }
+        return nil
+    }
+
+    private static func parse(gitFile: GitFile, name: String) async -> File? {
+        if let currentFile = try? await gitFile.contents.value.get() {
+            let language = detectLanguage(name: name)
+
+            switch language {
+            case .Java:
+                let parser = DummyFileParser()
+                return parser.parse(fileString: currentFile, name: name)
+            }
+        }
+        return nil
+    }
+
+    private static func detectLanguage(name: String) -> Language {
+        .Java
+    }
+
     // Return content of a file as a string
     private static func readFile(_ filePath: String) -> String {
         do {
