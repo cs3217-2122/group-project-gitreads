@@ -7,8 +7,6 @@ import Foundation
 
 enum GitHubClientError: Error {
     case unexpectedContentType(owner: String, repo: String, path: String)
-    case cannotFetchFileContents(err: Error)
-    case cannotBase64Decode(string: String)
 }
 
 class GitHubClient: GitClient {
@@ -34,12 +32,14 @@ class GitHubClient: GitClient {
             await api.getRef(owner: owner, repoName: name, ref: ref ?? .branch(repo.defaultBranch))
         }
         .asyncFlatMap { defaultRef in
-            await api.getTree(owner: owner, repoName: name, treeSha: defaultRef.object.sha)
+            await cachedDataFetcher(owner: owner, repo: name, sha: defaultRef.object.sha) {
+                await self.api.getTree(owner: owner, repoName: name, treeSha: defaultRef.object.sha)
+            }.fetchValue()
         }
 
         let branches = await asyncBranches
 
-        return repo.flatMap {repo in
+        return repo.flatMap { repo in
             branches.flatMap { branches in
                 tree.map { tree in
                     let currBranch = ref?.name ?? repo.defaultBranch
@@ -56,16 +56,15 @@ class GitHubClient: GitClient {
                             self.getSubmoduleContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
                         }
                     )
+                    tree.rootDir.contents.preload()
 
-                    return GitRepo(
-                        fullName: repo.fullName,
-                        htmlURL: repo.htmlURL,
-                        description: repo.description ?? "",
-                        defaultBranch: repo.defaultBranch,
-                        branches: branches.map { $0.name },
-                        currBranch: currBranch,
-                        tree: tree
-                    )
+                    return GitRepo(fullName: repo.fullName,
+                                   htmlURL: repo.htmlURL,
+                                   description: repo.description ?? "",
+                                   defaultBranch: repo.defaultBranch,
+                                   branches: branches.map { $0.name },
+                                   currBranch: currBranch,
+                                   tree: tree)
                 }
             }
         }

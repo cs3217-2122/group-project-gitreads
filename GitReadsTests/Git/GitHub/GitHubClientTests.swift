@@ -23,69 +23,6 @@ extension Array {
 
 class GitHubClientTests: XCTestCase {
 
-    func testSomething() async throws {
-        let api = GitHubApi()
-
-        let ref = await api.getRef(owner: "weiijiie", repoName: "nuscats", ref: .branch("main"))
-        let tree = await ref.asyncFlatMap { ref in
-            await api.getTree(owner: "weiijiie", repoName: "nuscats", treeSha: ref.object.sha)
-        }
-
-        guard case let .success(tree) = tree else {
-            XCTFail("fail lol")
-            return
-        }
-
-        let file = GitFile(contents: LazyDataSource(fetcher: AnyDataFetcher {
-            .success("file!")
-        }))
-
-        let symlink = GitSymlink(target: LazyDataSource(fetcher: AnyDataFetcher {
-            .success("./symlink!")
-        }))
-
-        let submodule = GitSubmodule(gitURL: LazyDataSource(fetcher: AnyDataFetcher {
-            .success(URL(fileURLWithPath: "/submodule"))
-        }))
-
-        let gitTree = GitTree(
-            commitSha: tree.sha,
-            gitObjects: tree.objects.map { object in
-                GitObject(from: object)
-            },
-            fileContentFetcher: { object, _ in GitContent(from: object, type: .file(file)) },
-            symlinkContentFetcher: { object, _ in GitContent(from: object, type: .symlink(symlink)) },
-            submoduleContentFetcher: { object, _ in GitContent(from: object, type: .submodule(submodule)) }
-        )
-
-        let rootDir = gitTree.rootDir
-        let rootDirContents = try await rootDir.contents.value.get()
-        for content in rootDirContents {
-            await printContentType(content.type)
-        }
-
-        let content = gitTree.content(at: Path(components: ".dockerignore"))
-        guard let content = content else {
-            XCTFail("content nil")
-            return
-        }
-
-        await printContentType(content.type)
-    }
-
-    func printContentType(_ contentType: GitContentType) async {
-        switch contentType {
-        case let .directory(dir):
-            print(await dir.contents.value)
-        case let .file(file):
-            print(await file.contents.value)
-        case let .submodule(submodule):
-            print(await submodule.gitURL.value)
-        case let .symlink(symlink):
-            print(await symlink.target.value)
-        }
-    }
-
     func testGitHubClient() async throws {
         let api = GitHubApi()
         let storage: Storage<GitHubCacheKey, String> = try Storage(
@@ -94,14 +31,14 @@ class GitHubClientTests: XCTestCase {
             transformer: TransformerFactory.forCodable(ofType: String.self)
         )
 
-        defer { try? storage.removeAll() }
+         defer { try? storage.removeAll() }
 
         let client = GitHubClient(
             gitHubApi: api,
             cachedDataFetcherFactory: GitHubCachedDataFetcherFactory(storage: storage)
         )
 
-        let result = await client.getRepository(owner: "kubernetes", name: "kubernetes")
+        let result = await client.getRepository(owner: "hashicorp", name: "terraform")
 
         switch result {
         case let .failure(err):
@@ -123,7 +60,7 @@ class GitHubClientTests: XCTestCase {
     }
 
     func traverseGitContent(content: GitContent, depth: Int = 0) async {
-        if depth > 2 {
+        if depth > 1 {
             return
         }
 
@@ -134,6 +71,7 @@ class GitHubClientTests: XCTestCase {
         print("")
         indentedPrint("name: \(content.name)")
         indentedPrint(content.type)
+
         switch content.type {
         case let .directory(dir):
             if case let .success(contents) = await dir.contents.value {

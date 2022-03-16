@@ -119,7 +119,7 @@ class GitHubApi {
             let (data, _) = try await URLSession.shared.data(from: url)
             return .success(data)
         } catch {
-            return .failure(GitHubClientError.cannotFetchFileContents(err: error))
+            return .failure(error)
         }
     }
 
