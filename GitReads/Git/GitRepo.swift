@@ -11,6 +11,7 @@ struct GitRepo {
 
     let defaultBranch: String
     let branches: [String]
+    let currBranch: String
 
-    var rootDir: GitDirectory
+    let tree: GitTree
 }

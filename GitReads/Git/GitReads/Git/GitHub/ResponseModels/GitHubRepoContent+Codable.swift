@@ -2,13 +2,15 @@
 //  GitHubRepoContent+Codable.swift
 //  GitReads
 
+enum GitHubRepoContentDecodingError: Error {
+    case unexpectedContentType
+}
+
 extension GitHubRepoContent: Codable {
 
     private enum CodingKeys: String, CodingKey {
         case type
     }
-
-    private struct Empty: Encodable {}
 
     init(from decoder: Decoder) throws {
         do {
@@ -37,7 +39,7 @@ extension GitHubRepoContent: Codable {
                 self = .symlink(symlinkContent)
 
             case .none:
-                self = .unsupported
+                throw GitHubRepoContentDecodingError.unexpectedContentType
             }
         }
     }
@@ -62,9 +64,6 @@ extension GitHubRepoContent: Codable {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(SingularContentType.symlink.rawValue, forKey: .type)
             try symlinkContent.encode(to: encoder)
-
-        case .unsupported:
-            try Empty().encode(to: encoder)
         }
     }
 }

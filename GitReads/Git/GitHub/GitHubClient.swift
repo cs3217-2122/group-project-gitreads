@@ -8,260 +8,148 @@ import Foundation
 enum GitHubClientError: Error {
     case unexpectedContentType(owner: String, repo: String, path: String)
     case cannotFetchFileContents(err: Error)
-    case notUtf8Encoded(data: Data)
     case cannotBase64Decode(string: String)
 }
 
 class GitHubClient: GitClient {
 
-    static let DefaultCacheDiskConfig = DiskConfig(
-        name: "github",
-        expiry: .date(Date().addingTimeInterval(14 * 86_400)), // 14 days
-        maxSize: 1_000_000_000 // 1GB
-    )
-
-    static let DefaultCacheMemoryConfig = MemoryConfig(
-        expiry: .date(Date().addingTimeInterval(30 * 60)), // 30 minutes
-        countLimit: 30
-    )
-
     private let api: GitHubApi
-    private let cachedDataFetcherFactory: CachedDataFetcherFactory<CacheKey>
+    private let cachedDataFetcherFactory: GitHubCachedDataFetcherFactory
 
-    struct CacheKey: Hashable {
-        let owner: String
-        let repo: String
-        let sha: String
-    }
-
-    init(gitHubApi: GitHubApi, storage: Storage<CacheKey, String>) {
+    init(gitHubApi: GitHubApi, cachedDataFetcherFactory: GitHubCachedDataFetcherFactory) {
         self.api = gitHubApi
-        self.cachedDataFetcherFactory = CachedDataFetcherFactory(storage: storage)
+        self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
-    func getRepository(owner: String, name: String) async -> Swift.Result<GitRepo, Error> {
-        async let asyncRepo = api.getRepo(owner: owner, name: name)
+    func getRepository(
+        owner: String,
+        name: String,
+        ref: GitRef? = nil
+    ) async -> Swift.Result<GitRepo, Error> {
+
         async let asyncBranches = api.getRepoBranches(owner: owner, name: name)
+        let repo = await api.getRepo(owner: owner, name: name)
 
-        let rootDirFetcher = makeDirectoryContentFetcher(owner: owner, repo: name)
-        let rootDirLazyDataSource = LazyDataSource(fetcher: rootDirFetcher)
-        rootDirLazyDataSource.preload()
-
-        let (repo, branches) = await (asyncRepo, asyncBranches)
-        return repo.flatMap { repo in
-            branches.map { branches in
-                GitRepo(
-                    fullName: repo.fullName,
-                    htmlURL: repo.htmlURL,
-                    description: repo.description ?? "",
-                    defaultBranch: repo.defaultBranch,
-                    branches: branches.map { $0.name },
-                    rootDir: GitDirectory(contents: rootDirLazyDataSource)
-                )
-            }
+        let tree = await repo.asyncFlatMap { repo in
+            await api.getRef(owner: owner, repoName: name, ref: ref ?? .branch(repo.defaultBranch))
         }
-    }
+        .asyncFlatMap { defaultRef in
+            await api.getTree(owner: owner, repoName: name, treeSha: defaultRef.object.sha)
+        }
 
-    private func makeDirectoryContentFetcher(
-        owner: String,
-        repo: String,
-        path: String = "",
-        sha: String? = nil
-    ) -> AnyDataFetcher<[GitContent]> {
+        let branches = await asyncBranches
 
-        func gitHubContentToGitContent(contents: GitHubRepoContent) -> Swift.Result<[GitContent], Error> {
-            guard case let .directory(directoryContents) = contents else {
-                return .failure(
-                    GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                )
-            }
-
-            let gitContents = directoryContents.map { content in
-                GitContent(from: content, contentTypeFunc: { content in
-                    self.makeGitContentType(
-                        for: content,
-                        at: content.path,
-                        owner: owner,
-                        repo: repo
+        return repo.flatMap {repo in
+            branches.flatMap { branches in
+                tree.map { tree in
+                    let currBranch = ref?.name ?? repo.defaultBranch
+                    let tree = GitTree(
+                        commitSha: tree.sha,
+                        gitObjects: tree.objects.map(GitObject.init),
+                        fileContentFetcher: { object, commitSha in
+                            self.getFileContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
+                        },
+                        symlinkContentFetcher: { object, commitSha in
+                            self.getSymlinkContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
+                        },
+                        submoduleContentFetcher: { object, commitSha in
+                            self.getSubmoduleContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
+                        }
                     )
-                })
+
+                    return GitRepo(
+                        fullName: repo.fullName,
+                        htmlURL: repo.htmlURL,
+                        description: repo.description ?? "",
+                        defaultBranch: repo.defaultBranch,
+                        branches: branches.map { $0.name },
+                        currBranch: currBranch,
+                        tree: tree
+                    )
+                }
             }
-
-            return .success(gitContents)
-        }
-
-        // only cache the repo contents result if the sha is given
-        if let sha = sha {
-            return cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
-                let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
-                return contents
-
-            }.flatMap(gitHubContentToGitContent)
-        }
-
-        return AnyDataFetcher {
-            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
-            return contents.flatMap(gitHubContentToGitContent)
         }
     }
 
-    private func makeFileContentFetcher(
-        downloadURL: URL?,
+    private func getFileContent(
         owner: String,
-        repo: String,
-        path: String,
-        sha: String
-    ) -> CachedDataFetcher<CacheKey, String> {
-        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
-            let data = await self.fetchFileData(
-                downloadURL: downloadURL,
+        repoName: String,
+        object: GitObject,
+        commitSha: String
+    ) -> GitContent {
+        let fetcher = rawGitHubUserContentFetcher(
+            owner: owner, repoName: repoName, object: object, commitSha: commitSha
+        )
+
+        let file = GitFile(contents: LazyDataSource(fetcher: fetcher))
+        return GitContent(from: object, type: .file(file))
+    }
+
+    private func getSymlinkContent(
+        owner: String,
+        repoName: String,
+        object: GitObject,
+        commitSha: String
+    ) -> GitContent {
+        let fetcher = rawGitHubUserContentFetcher(
+            owner: owner, repoName: repoName, object: object, commitSha: commitSha
+        )
+
+        let symlink = GitSymlink(target: LazyDataSource(fetcher: fetcher))
+        return GitContent(from: object, type: .symlink(symlink))
+    }
+
+    private func getSubmoduleContent(
+        owner: String,
+        repoName: String,
+        object: GitObject,
+        commitSha: String
+    ) -> GitContent {
+        let fetcher = submoduleContentFetcher(
+            owner: owner, repoName: repoName, object: object, commitSha: commitSha
+        )
+
+        let submodule = GitSubmodule(gitURL: LazyDataSource(fetcher: fetcher))
+        return GitContent(from: object, type: .submodule(submodule))
+    }
+
+    private func rawGitHubUserContentFetcher(
+        owner: String,
+        repoName: String,
+        object: GitObject,
+        commitSha: String
+    ) -> GitHubCachedDataFetcher<String> {
+        cachedDataFetcher(owner: owner, repo: repoName, sha: object.sha) {
+            await self.api.getRawGitHubUserContent(
                 owner: owner,
-                repo: repo,
-                path: path
+                repo: repoName,
+                commitSha: commitSha,
+                path: object.path,
+                encoding: .utf8
+            )
+        }
+    }
+
+    private func submoduleContentFetcher(
+        owner: String,
+        repoName: String,
+        object: GitObject,
+        commitSha: String
+    ) -> GitHubCachedDataFetcher<URL> {
+        cachedDataFetcher(owner: owner, repo: repoName, sha: object.sha) {
+            let contents = await self.api.getRepoContents(
+                owner: owner, name: repoName, path: object.path.string, ref: commitSha
             )
 
-            return data.flatMap {
-                let content = String(data: $0, encoding: .utf8)
-                guard let content = content else {
-                    return .failure(GitHubClientError.notUtf8Encoded(data: $0))
-                }
-
-                return .success(content)
-            }
-        }
-    }
-
-    private func fetchFileData(
-        downloadURL: URL?,
-        owner: String,
-        repo: String,
-        path: String
-    ) async -> Swift.Result<Data, Error> {
-        // if the download URL is available we use it directly
-        if let downloadURL = downloadURL {
-            do {
-                let (data, _) = try await URLSession.shared.data(from: downloadURL)
-                return .success(data)
-            } catch {
-                return .failure(GitHubClientError.cannotFetchFileContents(err: error))
-            }
-        }
-
-        // otherwise we can still obtain the file data by retrieving it from the API
-        let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
-        return contents.flatMap {
-            guard case let .file(fileContent) = $0 else {
-                return .failure(
-                    GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                )
-            }
-
-            assert(fileContent.encoding == .base64, "Unexpected encoding \(fileContent.encoding)")
-            let content = fileContent.content
-
-            let data = Data(base64Encoded: content, options: .ignoreUnknownCharacters)
-            guard let data = data else {
-                return .failure(GitHubClientError.cannotBase64Decode(string: content))
-            }
-
-            return .success(data)
-        }
-
-    }
-
-    private func makeSubmoduleContentFetcher(
-        owner: String,
-        repo: String,
-        path: String,
-        sha: String
-    ) -> CachedDataFetcher<CacheKey, URL> {
-        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
-            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
-
-            return contents.flatMap {
-                guard case let .submodule(submoduleContent) = $0 else {
-                    return .failure(
-                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                    )
+            return contents.flatMap { contents in
+                guard case let .submodule(submoduleContent) = contents else {
+                    return .failure(GitHubClientError.unexpectedContentType(
+                        owner: owner, repo: repoName, path: object.path.string
+                    ))
                 }
 
                 return .success(submoduleContent.submoduleGitURL)
             }
-        }
-    }
-
-    private func makeSymlinkContentFetcher(
-        owner: String,
-        repo: String,
-        path: String,
-        sha: String
-    ) -> CachedDataFetcher<CacheKey, String> {
-        cachedDataFetcher(owner: owner, repo: repo, sha: sha) {
-            let contents = await self.api.getRepoContents(owner: owner, name: repo, path: path)
-
-            return contents.flatMap {
-                guard case let .symlink(symlinkContent) = $0 else {
-                    return .failure(
-                        GitHubClientError.unexpectedContentType(owner: owner, repo: repo, path: path)
-                    )
-                }
-
-                return .success(symlinkContent.target)
-            }
-        }
-    }
-
-    private func makeGitContentType(
-        for content: GitHubRepoSummaryContent,
-        at path: String,
-        owner: String,
-        repo: String
-    ) -> GitContentType {
-        switch content.actualType {
-        case .directory:
-            let directory = GitDirectory(contents: LazyDataSource(
-                fetcher: self.makeDirectoryContentFetcher(
-                    owner: owner,
-                    repo: repo,
-                    path: path,
-                    sha: content.sha
-                )
-            ))
-            return .directory(directory)
-
-        case .file:
-            let file = GitFile(contents: LazyDataSource(
-                fetcher: self.makeFileContentFetcher(
-                    downloadURL: content.downloadURL,
-                    owner: owner,
-                    repo: repo,
-                    path: path,
-                    sha: content.sha
-                )
-            ))
-            return .file(file)
-
-        case .submodule:
-            let submodule = GitSubmodule(gitURL: LazyDataSource(
-                fetcher: self.makeSubmoduleContentFetcher(
-                    owner: owner,
-                    repo: repo,
-                    path: path,
-                    sha: content.sha
-                )
-            ))
-            return .submodule(submodule)
-
-        case .symlink:
-            let symlink = GitSymlink(target: LazyDataSource(
-                fetcher: self.makeSymlinkContentFetcher(
-                    owner: owner,
-                    repo: repo,
-                    path: path,
-                    sha: content.sha
-                )
-            ))
-            return .symlink(symlink)
         }
     }
 
@@ -270,8 +158,8 @@ class GitHubClient: GitClient {
         repo: String,
         sha: String,
         fetcher: @escaping () async -> Swift.Result<T, Error>
-    ) -> CachedDataFetcher<CacheKey, T> where T: Codable {
-        let key = CacheKey(owner: owner, repo: repo, sha: sha)
+    ) -> GitHubCachedDataFetcher<T> where T: Codable {
+        let key = GitHubCacheKey(owner: owner, repo: repo, sha: sha)
         return cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
     }
  }

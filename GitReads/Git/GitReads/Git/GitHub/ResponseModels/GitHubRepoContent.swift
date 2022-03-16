@@ -10,7 +10,6 @@ enum GitHubRepoContent {
     case file(GitHubFileContent)
     case submodule(GitHubSubmoduleContent)
     case symlink(GitHubSymlinkContent)
-    case unsupported
 
     enum SingularContentType: String, Decodable {
         case file
@@ -72,9 +71,8 @@ extension GitContent {
     ) {
         self.type = contentTypeFunc(content)
         self.name = content.name
-        self.path = content.path
+        self.path = Path(string: content.path, separator: "/")
         self.sha = content.sha
-        self.htmlURL = content.htmlURL
         self.sizeInBytes = content.size
     }
 }
