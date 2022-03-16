@@ -14,4 +14,7 @@ enum TokenType {
     case number
     case string
     case identifier
+    case propertyIdentifier
+    case punctuation
+    case comment
 }
