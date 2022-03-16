@@ -33,11 +33,10 @@ struct ContentView: View {
                 cachedDataFetcherFactory: GitHubCachedDataFetcherFactory(storage: storage)
             )
             Task {
-                self.repo = try? await client.getRepository(owner: "hashicorp", name: "terraform")
+                self.repo = try? await client.getRepository(owner: "kornelski", name: "pngquant")
                     .asyncMap({ gitRepo in
                         await Parser.parse(gitRepo: gitRepo)
                     }).get()
-                print(repo)
             }
         }
 

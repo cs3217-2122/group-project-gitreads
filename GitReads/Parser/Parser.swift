@@ -26,8 +26,7 @@ class Parser {
         self.init(sourceCode: Parser.readFile(filePath), language: language)
     }
 
-    public static func parse(gitRepo: GitRepo) async -> Repo? {
-
+    static func parse(gitRepo: GitRepo) async -> Repo? {
         if let rootDir = await parse(gitDir: gitRepo.tree.rootDir, name: "root") {
             return Repo(root: rootDir)
         }
@@ -35,27 +34,68 @@ class Parser {
     }
 
     private static func parse(gitDir: GitDirectory, name: String) async -> Directory? {
-        if let currentDir = try? await gitDir.contents.value.get() {
-            var directory = Directory(files: [], directories: [], name: name)
+        guard let currentDir = try? await gitDir.contents.value.get() else {
+            return nil
+        }
 
-            for content in currentDir {
-                switch content.type {
-                case .directory(let dir):
-                    if let dir = await parse(gitDir: dir, name: content.name) {
-                        directory.directories.append(dir)
-                    }
-                case .file(let file):
-                    if let file = await parse(gitFile: file, name: content.name) {
-                        directory.files.append(file)
-                    }
-                default:
-                    break
+        async let files = parseFilesInDir(currentDir)
+        async let directories = parseDirectoriesInDir(currentDir)
+
+         return Directory(
+            files: await files,
+            directories: await directories,
+            name: name
+        )
+    }
+
+    private static func parseFilesInDir(_ dir: [GitContent]) async -> [File] {
+        await withTaskGroup(of: File?.self, returning: [File].self) { group in
+            for content in dir {
+                guard case let .file(file) = content.type else {
+                    continue
+                }
+
+                group.addTask {
+                    await parse(gitFile: file, name: content.name)
                 }
             }
 
-            return directory
+            var files: [File] = []
+            for await value in group {
+                guard let value = value else {
+                    continue
+                }
+
+                files.append(value)
+            }
+
+            return files
         }
-        return nil
+    }
+
+    private static func parseDirectoriesInDir(_ dir: [GitContent]) async -> [Directory] {
+        await withTaskGroup(of: Directory?.self, returning: [Directory].self) { group in
+            for content in dir {
+                guard case let .directory(dir) = content.type else {
+                    continue
+                }
+
+                group.addTask {
+                    await parse(gitDir: dir, name: content.name)
+                }
+            }
+
+            var directories: [Directory] = []
+            for await value in group {
+                guard let value = value else {
+                    continue
+                }
+
+                directories.append(value)
+            }
+
+            return directories
+        }
     }
 
     private static func parse(gitFile: GitFile, name: String) async -> File? {
