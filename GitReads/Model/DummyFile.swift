@@ -9,7 +9,7 @@ import Foundation
 
 class DummyFile {
     public static func getFile() -> File {
-        var code = ["class PhysicsEngine {",
+        let code = ["class PhysicsEngine {",
                     "    var moveableObjects: [MoveableObject] = []",
                     "    var fixedObjects: [FixedObject] = []",
                     "",
@@ -82,7 +82,12 @@ class DummyFile {
                     "}",
                     "" ]
 
-        let lines = code.map { Line(tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) }, indentLevel: 0) }
+        let lines = code.map {
+            Line(
+                tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) },
+                indentLevel: 0
+            )
+        }
         let result = File(name: "TEST", language: "swift", declarations: [], lines: lines)
         return result
     }
