@@ -13,7 +13,6 @@ struct TabView: View {
     let closeFile: () -> Void
 
     var body: some View {
-        VStack {
             HStack {
                 Text(file.name)
 
@@ -23,15 +22,8 @@ struct TabView: View {
 
                 }
             }
-
-            if selected {
-                Divider()
-                    .frame(height: 4)
-                    .padding(.horizontal, 30)
-                    .background(.orange)
-            }
-        }
-        .frame(width: 100, height: 40)
+            .foregroundColor(selected ? .black : .gray)
+            .frame(width: 100, height: 40)
     }
 }
 
@@ -64,7 +56,6 @@ struct WindowView: View {
 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .border(.black)
     }
 }
 

@@ -12,7 +12,7 @@ struct CodeView: View {
 
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack {
                 ForEach(0..<file.lines.count, id: \.self) { line in
                     HStack(alignment: .top) {
                         Text(String(line + 1))

@@ -50,9 +50,10 @@
 		B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22BD4FA27E08CAE0008E9F1 /* ScrollLineView.swift */; };
 		B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F027DB0F7B00CD5E01 /* CodeView.swift */; };
 		B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F227DB224800CD5E01 /* WrapLineView.swift */; };
-		B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */; };
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
+		B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263F0A327E5F98A00CDD569 /* SettingView.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
+		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
 		DE43322227E1E6D70012FD81 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322127E1E6D70012FD81 /* Get */; };
 		DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322427E1E7080012FD81 /* SwiftTreeSitter */; };
 		DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322727E1E7140012FD81 /* CollectionConcurrencyKit */; };
@@ -137,9 +138,10 @@
 		B22BD4FA27E08CAE0008E9F1 /* ScrollLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollLineView.swift; sourceTree = "<group>"; };
 		B22D52F027DB0F7B00CD5E01 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		B22D52F227DB224800CD5E01 /* WrapLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapLineView.swift; sourceTree = "<group>"; };
-		B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
+		B263F0A327E5F98A00CDD569 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
+		B2C77B5627E480110072B80A /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		DE43322C27E1E7A50012FD81 /* ParserOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserOutput.swift; sourceTree = "<group>"; };
 		DE43322E27E1EEDB0012FD81 /* FileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileParser.swift; sourceTree = "<group>"; };
 		DE43323127E1EF4B0012FD81 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
@@ -337,7 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				DE580D5C27DF7A9600C37142 /* ScreenViewModel.swift */,
-				B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */,
+				B2C77B5627E480110072B80A /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -354,6 +356,7 @@
 				B22D52F227DB224800CD5E01 /* WrapLineView.swift */,
 				B22BD4FA27E08CAE0008E9F1 /* ScrollLineView.swift */,
 				B22D52F827DB46EA00CD5E01 /* TokenView.swift */,
+				B263F0A327E5F98A00CDD569 /* SettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -578,10 +581,10 @@
 				DE580D4D27DF570F00C37142 /* ScreenView.swift in Sources */,
 				DE580D5927DF6C9C00C37142 /* FileBarView.swift in Sources */,
 				6ED322E227E1F71D00F0AD09 /* GitHubRepo.swift in Sources */,
+				B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */,
 				6ED322E427E1F71D00F0AD09 /* GitHubTree.swift in Sources */,
 				DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */,
 				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,
-				B22D52F527DB3E7600CD5E01 /* CodeViewModel.swift in Sources */,
 				B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */,
 				6ED322E827E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
@@ -598,6 +601,7 @@
 				6ED3227227DC88F400F0AD09 /* GitClient.swift in Sources */,
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
+				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				6ED322D527E15E0A00F0AD09 /* GitRef.swift in Sources */,
@@ -769,7 +773,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitReads/Preview Content\"";
-				DEVELOPMENT_TEAM = RV4FA83ZT9;
+				DEVELOPMENT_TEAM = UX5B5ZUKD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -782,7 +786,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs3217.GitReads;
+				PRODUCT_BUNDLE_IDENTIFIER = cs3217.GitReads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -798,7 +802,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitReads/Preview Content\"";
-				DEVELOPMENT_TEAM = RV4FA83ZT9;
+				DEVELOPMENT_TEAM = UX5B5ZUKD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -811,7 +815,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs3217.GitReads;
+				PRODUCT_BUNDLE_IDENTIFIER = cs3217.GitReads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
