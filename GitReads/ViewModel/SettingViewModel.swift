@@ -10,7 +10,7 @@ import SwiftUI
 
 class SettingViewModel: ObservableObject {
     @Published private(set) var showSideBar = false
-    @Published var fontSize = 10
+    @Published var fontSize = 25
 
     func toggleSideBar() {
         withAnimation {

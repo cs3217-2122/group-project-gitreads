@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct ScrollLineView: View {
-    let screenWidth = UIScreen.main.bounds.width
     let line: Line
-
-    init(line: Line) {
-        self.line = line
-    }
+    @Binding var fontSize: Int
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach((0..<line.tokens.count), id: \.self) { pos in
-                    TokenView(token: line.tokens[pos])// .fixedSize(horizontal: true, vertical: false)
+                    TokenView(token: line.tokens[pos], fontSize: $fontSize)// .fixedSize(horizontal: true, vertical: false)
                 }
             }
         }
@@ -28,6 +24,7 @@ struct ScrollLineView: View {
 }
 
 struct ScrollLineView_Previews: PreviewProvider {
+    @State static var fontSize = 25
     static var previews: some View {
         ScrollLineView(line: Line(tokens: [Token(type: .keyword, value: "1TEST"),
                                            Token(type: .keyword, value: "2TEST"),
@@ -42,6 +39,7 @@ struct ScrollLineView_Previews: PreviewProvider {
                                            Token(type: .keyword, value: "11TEST"),
                                            Token(type: .keyword, value: "12TEST"),
                                            Token(type: .keyword, value: "13TEST"),
-                                           Token(type: .keyword, value: "14TEST")], indentLevel: 0))
+                                           Token(type: .keyword, value: "14TEST")],
+                                  indentLevel: 0), fontSize: $fontSize)
     }
 }

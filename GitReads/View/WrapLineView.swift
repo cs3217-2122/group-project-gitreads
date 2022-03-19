@@ -14,8 +14,10 @@ struct WrapLineView: View {
     var indetationLevel = 4
     let line: Line
     var group = [[String]]()
+    @Binding var fontSize: Int
 
-    init(line: Line) {
+    init(line: Line, fontSize: Binding<Int>) {
+        _fontSize = fontSize
         self.line = line
         self.group = createGroup(line)
     }
@@ -54,7 +56,7 @@ struct WrapLineView: View {
             ForEach(group, id: \.self) { subGroup in
                 HStack {
                     ForEach(subGroup, id: \.self) { word in
-                        TokenView(token: Token(type: .keyword, value: word))
+                        TokenView(token: Token(type: .keyword, value: word), fontSize: $fontSize)
                     }
                 }
             }
@@ -64,7 +66,8 @@ struct WrapLineView: View {
 }
 
 struct WrapLineView_Previews: PreviewProvider {
+    @State static var fontSize = 25
     static var previews: some View {
-        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST")], indentLevel: 0))
+        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST")], indentLevel: 0), fontSize: $fontSize)
     }
 }

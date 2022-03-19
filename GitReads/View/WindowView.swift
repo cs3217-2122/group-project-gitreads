@@ -30,6 +30,7 @@ struct TabView: View {
 struct WindowView: View {
     let files: [File]
     @Binding var openFile: File?
+    @Binding var fontSize: Int
     let removeFile: (File) -> Void
 
     var body: some View {
@@ -48,7 +49,7 @@ struct WindowView: View {
             }
 
             if let file = openFile {
-                CodeView(file: file)
+                CodeView(file: file, fontSize: $fontSize)
             } else {
                 Text("No open files...")
                     .frame(maxHeight: .infinity)
@@ -61,6 +62,7 @@ struct WindowView: View {
 
 struct WindowView_Previews: PreviewProvider {
     @State static var openFile: File? = File(name: "file1.txt", language: "", declarations: [], lines: [])
+    @State static var fontSize = 25
     static var previews: some View {
         var files = [
             File(name: "file1.txt", language: "", declarations: [], lines: []),
@@ -72,6 +74,7 @@ struct WindowView_Previews: PreviewProvider {
         return WindowView(
             files: files,
             openFile: $openFile,
+            fontSize: $fontSize,
             removeFile: { file in
                 files = files.filter({ f in
                     f != file

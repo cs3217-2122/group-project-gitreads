@@ -30,12 +30,16 @@ struct ScreenView: View {
                 HStack {
                     Button(action: viewModel.toggleSideBar, label: {
                         Image(systemName: "book")
+                            .resizable()
+                            .frame(width: 25, height: 25)
                             .foregroundColor(.accentColor)
                             .padding(.leading)
-                        })
+                    })
                     Spacer()
                     Button(action: settings.toggleSideBar, label: {
                         Image(systemName: "gearshape")
+                            .resizable()
+                            .frame(width: 25, height: 25)
                             .foregroundColor(.accentColor)
                             .padding(.trailing)
                         })
@@ -44,9 +48,10 @@ struct ScreenView: View {
                     WindowView(
                         files: viewModel.files,
                         openFile: $viewModel.openFile,
+                        fontSize: $settings.fontSize,
                         removeFile: { file in
                         viewModel.removeFile(file: file)
-                    })
+                        })
                     .navigationBarHidden(true)
                 }
                 .onTapGesture {
