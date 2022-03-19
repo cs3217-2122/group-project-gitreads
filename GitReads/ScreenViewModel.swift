@@ -24,6 +24,12 @@ class ScreenViewModel: ObservableObject {
         }
     }
 
+    func hideSideBar() {
+        withAnimation {
+            showSideBar = false
+        }
+    }
+
     func openFile(file: File) {
         if !files.contains(file) {
             files.append(file)

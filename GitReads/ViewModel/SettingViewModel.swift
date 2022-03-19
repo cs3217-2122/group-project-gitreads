@@ -18,6 +18,12 @@ class SettingViewModel: ObservableObject {
         }
     }
 
+    func hideSideBar() {
+        withAnimation {
+            showSideBar = false
+        }
+    }
+
     func increaseSize() {
         fontSize += 1
     }

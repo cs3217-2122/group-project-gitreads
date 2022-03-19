@@ -26,33 +26,36 @@ struct ScreenView: View {
                         viewModel.openFile(file: file)
                     })
             }
-            NavigationView {
-                VStack {
-                    HStack {
+            VStack {
+                HStack {
+                    Button(action: viewModel.toggleSideBar, label: {
                         Image(systemName: "book")
                             .foregroundColor(.accentColor)
-                            .onTapGesture(perform: viewModel.toggleSideBar)
                             .padding(.leading)
-                        Spacer()
+                        })
+                    Spacer()
+                    Button(action: settings.toggleSideBar, label: {
                         Image(systemName: "gearshape")
                             .foregroundColor(.accentColor)
-                            .onTapGesture(perform: settings.toggleSideBar)
                             .padding(.trailing)
-                    }
+                        })
+                }
+                NavigationView {
                     WindowView(
                         files: viewModel.files,
                         openFile: $viewModel.openFile,
                         removeFile: { file in
-                            viewModel.removeFile(file: file)
-                        })
+                        viewModel.removeFile(file: file)
+                    })
+                    .navigationBarHidden(true)
                 }
-                .navigationBarHidden(true)
-            }
-            .onTapGesture {
-                if viewModel.showSideBar {
-                    viewModel.toggleSideBar()
-                } else if settings.showSideBar {
-                    settings.toggleSideBar()
+                .onTapGesture {
+                    if viewModel.showSideBar {
+                        viewModel.hideSideBar()
+                    }
+                    if settings.showSideBar {
+                        settings.hideSideBar()
+                    }
                 }
             }
             if settings.showSideBar {
