@@ -33,7 +33,7 @@ struct CodeView: View {
 
 struct CodeView_Previews: PreviewProvider {
     @State static var fontSize = 25
-    @State static var bool = true
+    @State static var bool = false
     static var previews: some View {
         CodeView(file: DummyFile.getFile(), fontSize: $fontSize, isScrollView: $bool)
 .previewInterfaceOrientation(.portrait)
