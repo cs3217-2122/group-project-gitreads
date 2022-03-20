@@ -81,3 +81,6 @@ disabled_rules:
 line_length:
   warning: 120
   error: 150
+  
+closure_body_length:
+  warning: 40
