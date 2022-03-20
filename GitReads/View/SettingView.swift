@@ -25,13 +25,13 @@ struct SettingView: View {
             }
             Group {
                 HStack {
-                    Button(action: increaseSize, label: {
-                        Image(systemName: "plus.circle").padding()
-                    })
-                    Text(String(size))
                     Button(action: decreaseSize, label: {
                         Image(systemName: "minus.circle").padding()
                         })
+                    Text(String(size))
+                    Button(action: increaseSize, label: {
+                        Image(systemName: "plus.circle").padding()
+                    })
                 }
                 Toggle(isOn: $isScrollView) {
                     Text("Scroll view")
