@@ -15,3 +15,10 @@ struct GitRepo {
 
     let tree: GitTree
 }
+
+struct GitRepoSummary {
+    let fullName: String
+    let htmlURL: URL
+    let description: String
+    let defaultBranch: String
+}
