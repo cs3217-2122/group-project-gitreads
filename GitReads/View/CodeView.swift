@@ -19,7 +19,9 @@ struct CodeView: View {
                         // WrapLineView(line: file.lines[line]).padding(.horizontal)
                         ScrollLineView(line: file.lines[line])
                         Spacer()
-                    }.frame(width: UIScreen.main.bounds.width)
+                    }
+                    .padding(.leading, 5)
+                    .frame(width: UIScreen.main.bounds.width)
                 }
             }
         }

@@ -26,30 +26,23 @@ class Parser {
         self.init(sourceCode: Parser.readFile(filePath), language: language)
     }
 
-    static func parse(gitRepo: GitRepo) async -> Repo? {
-        if let rootDir = await parse(gitDir: gitRepo.tree.rootDir, name: "root") {
-            return Repo(root: rootDir)
+    static func parse(gitRepo: GitRepo) async -> Result<Repo, Error> {
+        await parse(gitDir: gitRepo.tree.rootDir, name: "root").map { rootDir in
+            Repo(root: rootDir)
         }
-        return nil
     }
 
-    private static func parse(gitDir: GitDirectory, name: String) async -> Directory? {
-        guard let currentDir = try? await gitDir.contents.value.get() else {
-            return nil
+    private static func parse(gitDir: GitDirectory, name: String) async -> Result<Directory, Error> {
+        await gitDir.contents.value.asyncMap { currentDir in
+            async let files = parseFilesInDir(currentDir)
+            async let directories = parseDirectoriesInDir(currentDir)
+
+            return Directory(files: await files, directories: await directories, name: name)
         }
-
-        async let files = parseFilesInDir(currentDir)
-        async let directories = parseDirectoriesInDir(currentDir)
-
-         return Directory(
-            files: await files,
-            directories: await directories,
-            name: name
-        )
     }
 
     private static func parseFilesInDir(_ dir: [GitContent]) async -> [File] {
-        await withTaskGroup(of: File?.self, returning: [File].self) { group in
+        await withTaskGroup(of: Result<File, Error>.self, returning: [File].self) { group in
             for content in dir {
                 guard case let .file(file) = content.type else {
                     continue
@@ -62,7 +55,8 @@ class Parser {
 
             var files: [File] = []
             for await value in group {
-                guard let value = value else {
+                // TODO: handle errors
+                guard case let .success(value) = value else {
                     continue
                 }
 
@@ -74,7 +68,7 @@ class Parser {
     }
 
     private static func parseDirectoriesInDir(_ dir: [GitContent]) async -> [Directory] {
-        await withTaskGroup(of: Directory?.self, returning: [Directory].self) { group in
+        await withTaskGroup(of: Result<Directory, Error>.self, returning: [Directory].self) { group in
             for content in dir {
                 guard case let .directory(dir) = content.type else {
                     continue
@@ -87,7 +81,8 @@ class Parser {
 
             var directories: [Directory] = []
             for await value in group {
-                guard let value = value else {
+                // TODO: handle errors
+                guard case let .success(value) = value else {
                     continue
                 }
 
@@ -98,17 +93,22 @@ class Parser {
         }
     }
 
-    private static func parse(gitFile: GitFile, name: String) async -> File? {
-        if let currentFile = try? await gitFile.contents.value.get() {
+    private static func parse(gitFile: GitFile, name: String) async -> Result<File, Error> {
+        await gitFile.contents.value.asyncFlatMap { currentFile in
             let language = detectLanguage(name: name)
 
             switch language {
             case .Java:
                 let parser = DummyFileParser()
-                return parser.parse(fileString: currentFile, name: name)
+                let result = parser.parse(fileString: currentFile, name: name)
+                switch result {
+                case .none:
+                    return .failure(ParseError.cannotParse)
+                case let .some(result):
+                    return .success(result)
+                }
             }
         }
-        return nil
     }
 
     private static func detectLanguage(name: String) -> Language {

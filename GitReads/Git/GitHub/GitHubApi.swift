@@ -33,9 +33,9 @@ class GitHubApi {
         await doAsyncWithResult {
             let req: Request<GitHubSearchResponse> = .get(
                 path("search", "repositories"),
-                query: [("q", query), ("per_page", 100)]
+                query: [("q", query)]
             )
-            
+
             let result = try await client.send(req)
             return result.value
         }

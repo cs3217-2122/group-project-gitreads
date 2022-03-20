@@ -17,6 +17,9 @@ struct GitRepo {
 }
 
 struct GitRepoSummary {
+    let owner: String
+    let name: String
+
     let fullName: String
     let htmlURL: URL
     let description: String
