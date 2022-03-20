@@ -23,7 +23,7 @@ struct CodeView: View {
                         } else {
                             WrapLineView(line: file.lines[line], fontSize: $fontSize).padding(.horizontal)
                         }
-                        // Spacer()
+                        Spacer()
                     }.frame(width: UIScreen.main.bounds.width)
                 }
             }

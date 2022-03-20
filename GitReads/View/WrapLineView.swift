@@ -34,17 +34,16 @@ struct WrapLineView: View {
         indentation.text = space
 
         for token in line.tokens {
-            let test = UILabel()
-            test.text = token.value
-            test.sizeToFit()
+            // Need a better way of doing it
+            let wordWidth = CGFloat(token.value.count * $fontSize.wrappedValue / 2)
 
-            if width + test.frame.width < screenWidth {
-                width += test.frame.width
+            if width + wordWidth < screenWidth {
+                width += wordWidth
                 subGroup.append(token.value)
             } else {
                 group.append(subGroup)
                 subGroup = [space, token.value]
-                width = test.frame.width + indentation.frame.width + padding
+                width = wordWidth + indentation.frame.width + padding
             }
         }
         group.append(subGroup)
@@ -67,6 +66,14 @@ struct WrapLineView: View {
 struct WrapLineView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST")], indentLevel: 0), fontSize: $fontSize)
+        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST"),
+                                         Token(type: .keyword, value: "TEST")], indentLevel: 0), fontSize: $fontSize)
     }
 }
