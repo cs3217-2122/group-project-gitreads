@@ -74,7 +74,7 @@ struct ScreenView: View {
                         fontSize: $settings.fontSize,
                         isScrollView: $settings.isScrollView,
                         removeFile: { file in
-                        viewModel.removeFile(file: file)
+                            viewModel.removeFile(file: file)
                         })
                     .navigationBarHidden(true)
                 }

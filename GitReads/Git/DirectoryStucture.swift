@@ -11,13 +11,13 @@ struct DirectoryStucture<T> {
     /// of the indices of all of its children elements.
     private(set) var directoryStructure: [Path: [Int]] = [:]
 
+    /// Takes in a list of elements, as well as a getter function to retrieve a `Path` from each element.
+    /// We assume that the paths of each element is "well-formed", ie. for every path there is
+    /// a way to traverse to that path from the root of the directory. Elements with paths that are not
+    /// well-formed will be skipped.
     init(elements: [T], getPath: (T) -> Path) {
         self.elements = elements
         let enumerated = elements.enumerated()
-
-        for (idx, element) in enumerated {
-            pathToElementIdx[getPath(element)] = idx
-        }
 
         // group the elements by number of path components, then
         // add each element's index under its parent's path to
@@ -27,15 +27,26 @@ struct DirectoryStucture<T> {
             getPath($0.element).numPathComponents
         })
         .sorted { $0.key < $1.key }
-        .forEach { numPathComponents, objects in
+        .forEach { numPathComponents, items in
             if numPathComponents == 0 {
                 return
             }
 
-            for (idx, object) in objects {
+            for (idx, item) in items {
+                let path = getPath(item)
                 // we know that the parent path is defined since the number of path
                 // components is more than 0
-                let parentPath = getPath(object).parentPath!
+                let parentPath = path.parentPath!
+
+                // if there is no actual parent directory for this element, then
+                // we skip it. we don't skip if the parent path is the root however,
+                // as we consider the root a special case which does not need to have
+                // an actual element
+                if parentPath != .root && pathToElementIdx[parentPath] == nil {
+                    continue
+                }
+
+                pathToElementIdx[path] = idx
                 directoryStructure[parentPath, default: []].append(idx)
             }
         }
