@@ -61,7 +61,6 @@ struct WrapLineView: View {
                 }
             }
         }
-
     }
 }
 

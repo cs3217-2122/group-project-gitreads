@@ -11,6 +11,9 @@ import SwiftUI
 class SettingViewModel: ObservableObject {
     @Published private(set) var showSideBar = false
     @Published var fontSize = 25
+    @Published var isScrollView = true
+    let minSize = 10
+    let maxSize = 30
 
     func toggleSideBar() {
         withAnimation {
@@ -25,10 +28,20 @@ class SettingViewModel: ObservableObject {
     }
 
     func increaseSize() {
-        fontSize += 1
+        if fontSize > minSize {
+            fontSize += 1
+        }
     }
 
     func decreaseSize() {
-        fontSize -= 1
+        if fontSize < maxSize {
+            fontSize -= 1
+        }
+    }
+
+    func toggleViewOption() {
+        withAnimation {
+            isScrollView.toggle()
+        }
     }
 }

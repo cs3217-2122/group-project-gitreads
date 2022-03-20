@@ -11,6 +11,7 @@ struct SettingView: View {
     let closeSideBar: () -> Void
     let increaseSize: () -> Void
     let decreaseSize: () -> Void
+    @Binding var isScrollView: Bool
     var size: Int
 
     var body: some View {
@@ -22,14 +23,19 @@ struct SettingView: View {
                     .foregroundColor(.accentColor)
                     .onTapGesture(perform: closeSideBar)
             }
-            VStack {
-                Button(action: increaseSize, label: {
-                    Image(systemName: "plus.circle").padding()
+            Group {
+                HStack {
+                    Button(action: increaseSize, label: {
+                        Image(systemName: "plus.circle").padding()
                     })
-                Text(String(size))
-                Button(action: decreaseSize, label: {
-                    Image(systemName: "minus.circle").padding()
-                    })
+                    Text(String(size))
+                    Button(action: decreaseSize, label: {
+                        Image(systemName: "minus.circle").padding()
+                        })
+                }
+                Toggle(isOn: $isScrollView) {
+                    Text("Scroll view")
+                }.padding()
             }
             Spacer()
         }
@@ -37,7 +43,8 @@ struct SettingView: View {
 }
 
 struct SettingView_Previews: PreviewProvider {
+    @State static var bool = true
     static var previews: some View {
-        SettingView(closeSideBar: {}, increaseSize: {}, decreaseSize: {}, size: 10)
+        SettingView(closeSideBar: {}, increaseSize: {}, decreaseSize: {}, isScrollView: $bool, size: 10)
     }
 }

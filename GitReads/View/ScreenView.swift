@@ -49,6 +49,7 @@ struct ScreenView: View {
                         files: viewModel.files,
                         openFile: $viewModel.openFile,
                         fontSize: $settings.fontSize,
+                        isScrollView: $settings.isScrollView,
                         removeFile: { file in
                         viewModel.removeFile(file: file)
                         })
@@ -67,6 +68,7 @@ struct ScreenView: View {
                 SettingView(closeSideBar: settings.toggleSideBar,
                             increaseSize: settings.increaseSize,
                             decreaseSize: settings.decreaseSize,
+                            isScrollView: $settings.isScrollView,
                             size: settings.fontSize)
             }
         }

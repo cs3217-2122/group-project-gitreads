@@ -15,7 +15,7 @@ struct ScrollLineView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach((0..<line.tokens.count), id: \.self) { pos in
-                    TokenView(token: line.tokens[pos], fontSize: $fontSize)// .fixedSize(horizontal: true, vertical: false)
+                    TokenView(token: line.tokens[pos], fontSize: $fontSize)
                 }
             }
         }
@@ -26,8 +26,8 @@ struct ScrollLineView: View {
 struct ScrollLineView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        ScrollLineView(line: Line(tokens: [Token(type: .keyword, value: "1TEST"),
-                                           Token(type: .keyword, value: "2TEST"),
+        ScrollLineView(line: Line(tokens: [Token(type: .keyword, value: "1TESgfdgdfgsdfgdfsgdfgdsfgdsfgfgT"),
+                                           Token(type: .keyword, value: "2TfdgdfgdsfgdsfgdfgdfgEST"),
                                            Token(type: .keyword, value: "3TEST"),
                                            Token(type: .keyword, value: "4TEST"),
                                            Token(type: .keyword, value: "5TEST"),

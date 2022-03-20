@@ -31,6 +31,7 @@ struct WindowView: View {
     let files: [File]
     @Binding var openFile: File?
     @Binding var fontSize: Int
+    @Binding var isScrollView: Bool
     let removeFile: (File) -> Void
 
     var body: some View {
@@ -49,7 +50,7 @@ struct WindowView: View {
             }
 
             if let file = openFile {
-                CodeView(file: file, fontSize: $fontSize)
+                CodeView(file: file, fontSize: $fontSize, isScrollView: $isScrollView)
             } else {
                 Text("No open files...")
                     .frame(maxHeight: .infinity)
@@ -63,6 +64,7 @@ struct WindowView: View {
 struct WindowView_Previews: PreviewProvider {
     @State static var openFile: File? = File(name: "file1.txt", language: "", declarations: [], lines: [])
     @State static var fontSize = 25
+    @State static var isScrollView = true
     static var previews: some View {
         var files = [
             File(name: "file1.txt", language: "", declarations: [], lines: []),
@@ -75,6 +77,7 @@ struct WindowView_Previews: PreviewProvider {
             files: files,
             openFile: $openFile,
             fontSize: $fontSize,
+            isScrollView: $isScrollView,
             removeFile: { file in
                 files = files.filter({ f in
                     f != file
