@@ -19,6 +19,23 @@ class GitHubClient: GitClient {
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
+    func searchRepositories(query: String) async -> Swift.Result<[GitRepoSummary], Error> {
+        let repos = await api.searchRepos(query: query)
+        // TODO: handle pagination
+        return repos.map {
+            $0.items.map { item in
+                GitRepoSummary(
+                    owner: item.owner,
+                    name: item.name,
+                    fullName: item.fullName,
+                    htmlURL: item.htmlURL,
+                    description: item.description ?? "",
+                    defaultBranch: item.defaultBranch
+                )
+            }
+        }
+    }
+
     func getRepository(
         owner: String,
         name: String,

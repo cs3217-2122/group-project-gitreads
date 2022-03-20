@@ -10,7 +10,7 @@ import Foundation
 class CodeViewModel {
     func getLines(file: File) -> [Line] {
         var result: [Line] = []
-        for (index, line) in file.lines.enumerated() {
+        for line in file.lines {
             // will add more logic in future
             result.append(line)
         }

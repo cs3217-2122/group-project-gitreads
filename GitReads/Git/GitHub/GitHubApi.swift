@@ -29,6 +29,18 @@ class GitHubApi {
         self.client = client
     }
 
+    func searchRepos(query: String) async -> Result<GitHubSearchResponse, Error> {
+        await doAsyncWithResult {
+            let req: Request<GitHubSearchResponse> = .get(
+                path("search", "repositories"),
+                query: [("q", query)]
+            )
+
+            let result = try await client.send(req)
+            return result.value
+        }
+    }
+
     /// Fetches the repository with the given `owner` and repo `name` from the GitHub API.
     func getRepo(owner: String, name repo: String) async -> Result<GitHubRepo, Error> {
         await doAsyncWithResult {

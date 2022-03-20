@@ -8,17 +8,41 @@
 import SwiftUI
 
 struct ScreenView: View {
-    @StateObject var viewModel: ScreenViewModel
+    @StateObject var viewModel = ScreenViewModel()
+    @State var loading = true
 
-    init(repo: Repo) {
-        _viewModel = StateObject(wrappedValue: ScreenViewModel(repo: repo))
+    let repoFetcher: () async -> Result<Repo, Error>
+
+    init(repoFetcher: @escaping () async -> Result<Repo, Error>) {
+        self.repoFetcher = repoFetcher
     }
 
     var body: some View {
+        ZStack {
+            if let repo = viewModel.repository {
+                repoView(repo: repo)
+            }
+            if loading {
+                ProgressView()
+            }
+        }
+        .onAppear {
+            Task {
+                let repo = await self.repoFetcher()
+                loading = false
+                // TODO: handle errors
+                if case let .success(repo) = repo {
+                    viewModel.setRepo(repo)
+                }
+            }
+        }
+    }
+
+    func repoView(repo: Repo) -> some View {
         HStack {
             if viewModel.showSideBar {
                 FilesSideBar(
-                    rootDirectory: viewModel.repository.root,
+                    rootDirectory: repo.root,
                     closeSideBar: viewModel.toggleSideBar,
                     onSelectFile: { file in
                         viewModel.openFile(file: file)
@@ -47,6 +71,6 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView(repo: Repo(root: MOCK_ROOT_DIRECTORY))
+        ScreenView(repoFetcher: { .success(Repo(root: MOCK_ROOT_DIRECTORY)) })
     }
 }

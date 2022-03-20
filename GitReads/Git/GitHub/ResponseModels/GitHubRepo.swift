@@ -22,6 +22,12 @@ struct GitHubRepo: Codable {
     /// Example: "master"
     let defaultBranch: String
 
+    private let _owner: GitHubRepoOwner
+
+    var owner: String {
+        _owner.login
+    }
+
     private enum CodingKeys: String, CodingKey {
         case id
         case nodeID = "node_id"
@@ -31,5 +37,10 @@ struct GitHubRepo: Codable {
         case htmlURL = "html_url"
         case description
         case defaultBranch = "default_branch"
+        case _owner = "owner"
     }
+}
+
+struct GitHubRepoOwner: Codable {
+    let login: String
 }
