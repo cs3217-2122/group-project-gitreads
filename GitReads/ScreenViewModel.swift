@@ -9,12 +9,12 @@ import Combine
 import SwiftUI
 
 class ScreenViewModel: ObservableObject {
-    @Published private(set) var repository = Repo(root: MOCK_ROOT_DIRECTORY)
+    @Published private(set) var repository: Repo?
     @Published private(set) var showSideBar = false
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
 
-    init(repo: Repo) {
+    func setRepo(_ repo: Repo) {
         self.repository = repo
     }
 

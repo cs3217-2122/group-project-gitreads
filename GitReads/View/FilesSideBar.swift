@@ -23,7 +23,6 @@ struct FilesSideBar: View {
             }
             List {
                 ForEach(rootDirectory.directories, id: \.name) { dir in
-
                     DirectoryBarView(directory: dir, onSelectFile: onSelectFile)
                 }
 
