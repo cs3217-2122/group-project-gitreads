@@ -64,6 +64,8 @@ class LazyDataSource<T> {
         }
     }
 
+    // TODO: may want to handle case where multiple fetches occur at
+    // roughly the same time
     private func fetchValue() async -> Result<T, Error> {
         // if the data has been fetched, return it immediately
         if let data = await fetchedValue.value {
@@ -80,5 +82,21 @@ class LazyDataSource<T> {
 
         await fetchedValue.set(value: value)
         return .success(value)
+    }
+    
+    func map<NewValue>(_ transform: @escaping (T) -> NewValue) -> LazyDataSource<NewValue> {
+        let fetcher = AnyDataFetcher {
+            await self.value.map(transform)
+        }
+        return LazyDataSource<NewValue>(fetcher: fetcher)
+    }
+    
+    func flatMap<NewValue>(
+        _ transform: @escaping (T) -> Result<NewValue, Error>
+    ) -> LazyDataSource<NewValue> {
+        let fetcher = AnyDataFetcher {
+            await self.value.flatMap(transform)
+        }
+        return LazyDataSource<NewValue>(fetcher: fetcher)
     }
 }

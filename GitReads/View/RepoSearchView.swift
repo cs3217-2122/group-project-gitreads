@@ -5,7 +5,9 @@
 import SwiftUI
 
 struct RepoSearchView: View {
+
     @StateObject private var viewModel: RepoSearchViewModel
+
     let gitClient: GitClient
 
     init(gitClient: GitClient) {
