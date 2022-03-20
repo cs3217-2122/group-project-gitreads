@@ -5,10 +5,11 @@
 //  Created by Zhou Jiahao on 14/3/22.
 //
 
+// swiftlint:disable function_body_length
 import Foundation
 
 class DummyFile {
-    public static func getFile() -> File {
+    static func getFile() -> File {
         let code = ["class PhysicsEngine {",
                     "    var moveableObjects: [MoveableObject] = []",
                     "    var fixedObjects: [FixedObject] = []",

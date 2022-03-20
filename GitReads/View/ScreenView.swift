@@ -88,13 +88,17 @@ struct ScreenView: View {
                 }
             }
             if settings.showSideBar {
-                SettingView(closeSideBar: settings.toggleSideBar,
-                            increaseSize: settings.increaseSize,
-                            decreaseSize: settings.decreaseSize,
-                            isScrollView: $settings.isScrollView,
-                            size: settings.fontSize)
+                settingsView
             }
         }
+    }
+
+    var settingsView: some View {
+        SettingView(closeSideBar: settings.toggleSideBar,
+                    increaseSize: settings.increaseSize,
+                    decreaseSize: settings.decreaseSize,
+                    isScrollView: $settings.isScrollView,
+                    size: settings.fontSize)
     }
 }
 
