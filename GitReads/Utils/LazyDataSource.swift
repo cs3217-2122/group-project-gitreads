@@ -83,14 +83,14 @@ class LazyDataSource<T> {
         await fetchedValue.set(value: value)
         return .success(value)
     }
-    
+
     func map<NewValue>(_ transform: @escaping (T) -> NewValue) -> LazyDataSource<NewValue> {
         let fetcher = AnyDataFetcher {
             await self.value.map(transform)
         }
         return LazyDataSource<NewValue>(fetcher: fetcher)
     }
-    
+
     func flatMap<NewValue>(
         _ transform: @escaping (T) -> Result<NewValue, Error>
     ) -> LazyDataSource<NewValue> {

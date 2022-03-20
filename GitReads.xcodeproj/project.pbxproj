@@ -61,11 +61,11 @@
 		DE43322227E1E6D70012FD81 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322127E1E6D70012FD81 /* Get */; };
 		DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322427E1E7080012FD81 /* SwiftTreeSitter */; };
 		DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322727E1E7140012FD81 /* CollectionConcurrencyKit */; };
-		DE43322B27E1E71F0012FD81 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322A27E1E71F0012FD81 /* Cache */; };
 		DE43322D27E1E7A50012FD81 /* ParserOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43322C27E1E7A50012FD81 /* ParserOutput.swift */; };
 		DE43322F27E1EEDB0012FD81 /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43322E27E1EEDB0012FD81 /* FileParser.swift */; };
 		DE43323227E1EF4B0012FD81 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43323127E1EF4B0012FD81 /* Language.swift */; };
 		DE43323427E1EF6E0012FD81 /* DummyFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43323327E1EF6E0012FD81 /* DummyFileParser.swift */; };
+		DE43323727E76E970012FD81 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = DE43323627E76E970012FD81 /* Cache */; };
 		DE580D4B27DF570200C37142 /* WindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D4A27DF570200C37142 /* WindowView.swift */; };
 		DE580D4D27DF570F00C37142 /* ScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D4C27DF570F00C37142 /* ScreenView.swift */; };
 		DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D5227DF64AB00C37142 /* FilesSideBar.swift */; };
@@ -171,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE43322227E1E6D70012FD81 /* Get in Frameworks */,
-				DE43322B27E1E71F0012FD81 /* Cache in Frameworks */,
+				DE43323727E76E970012FD81 /* Cache in Frameworks */,
 				DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */,
 				DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */,
 			);
@@ -258,6 +258,7 @@
 				B223E1E327D9DDA8008ACEEF /* GitReadsTests */,
 				B223E1ED27D9DDA8008ACEEF /* GitReadsUITests */,
 				B223E1CC27D9DDA7008ACEEF /* Products */,
+				DE43323527E76E970012FD81 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -349,7 +350,6 @@
 			children = (
 				DE580D5C27DF7A9600C37142 /* ScreenViewModel.swift */,
 				B2C77B5627E480110072B80A /* SettingViewModel.swift */,
-				B22D52F427DB3E7600CD5E01 /* CodeViewModel.swift */,
 				6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */,
 			);
 			path = ViewModel;
@@ -398,6 +398,13 @@
 			path = FileParsers;
 			sourceTree = "<group>";
 		};
+		DE43323527E76E970012FD81 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FF11943627E0701F001BE497 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,7 +434,7 @@
 				DE43322127E1E6D70012FD81 /* Get */,
 				DE43322427E1E7080012FD81 /* SwiftTreeSitter */,
 				DE43322727E1E7140012FD81 /* CollectionConcurrencyKit */,
-				DE43322A27E1E71F0012FD81 /* Cache */,
+				DE43323627E76E970012FD81 /* Cache */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -1007,7 +1014,7 @@
 			package = DE43322627E1E7140012FD81 /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */;
 			productName = CollectionConcurrencyKit;
 		};
-		DE43322A27E1E71F0012FD81 /* Cache */ = {
+		DE43323627E76E970012FD81 /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DE43322927E1E71F0012FD81 /* XCRemoteSwiftPackageReference "Cache" */;
 			productName = Cache;
