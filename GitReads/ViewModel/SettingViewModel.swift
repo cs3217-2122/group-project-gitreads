@@ -28,13 +28,13 @@ class SettingViewModel: ObservableObject {
     }
 
     func increaseSize() {
-        if fontSize > minSize {
+        if fontSize < maxSize {
             fontSize += 1
         }
     }
 
     func decreaseSize() {
-        if fontSize < maxSize {
+        if fontSize > minSize {
             fontSize -= 1
         }
     }
