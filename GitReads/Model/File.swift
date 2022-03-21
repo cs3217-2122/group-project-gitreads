@@ -9,9 +9,9 @@ import Foundation
 
 struct File {
     let name: String
-    let language: String // enum
+    let language: Language // enum
     let declarations: [String] // create another type
-    var lines: [Line]
+    var lines: LazyDataSource<[Line]>
 }
 
 extension File: Equatable {

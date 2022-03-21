@@ -50,6 +50,11 @@ class LazyDataSource<T> {
         self.fetchedValue = Value()
     }
 
+    convenience init(value: T) {
+        let fetcher = AnyDataFetcher(fetcher: { .success(value) })
+        self.init(fetcher: fetcher)
+    }
+
     var value: Result<T, Error> {
         get async {
             await fetchValue()

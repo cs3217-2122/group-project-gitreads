@@ -6,11 +6,10 @@
 //
 
 struct DummyFileParser: FileParser {
-    func parse(fileString: String, name: String) -> File? {
-        var file = File(name: name, language: "any", declarations: [], lines: [])
-        for line in fileString.split(separator: "\n") {
-            file.lines.append(Line(tokens: [Token(type: .string, value: String(line))], indentLevel: 0))
-        }
-        return file
+    func parse(fileString: String) -> [Line] {
+        fileString.split(separator: "\n")
+            .map { line in
+                Line(tokens: [Token(type: .string, value: String(line))], indentLevel: 0)
+            }
     }
 }
