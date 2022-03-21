@@ -11,6 +11,7 @@
 		6E67ECEF27E6D45800C75F8C /* RepoSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEE27E6D45800C75F8C /* RepoSearchView.swift */; };
 		6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */; };
 		6E67ECF327E6D9C600C75F8C /* Publisher+AsyncMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF227E6D9C600C75F8C /* Publisher+AsyncMap.swift */; };
+		6E67ECF527E777CB00C75F8C /* DirectoryStructureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF427E777CB00C75F8C /* DirectoryStructureTests.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -99,6 +100,7 @@
 		6E67ECEE27E6D45800C75F8C /* RepoSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoSearchView.swift; sourceTree = "<group>"; };
 		6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoSearchViewModel.swift; sourceTree = "<group>"; };
 		6E67ECF227E6D9C600C75F8C /* Publisher+AsyncMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+AsyncMap.swift"; sourceTree = "<group>"; };
+		6E67ECF427E777CB00C75F8C /* DirectoryStructureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryStructureTests.swift; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				6ED322A127DCCD1600F0AD09 /* GitHub */,
+				6E67ECF427E777CB00C75F8C /* DirectoryStructureTests.swift */,
 			);
 			path = Git;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B223E1E527D9DDA8008ACEEF /* GitReadsTests.swift in Sources */,
+				6E67ECF527E777CB00C75F8C /* DirectoryStructureTests.swift in Sources */,
 				6ED322AF27DD24B900F0AD09 /* GitHubClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
