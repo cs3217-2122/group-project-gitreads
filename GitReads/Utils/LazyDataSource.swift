@@ -13,7 +13,9 @@ extension DataFetcher {
         AnyDataFetcher { (await fetchValue()).map(transform) }
     }
 
-    func flatMap<T>(_ transform: @escaping (Value) -> Result<T, Error>) -> AnyDataFetcher<T> {
+    func flatMap<T>(
+        _ transform: @escaping (Value) -> Result<T, Error>
+    ) -> AnyDataFetcher<T> {
         AnyDataFetcher { (await fetchValue()).flatMap(transform) }
     }
 }
@@ -34,9 +36,15 @@ struct AnyDataFetcher<T>: DataFetcher {
 
 class LazyDataSource<T> {
 
+    private enum FetchStatus {
+        case notFetched
+        case inProgress(Task<T, Error>)
+        case fetched(value: T)
+    }
+
     // Actor to handle synchronization of the fetching
-    actor Value {
-        private var _value: T?
+    private actor ValueFetcher {
+        private var status: FetchStatus = .notFetched
 
         let fetcher: () async -> Result<T, Error>
 
@@ -45,18 +53,36 @@ class LazyDataSource<T> {
         }
 
         var value: Result<T, Error> {
-            get async {
-                // if the data has been fetched, return it immediately
-                if let _value = _value {
-                    return .success(_value)
-                }
+            get async { await fetch() }
+        }
 
-                // otherwise we fetch the data. if we error, simply pass on the
-                // error to the caller and do not store the result. otherwise,
-                // we store the successful result for subsequent calls.
-                let result = await fetcher()
-                if case let .success(res) = result {
-                    _value = res
+        private func fetch() async -> Result<T, Error> {
+            switch status {
+            case let .fetched(value):
+                // if the data has been fetched, return it immediately
+                return .success(value)
+
+            case let .inProgress(task):
+                // if the data is being fetched, wait for the results
+                // of the in-progress fetch then return it
+                return await task.result
+
+            case .notFetched:
+                // otherwise we fetch the data in a task and set the
+                // status to in-progress
+                let task = Task { try (await fetcher()).get() }
+                status = .inProgress(task)
+
+                let result = await task.result
+                // if we error, we pass on the error to the caller and set the
+                // status back to notFetched so subsequent calls can retry.
+                // otherwise, we set the status to fetched and store the results
+                // for subsequent calls.
+                switch result {
+                case let .success(result):
+                    status = .fetched(value: result)
+                case .failure:
+                    status = .notFetched
                 }
 
                 return result
@@ -64,37 +90,36 @@ class LazyDataSource<T> {
         }
     }
 
-    private var valueActor: Value
+    private var valueFetcher: ValueFetcher
 
     init<Fetcher: DataFetcher>(fetcher: Fetcher) where Fetcher.Value == T {
-        self.valueActor = Value(fetcher: fetcher.fetchValue)
+        self.valueFetcher = ValueFetcher(fetcher: fetcher.fetchValue)
+    }
+
+    init(fetcherFunc: @escaping () async -> Result<T, Error>) {
+        self.valueFetcher = ValueFetcher(fetcher: fetcherFunc)
     }
 
     var value: Result<T, Error> {
-        get async {
-            await valueActor.value
-        }
+        get async { await valueFetcher.value }
     }
 
     func preload() {
-        Task {
-            _ = await valueActor.value
-        }
+        Task { _ = await valueFetcher.value }
     }
 
-    func map<NewValue>(_ transform: @escaping (T) -> NewValue) -> LazyDataSource<NewValue> {
-        let fetcher = AnyDataFetcher {
-            await self.value.map(transform)
-        }
-        return LazyDataSource<NewValue>(fetcher: fetcher)
-    }
-
-    func flatMap<NewValue>(
-        _ transform: @escaping (T) -> Result<NewValue, Error>
+    func map<NewValue>(
+        _ transform: @escaping (T) async -> NewValue
     ) -> LazyDataSource<NewValue> {
-        let fetcher = AnyDataFetcher {
-            await self.value.flatMap(transform)
-        }
-        return LazyDataSource<NewValue>(fetcher: fetcher)
+        LazyDataSource<NewValue> { await self.value.asyncMap(transform) }
+    }
+
+    // Not technically a flatMap, but accepting a closure that returns
+    // a result type instead of another lazy data source has better
+    // ergonomics.
+    func flatMap<NewValue>(
+        _ transform: @escaping (T) async -> Result<NewValue, Error>
+    ) -> LazyDataSource<NewValue> {
+        LazyDataSource<NewValue> { await self.value.asyncFlatMap(transform) }
     }
 }
