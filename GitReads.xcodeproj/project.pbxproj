@@ -14,7 +14,6 @@
 		6E67ECF527E777CB00C75F8C /* DirectoryStructureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF427E777CB00C75F8C /* DirectoryStructureTests.swift */; };
 		6E67ECF827E8219F00C75F8C /* LazyDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF727E8219F00C75F8C /* LazyDataSourceTests.swift */; };
 		6E67ED0627E88BA800C75F8C /* Mocker in Frameworks */ = {isa = PBXBuildFile; productRef = 6E67ED0527E88BA800C75F8C /* Mocker */; };
-		6E67ED0927E88BEC00C75F8C /* NotFound.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E67ED0827E88BEC00C75F8C /* NotFound.json */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -105,7 +104,6 @@
 		6E67ECF227E6D9C600C75F8C /* Publisher+AsyncMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+AsyncMap.swift"; sourceTree = "<group>"; };
 		6E67ECF427E777CB00C75F8C /* DirectoryStructureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryStructureTests.swift; sourceTree = "<group>"; };
 		6E67ECF727E8219F00C75F8C /* LazyDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSourceTests.swift; sourceTree = "<group>"; };
-		6E67ED0827E88BEC00C75F8C /* NotFound.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NotFound.json; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -210,14 +208,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		6E67ED0727E88BDB00C75F8C /* TestCases */ = {
-			isa = PBXGroup;
-			children = (
-				6E67ED0827E88BEC00C75F8C /* NotFound.json */,
-			);
-			path = TestCases;
-			sourceTree = "<group>";
-		};
 		6ED3225D27DBE8E900F0AD09 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,7 +242,6 @@
 		6ED322A127DCCD1600F0AD09 /* GitHub */ = {
 			isa = PBXGroup;
 			children = (
-				6E67ED0727E88BDB00C75F8C /* TestCases */,
 				6ED322AE27DD24B900F0AD09 /* GitHubClientTests.swift */,
 			);
 			path = GitHub;
@@ -570,7 +559,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E67ED0927E88BEC00C75F8C /* NotFound.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
