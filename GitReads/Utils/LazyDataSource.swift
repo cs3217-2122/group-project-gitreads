@@ -29,6 +29,10 @@ struct AnyDataFetcher<T>: DataFetcher {
         self.fetcher = fetcher
     }
 
+    init<Fetcher: DataFetcher>(_ dataFetcher: Fetcher) where Fetcher.Value == T {
+        self.fetcher = dataFetcher.fetchValue
+    }
+
     func fetchValue() async -> Result<T, Error> {
         await fetcher()
     }
@@ -92,12 +96,12 @@ class LazyDataSource<T> {
 
     private var valueFetcher: ValueFetcher
 
-    init<Fetcher: DataFetcher>(fetcher: Fetcher) where Fetcher.Value == T {
-        self.valueFetcher = ValueFetcher(fetcher: fetcher.fetchValue)
-    }
-
     init(fetcherFunc: @escaping () async -> Result<T, Error>) {
         self.valueFetcher = ValueFetcher(fetcher: fetcherFunc)
+    }
+
+    init<Fetcher: DataFetcher>(fetcher: Fetcher) where Fetcher.Value == T {
+        self.valueFetcher = ValueFetcher(fetcher: fetcher.fetchValue)
     }
 
     var value: Result<T, Error> {

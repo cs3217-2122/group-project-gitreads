@@ -3,6 +3,7 @@
 //  GitReadsTests
 
 import XCTest
+import CollectionConcurrencyKit
 @testable import GitReads
 
 class LazyDataSourceTests: XCTestCase {

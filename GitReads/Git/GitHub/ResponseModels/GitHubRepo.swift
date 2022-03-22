@@ -22,6 +22,28 @@ struct GitHubRepo: Codable {
     /// Example: "master"
     let defaultBranch: String
 
+    init(
+        id: Int,
+        nodeID: String,
+        name: String,
+        fullName: String,
+        isPrivate: Bool,
+        htmlURL: URL,
+        description: String?,
+        defaultBranch: String,
+        owner: String
+    ) {
+        self.id = id
+        self.nodeID = nodeID
+        self.name = name
+        self.fullName = fullName
+        self.isPrivate = isPrivate
+        self.htmlURL = htmlURL
+        self.description = description
+        self.defaultBranch = defaultBranch
+        self._owner = GitHubRepoOwner(login: owner)
+    }
+
     private let _owner: GitHubRepoOwner
 
     var owner: String {
