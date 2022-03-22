@@ -84,13 +84,10 @@ class DummyFile {
                     "" ]
 
         let lines = code.map {
-            Line(
-                tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) },
-                indentLevel: 0)
-
+            Line(tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) })
         }
         let lazyLines = LazyDataSource(value: lines)
-        let result = File(path: Path(components: "TEST"), language: .Java, declarations: [], lines: lazyLines)
+        let result = File(path: Path(components: "TEST"), language: .others, declarations: [], lines: lazyLines)
         return result
     }
 }

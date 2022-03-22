@@ -8,7 +8,8 @@
 import Foundation
 
 class Constants {
-    // Error messages
-    static let readingFileError = "Error in reading files."
-    static let parsingError = "Error in parsing code."
+    // Web parser API
+    static let webParserApiUrl = "https://parser-api.fly.dev/parse"
+
+    static let tabWidth = 4
 }
