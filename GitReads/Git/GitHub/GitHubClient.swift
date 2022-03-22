@@ -75,7 +75,6 @@ class GitHubClient: GitClient {
                             self.getSubmoduleContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
                         }
                     )
-                    tree.rootDir.contents.preload()
 
                     return GitRepo(fullName: repo.fullName,
                                    htmlURL: repo.htmlURL,

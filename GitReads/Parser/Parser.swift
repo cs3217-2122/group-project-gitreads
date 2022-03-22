@@ -64,7 +64,7 @@ class Parser {
     private static func parse(gitFile: GitFile, path: Path, name: String) -> File {
         let language = detectLanguage(name: name)
         let lines: LazyDataSource<[Line]> = gitFile.contents.map { currentFile in
-            return FileParser.parseFile(fileString: currentFile, language: language)
+            FileParser.parseFile(fileString: currentFile, language: language)
         }
         return File(path: path, language: language, declarations: [], lines: lines)
     }
