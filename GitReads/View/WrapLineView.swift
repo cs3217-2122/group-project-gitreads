@@ -74,6 +74,6 @@ struct WrapLineView_Previews: PreviewProvider {
                                          Token(type: .keyword, value: "TEST"),
                                          Token(type: .keyword, value: "TEST"),
                                          Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST")], indentLevel: 0), fontSize: $fontSize)
+                                         Token(type: .keyword, value: "TEST")]), fontSize: $fontSize)
     }
 }

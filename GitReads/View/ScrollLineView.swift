@@ -39,7 +39,6 @@ struct ScrollLineView_Previews: PreviewProvider {
                                            Token(type: .keyword, value: "11TEST"),
                                            Token(type: .keyword, value: "12TEST"),
                                            Token(type: .keyword, value: "13TEST"),
-                                           Token(type: .keyword, value: "14TEST")],
-                                  indentLevel: 0), fontSize: $fontSize)
+                                           Token(type: .keyword, value: "14TEST")]), fontSize: $fontSize)
     }
 }
