@@ -30,7 +30,6 @@ struct CachedDataFetcher<Key: Hashable, T>: DataFetcher {
             return value
         }
     }
-
 }
 
 class CachedDataFetcherFactory<Key: Hashable> {
