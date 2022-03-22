@@ -27,17 +27,17 @@ class Parser {
     }
 
     static func parse(gitRepo: GitRepo) async -> Result<Repo, Error> {
-        await parse(gitDir: gitRepo.tree.rootDir, name: "root").map { rootDir in
+        await parse(gitDir: gitRepo.tree.rootDir, path: .root).map { rootDir in
             Repo(root: rootDir)
         }
     }
 
-    private static func parse(gitDir: GitDirectory, name: String) async -> Result<Directory, Error> {
+    private static func parse(gitDir: GitDirectory, path: Path) async -> Result<Directory, Error> {
         await gitDir.contents.value
             .asyncMap { contents in
                 Directory(files: await parseFilesInDir(contents),
                           directories: await parseDirectoriesInDir(contents),
-                          name: name)
+                          path: path)
             }
     }
 
@@ -47,7 +47,7 @@ class Parser {
                 return nil
             }
 
-            return parse(gitFile: file, name: content.name)
+            return parse(gitFile: file, path: content.path, name: content.name)
         }
     }
 
@@ -59,7 +59,7 @@ class Parser {
                 }
 
                 group.addTask {
-                    await parse(gitDir: dir, name: content.name)
+                    await parse(gitDir: dir, path: content.path)
                 }
             }
 
@@ -77,7 +77,7 @@ class Parser {
         }
     }
 
-    private static func parse(gitFile: GitFile, name: String) -> File {
+    private static func parse(gitFile: GitFile, path: Path, name: String) -> File {
         let language = detectLanguage(name: name)
         let lines: LazyDataSource<[Line]> = gitFile.contents.map { currentFile in
             switch language {
@@ -86,7 +86,7 @@ class Parser {
                 return parser.parse(fileString: currentFile)
             }
         }
-        return File(name: name, language: language, declarations: [], lines: lines)
+        return File(path: path, language: language, declarations: [], lines: lines)
     }
 
     private static func detectLanguage(name: String) -> Language {

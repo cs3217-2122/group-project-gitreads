@@ -22,11 +22,11 @@ struct FilesSideBar: View {
                     .onTapGesture(perform: closeSideBar)
             }
             List {
-                ForEach(rootDirectory.directories, id: \.name) { dir in
+                ForEach(rootDirectory.directories, id: \.path) { dir in
                     DirectoryBarView(directory: dir, onSelectFile: onSelectFile)
                 }
 
-                ForEach(rootDirectory.files, id: \.name) { file in
+                ForEach(rootDirectory.files, id: \.path) { file in
                     FileBarView(file: file, onSelectFile: onSelectFile)
 
                 }

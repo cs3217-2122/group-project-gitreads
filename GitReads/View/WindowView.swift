@@ -13,17 +13,26 @@ struct TabView: View {
     let closeFile: () -> Void
 
     var body: some View {
-            HStack {
-                Text(file.name)
+        HStack {
+            Text(file.name)
 
-                if selected {
-                    Image(systemName: "xmark")
-                        .onTapGesture(perform: closeFile)
+            if selected {
+                Image(systemName: "xmark")
+                    .onTapGesture(perform: closeFile)
 
-                }
             }
-            .foregroundColor(selected ? .black : .gray)
-            .frame(width: 100, height: 40)
+        }
+        .padding(1)
+        .foregroundColor(selected ? .black : .gray)
+        .frame(width: 100, height: 40)
+        .background {
+            if selected {
+                Rectangle()
+                    .fill(.gray)
+                    .opacity(0.3)
+                    .cornerRadius(3, corners: [.topLeft, .topRight])
+            }
+        }
     }
 }
 
@@ -35,43 +44,52 @@ struct WindowView: View {
     let removeFile: (File) -> Void
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(files, id: \.name) { file in
+                    ForEach(files, id: \.path) { file in
                         TabView(file: file, selected: file == openFile, closeFile: { removeFile(file) })
                             .onTapGesture {
                                 openFile = file
                             }
-
                     }
 
                 }
             }
+            Divider()
+            ZStack {
+                ForEach(files, id: \.path) { file in
+                    CodeView(file: file, fontSize: $fontSize, isScrollView: $isScrollView)
+                        .opacity(file == openFile ? 1 : 0)
+                }
+            }
 
-            if let file = openFile {
-                CodeView(file: file, fontSize: $fontSize, isScrollView: $isScrollView)
-            } else {
+            if openFile == nil {
                 Text("No open files...")
                     .frame(maxHeight: .infinity)
             }
-
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 struct WindowView_Previews: PreviewProvider {
-    @State static var openFile: File? = File(name: "file1.txt", language: .Java, declarations: [], lines: EMPTY_LINES)
+    @State static var openFile: File? = File(
+        path: Path(components: "file1.txt"),
+        language: .Java,
+        declarations: [],
+        lines: EMPTY_LINES
+    )
+
     @State static var fontSize = 25
     @State static var isScrollView = true
     static var previews: some View {
         var files = [
-            File(name: "file1.txt", language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(name: "file2.txt", language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(name: "file3.txt", language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(name: "file4.txt", language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(name: "file5.txt", language: .Java, declarations: [], lines: EMPTY_LINES)
+            File(path: Path(components: "file1.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file2.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file3.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file4.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file5.txt"), language: .Java, declarations: [], lines: EMPTY_LINES)
         ]
         return WindowView(
             files: files,
