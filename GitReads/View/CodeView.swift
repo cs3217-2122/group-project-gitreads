@@ -17,16 +17,19 @@ struct CodeView: View {
         ScrollView {
             LazyVStack {
                 if let lines = lines, case let .success(lines) = lines {
-                    ForEach(0..<lines.count, id: \.self) { line in
-                        HStack(alignment: .top) {
-                            Text(String(line + 1)).font(.system(size: CGFloat($fontSize.wrappedValue)))
+                    ForEach(0..<lines.count, id: \.self) { lineNum in
+                        HStack(alignment: .center) {
+                            Text(String(lineNum + 1)).font(.system(size: CGFloat($fontSize.wrappedValue)))
+                                .padding(.trailing, 3)
                             if isScrollView {
-                                ScrollLineView(line: lines[line], fontSize: $fontSize)
+                                ScrollLineView(line: lines[lineNum], fontSize: $fontSize)
                             } else {
-                                WrapLineView(line: lines[line], fontSize: $fontSize).padding(.horizontal)
+                                WrapLineView(line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
                             }
                             Spacer()
-                        }.frame(width: UIScreen.main.bounds.width)
+                        }
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(.leading, 6)
                     }
                 }
             }
@@ -35,6 +38,10 @@ struct CodeView: View {
             Task {
                 self.lines = await file.lines.value
             }
+        }
+
+        if lines == nil {
+            ProgressView()
         }
     }
 }

@@ -23,12 +23,12 @@ struct DirectoryBarView: View {
 
         if opened {
             Group {
-                ForEach(directory.directories, id: \.name) { dir in
+                ForEach(directory.directories, id: \.path) { dir in
 
                     DirectoryBarView(directory: dir, onSelectFile: onSelectFile)
                 }
 
-                ForEach(directory.files, id: \.name) { file in
+                ForEach(directory.files, id: \.path) { file in
                     FileBarView(file: file, onSelectFile: onSelectFile)
                 }
             }

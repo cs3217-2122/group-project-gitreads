@@ -90,7 +90,7 @@ class DummyFile {
 
         }
         let lazyLines = LazyDataSource(value: lines)
-        let result = File(name: "TEST", language: .Java, declarations: [], lines: lazyLines)
+        let result = File(path: Path(components: "TEST"), language: .Java, declarations: [], lines: lazyLines)
         return result
     }
 }

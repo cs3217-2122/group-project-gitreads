@@ -10,5 +10,9 @@ import Foundation
 struct Directory {
     let files: [File]
     let directories: [Directory]
-    let name: String
+    let path: Path
+
+    var name: String {
+        path.lastPathComponent ?? ""
+    }
 }
