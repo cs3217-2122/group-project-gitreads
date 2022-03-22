@@ -16,7 +16,7 @@ struct GitRepo {
     let tree: GitTree
 }
 
-struct GitRepoSummary {
+struct GitRepoSummary: Hashable {
     let owner: String
     let name: String
 
@@ -24,4 +24,9 @@ struct GitRepoSummary {
     let htmlURL: URL
     let description: String
     let defaultBranch: String
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(owner)
+        hasher.combine(name)
+    }
 }
