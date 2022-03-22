@@ -68,9 +68,9 @@ struct GitTree {
     private func directory(at path: Path) -> GitDirectory {
         let children = directoryStructure.childrenUnder(path: path)
 
-        let dataSource = LazyDataSource(fetcher: AnyDataFetcher {
+        let dataSource = LazyDataSource {
             .success(children.compactMap { content(at: $0.path) })
-        })
+        }
         return GitDirectory(contents: dataSource)
     }
 }

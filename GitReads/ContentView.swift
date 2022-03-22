@@ -17,32 +17,17 @@ struct ContentView: View {
 
     init() {
         let api = GitHubApi()
-        // swiftlint:disable force_try
-        let storage: Storage<GitHubCacheKey, String> = try! Storage(
-            diskConfig: GitHubCachedDataFetcherFactory.DefaultCacheDiskConfig,
-            memoryConfig: GitHubCachedDataFetcherFactory.DefaultCacheMemoryConfig,
-            transformer: TransformerFactory.forCodable(ofType: String.self)
-        )
+        let factory = GitHubCachedDataFetcherFactory()
+        if factory == nil {
+            print("Failed to initialize cache for git client")
+        }
 
-        self.gitClient = GitHubClient(
-            gitHubApi: api,
-            cachedDataFetcherFactory: GitHubCachedDataFetcherFactory(storage: storage)
-        )
+        self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: factory)
     }
 
     var body: some View {
         ZStack {
             RepoSearchView(gitClient: gitClient)
-//            NavigationView {
-//                ScreenView {
-//                    await gitClient
-//                        .getRepository(owner: "kornelski", name: "pngquant")
-//                        .asyncFlatMap { await Parser.parse(gitRepo: $0) }
-//                }
-//                .navigationBarTitle("", displayMode: .inline)
-//                .navigationBarHidden(true)
-//            }
-//            .navigationViewStyle(.stack)
         }
     }
 
