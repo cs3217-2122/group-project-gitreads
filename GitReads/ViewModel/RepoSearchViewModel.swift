@@ -142,7 +142,7 @@ public class RepoSearchViewModel: ObservableObject {
     }
 
     func scrolledToItem(repo: GitRepoSummary) {
-        // only load the next page when 3 items away from the end of the list
+        // only load the next page when 4 items away from the end of the list
         let thresholdIndex = repos.index(repos.endIndex, offsetBy: -4)
         if repos.firstIndex(where: { $0.fullName == repo.fullName }) != thresholdIndex {
             return
