@@ -76,7 +76,7 @@ struct WindowView: View {
 struct WindowView_Previews: PreviewProvider {
     @State static var openFile: File? = File(
         path: Path(components: "file1.txt"),
-        language: .Java,
+        language: .others,
         declarations: [],
         lines: EMPTY_LINES
     )
@@ -85,11 +85,11 @@ struct WindowView_Previews: PreviewProvider {
     @State static var isScrollView = true
     static var previews: some View {
         var files = [
-            File(path: Path(components: "file1.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(path: Path(components: "file2.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(path: Path(components: "file3.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(path: Path(components: "file4.txt"), language: .Java, declarations: [], lines: EMPTY_LINES),
-            File(path: Path(components: "file5.txt"), language: .Java, declarations: [], lines: EMPTY_LINES)
+            File(path: Path(components: "file1.txt"), language: .others, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file2.txt"), language: .others, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file3.txt"), language: .others, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file4.txt"), language: .others, declarations: [], lines: EMPTY_LINES),
+            File(path: Path(components: "file5.txt"), language: .others, declarations: [], lines: EMPTY_LINES)
         ]
         return WindowView(
             files: files,

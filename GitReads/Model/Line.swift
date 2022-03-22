@@ -9,5 +9,4 @@ import Foundation
 
 struct Line {
     let tokens: [Token]
-    let indentLevel: Int
 }

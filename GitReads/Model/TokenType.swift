@@ -8,13 +8,18 @@
 import Foundation
 
 enum TokenType: String {
-    case keyword
-    case function
+    case functionCall
+    case functionDeclaration
     case type
-    case number
+    case property
+    case variable
+    case `operator`
+    case keyword
     case string
-    case identifier
-    case propertyIdentifier
-    case punctuation
+    case escape
+    case number
+    case constant
     case comment
+    case others
+    case space
 }
