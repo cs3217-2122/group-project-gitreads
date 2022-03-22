@@ -29,7 +29,7 @@ struct TabView: View {
             if selected {
                 Rectangle()
                     .fill(.gray)
-                    .opacity(0.3)
+                    .opacity(0.2)
                     .cornerRadius(3, corners: [.topLeft, .topRight])
             }
         }
