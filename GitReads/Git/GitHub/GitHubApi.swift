@@ -29,15 +29,42 @@ class GitHubApi {
         self.client = client
     }
 
-    func searchRepos(query: String) async -> Result<GitHubSearchResponse, Error> {
+    func searchRepos(query: String) async -> Result<PaginatedResponse<GitHubRepo>, Error> {
         await doAsyncWithResult {
             let req: Request<GitHubSearchResponse> = .get(
                 path("search", "repositories"),
-                query: [("q", query)]
+                query: [("q", query), ("per_page", "20")]
             )
 
             let result = try await client.send(req)
-            return result.value
+            let linkHeader = (result.response as? HTTPURLResponse)?.value(forHTTPHeaderField: "Link") ?? ""
+            let pageInfo = GitHubPageInfo(linkHeader: linkHeader)
+
+            return PaginatedResponse(
+                items: result.value.items,
+                pageFetcher: { url in
+                    await self.searchRepos(fromUrl: url)
+                        .map { repos, info in
+                            PaginatedValue(items: repos, prevUrl: info.prevUrl, nextUrl: info.nextUrl)
+                        }
+                },
+                prevUrl: pageInfo.prevUrl,
+                nextUrl: pageInfo.nextUrl
+            )
+        }
+    }
+
+    private func searchRepos(
+        fromUrl url: URL
+    ) async -> Result<(repos: [GitHubRepo], info: GitHubPageInfo), Error> {
+        await doAsyncWithResult {
+            let req: Request<GitHubSearchResponse> = .get(url.absoluteString)
+
+            let result = try await client.send(req)
+            let linkHeader = (result.response as? HTTPURLResponse)?.value(forHTTPHeaderField: "Link") ?? ""
+            let pageInfo = GitHubPageInfo(linkHeader: linkHeader)
+
+            return (repos: result.value.items, info: pageInfo)
         }
     }
 

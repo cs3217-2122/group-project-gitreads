@@ -24,7 +24,6 @@ struct DirectoryBarView: View {
         if opened {
             Group {
                 ForEach(directory.directories, id: \.path) { dir in
-
                     DirectoryBarView(directory: dir, onSelectFile: onSelectFile)
                 }
 
@@ -33,7 +32,13 @@ struct DirectoryBarView: View {
                 }
             }
             .padding(.leading, 10)
-
+            .onAppear {
+                for file in directory.files {
+                    // the user has opened this directory and thus is likely to click
+                    // on the files within, so we preload them
+                    file.lines.preload()
+                }
+            }
         }
 
     }

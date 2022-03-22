@@ -10,10 +10,22 @@ import SwiftUI
 
 class SettingViewModel: ObservableObject {
     @Published private(set) var showSideBar = false
-    @Published var fontSize = 25
+    @Published var fontSize: Int
     @Published var isScrollView = true
+
     let minSize = 10
     let maxSize = 30
+
+    init() {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            fontSize = 18
+        case .pad:
+            fontSize = 25
+        default:
+            fontSize = 25
+        }
+    }
 
     func toggleSideBar() {
         withAnimation {

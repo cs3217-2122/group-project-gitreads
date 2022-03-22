@@ -20,6 +20,16 @@ struct RepoSearchView: View {
             List {
                 ForEach(viewModel.repos, id: \.fullName) { repo in
                     repoSummary(repo)
+                        .onAppear {
+                            viewModel.scrolledToItem(repo: repo)
+                        }
+                }
+                if viewModel.isSearching {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
             }
             .searchable(text: $viewModel.searchText, prompt: "Search for a repo")

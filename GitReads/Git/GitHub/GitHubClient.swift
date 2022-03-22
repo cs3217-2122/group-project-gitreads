@@ -22,11 +22,10 @@ class GitHubClient: GitClient {
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
-    func searchRepositories(query: String) async -> Swift.Result<[GitRepoSummary], Error> {
+    func searchRepositories(query: String) async -> Swift.Result<PaginatedResponse<GitRepoSummary>, Error> {
         let repos = await api.searchRepos(query: query)
-        // TODO: handle pagination
         return repos.map {
-            $0.items.map { item in
+            $0.map { item in
                 GitRepoSummary(
                     owner: item.owner,
                     name: item.name,
@@ -76,7 +75,6 @@ class GitHubClient: GitClient {
                             self.getSubmoduleContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
                         }
                     )
-                    tree.rootDir.contents.preload()
 
                     return GitRepo(fullName: repo.fullName,
                                    htmlURL: repo.htmlURL,
