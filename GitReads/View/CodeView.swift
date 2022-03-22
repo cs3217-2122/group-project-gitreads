@@ -11,21 +11,29 @@ struct CodeView: View {
     let file: File
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
+    @State private var lines: Result<[Line], Error>?
 
     var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(0..<file.lines.count, id: \.self) { line in
-                    HStack(alignment: .top) {
-                        Text(String(line + 1)).font(.system(size: CGFloat($fontSize.wrappedValue)))
-                        if isScrollView {
-                            ScrollLineView(line: file.lines[line], fontSize: $fontSize)
-                        } else {
-                            WrapLineView(line: file.lines[line], fontSize: $fontSize).padding(.horizontal)
-                        }
-                        Spacer()
-                    }.frame(width: UIScreen.main.bounds.width)
+                if let lines = lines, case let .success(lines) = lines {
+                    ForEach(0..<lines.count, id: \.self) { line in
+                        HStack(alignment: .top) {
+                            Text(String(line + 1)).font(.system(size: CGFloat($fontSize.wrappedValue)))
+                            if isScrollView {
+                                ScrollLineView(line: lines[line], fontSize: $fontSize)
+                            } else {
+                                WrapLineView(line: lines[line], fontSize: $fontSize).padding(.horizontal)
+                            }
+                            Spacer()
+                        }.frame(width: UIScreen.main.bounds.width)
+                    }
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                self.lines = await file.lines.value
             }
         }
     }

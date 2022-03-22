@@ -104,6 +104,10 @@ class LazyDataSource<T> {
         self.valueFetcher = ValueFetcher(fetcher: fetcher.fetchValue)
     }
 
+    convenience init(value: T) {
+        self.init { .success(value) }
+    }
+
     var value: Result<T, Error> {
         get async { await valueFetcher.value }
     }

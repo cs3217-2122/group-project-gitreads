@@ -33,37 +33,21 @@ class Parser {
     }
 
     private static func parse(gitDir: GitDirectory, name: String) async -> Result<Directory, Error> {
-        await gitDir.contents.value.asyncMap { currentDir in
-            async let files = parseFilesInDir(currentDir)
-            async let directories = parseDirectoriesInDir(currentDir)
-
-            return Directory(files: await files, directories: await directories, name: name)
-        }
+        await gitDir.contents.value
+            .asyncMap { contents in
+                Directory(files: await parseFilesInDir(contents),
+                          directories: await parseDirectoriesInDir(contents),
+                          name: name)
+            }
     }
 
     private static func parseFilesInDir(_ dir: [GitContent]) async -> [File] {
-        await withTaskGroup(of: Result<File, Error>.self, returning: [File].self) { group in
-            for content in dir {
-                guard case let .file(file) = content.type else {
-                    continue
-                }
-
-                group.addTask {
-                    await parse(gitFile: file, name: content.name)
-                }
+        dir.compactMap { content in
+            guard case let .file(file) = content.type else {
+                return nil
             }
 
-            var files: [File] = []
-            for await value in group {
-                // TODO: handle errors
-                guard case let .success(value) = value else {
-                    continue
-                }
-
-                files.append(value)
-            }
-
-            return files
+            return parse(gitFile: file, name: content.name)
         }
     }
 
@@ -93,22 +77,16 @@ class Parser {
         }
     }
 
-    private static func parse(gitFile: GitFile, name: String) async -> Result<File, Error> {
-        await gitFile.contents.value.asyncFlatMap { currentFile in
-            let language = detectLanguage(name: name)
-
+    private static func parse(gitFile: GitFile, name: String) -> File {
+        let language = detectLanguage(name: name)
+        let lines: LazyDataSource<[Line]> = gitFile.contents.map { currentFile in
             switch language {
             case .Java:
                 let parser = DummyFileParser()
-                let result = parser.parse(fileString: currentFile, name: name)
-                switch result {
-                case .none:
-                    return .failure(ParseError.cannotParse)
-                case let .some(result):
-                    return .success(result)
-                }
+                return parser.parse(fileString: currentFile)
             }
         }
+        return File(name: name, language: language, declarations: [], lines: lines)
     }
 
     private static func detectLanguage(name: String) -> Language {

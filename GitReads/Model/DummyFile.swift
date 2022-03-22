@@ -86,10 +86,11 @@ class DummyFile {
         let lines = code.map {
             Line(
                 tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) },
-                indentLevel: 0
-            )
+                indentLevel: 0)
+
         }
-        let result = File(name: "TEST", language: "swift", declarations: [], lines: lines)
+        let lazyLines = LazyDataSource(value: lines)
+        let result = File(name: "TEST", language: .Java, declarations: [], lines: lazyLines)
         return result
     }
 }

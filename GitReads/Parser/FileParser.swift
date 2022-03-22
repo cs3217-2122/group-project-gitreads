@@ -10,5 +10,5 @@ enum ParseError: Error {
 }
 
 protocol FileParser {
-    func parse(fileString: String, name: String) -> File?
+    func parse(fileString: String) -> [Line]
 }
