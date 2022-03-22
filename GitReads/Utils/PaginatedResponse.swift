@@ -13,11 +13,6 @@ enum PaginationError: Error {
     case noPage(for: PaginationLinkType)
 }
 
-protocol PageInfo {
-    var prevUrl: URL? { get }
-    var nextUrl: URL? { get }
-}
-
 struct PaginatedValue<Value> {
     let items: [Value]
     let prevUrl: URL?

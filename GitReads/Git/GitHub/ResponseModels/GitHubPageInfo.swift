@@ -9,7 +9,7 @@ enum GitHubPaginationLinkType: String {
     case prev
 }
 
-struct GitHubPageInfo: PageInfo {
+struct GitHubPageInfo {
     let prevUrl: URL?
     let nextUrl: URL?
 
