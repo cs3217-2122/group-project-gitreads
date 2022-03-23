@@ -67,25 +67,22 @@ struct ScreenView: View {
                             .padding(.trailing)
                         })
                 }
-                NavigationView {
-                    WindowView(
-                        files: viewModel.files,
-                        openFile: $viewModel.openFile,
-                        fontSize: $settings.fontSize,
-                        isScrollView: $settings.isScrollView,
-                        removeFile: { file in
-                            viewModel.removeFile(file: file)
-                        })
-                    .navigationBarHidden(true)
-                }
-                .onTapGesture {
-                    if viewModel.showSideBar {
-                        viewModel.hideSideBar()
+                WindowView(
+                    files: viewModel.files,
+                    openFile: $viewModel.openFile,
+                    fontSize: $settings.fontSize,
+                    isScrollView: $settings.isScrollView,
+                    removeFile: { file in
+                        viewModel.removeFile(file: file)
+                    })
+                    .onTapGesture {
+                        if viewModel.showSideBar {
+                            viewModel.hideSideBar()
+                        }
+                        if settings.showSideBar {
+                            settings.hideSideBar()
+                        }
                     }
-                    if settings.showSideBar {
-                        settings.hideSideBar()
-                    }
-                }
             }
             if settings.showSideBar {
                 settingsView

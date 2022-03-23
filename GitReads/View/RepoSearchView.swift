@@ -43,7 +43,6 @@ struct RepoSearchView: View {
             let fetcher = repoFetcherFor(owner: repo.owner, name: repo.name)
             let screenView = ScreenView(repoFetcher: fetcher)
                 .navigationBarTitle("", displayMode: .inline)
-                .navigationBarHidden(true)
 
             NavigationLink(destination: screenView) {
                 Text(repo.fullName)
