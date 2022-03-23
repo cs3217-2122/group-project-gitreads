@@ -1,9 +1,6 @@
 //
 //  RepoVisitorTests.swift
 //  GitReadsTests
-//
-//  Created by Tan Kang Liang on 23/3/22.
-//
 
 import XCTest
 @testable import GitReads
@@ -32,13 +29,13 @@ class RepoVisitorTests: XCTestCase {
 
     func testVisitsAllFiles() {
         let visitor = FileCounter()
-        TEST_MOCK_REPO.accept(visitor: visitor)
+        MockRepo.repo.accept(visitor: visitor)
         XCTAssertEqual(visitor.count, 8)
     }
 
     func testVisitsAllDirectories() {
         let visitor = DirectoryCounter()
-        TEST_MOCK_REPO.accept(visitor: visitor)
+        MockRepo.repo.accept(visitor: visitor)
         XCTAssertEqual(visitor.count, 4)
     }
 

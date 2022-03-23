@@ -1,9 +1,6 @@
 //
 //  ScreenViewModel.swift
 //  GitReads
-//
-//  Created by Tan Kang Liang on 14/3/22.
-//
 
 import Combine
 import SwiftUI
@@ -47,5 +44,11 @@ class ScreenViewModel: ObservableObject {
         if openFile == file {
             openFile = files.first
         }
+    }
+}
+
+extension ScreenViewModel: SideBarSelectionDelegate {
+    func onSelectFile(_ file: File) {
+        openFile(file: file)
     }
 }

@@ -1,16 +1,12 @@
 //
 //  FilesSideBar.swift
 //  GitReads
-//
-//  Created by Tan Kang Liang on 14/3/22.
-//
 
 import SwiftUI
 
 struct FilesSideBar: View {
-    let rootDirectory: Directory
+    let rootDirectoryViewModel: DirectoryBarViewModel
     let closeSideBar: () -> Void
-    let onSelectFile: (File) -> Void
 
     var body: some View {
         VStack {
@@ -22,12 +18,12 @@ struct FilesSideBar: View {
                     .onTapGesture(perform: closeSideBar)
             }
             List {
-                ForEach(rootDirectory.directories, id: \.path) { dir in
-                    DirectoryBarView(directory: dir, onSelectFile: onSelectFile)
+                ForEach(rootDirectoryViewModel.directories, id: \.path) { vm in
+                    DirectoryBarView(viewModel: vm)
                 }
 
-                ForEach(rootDirectory.files, id: \.path) { file in
-                    FileBarView(file: file, onSelectFile: onSelectFile)
+                ForEach(rootDirectoryViewModel.files, id: \.file.path) { vm in
+                    FileBarView(viewModel: vm)
 
                 }
             }
@@ -40,8 +36,7 @@ struct FilesSideBar: View {
 struct FilesSideBar_Previews: PreviewProvider {
     static var previews: some View {
         FilesSideBar(
-            rootDirectory: MOCK_ROOT_DIRECTORY,
-            closeSideBar: { },
-            onSelectFile: { _ in })
+            rootDirectoryViewModel: DirectoryBarViewModel(directory: MOCK_ROOT_DIRECTORY),
+            closeSideBar: { })
     }
 }
