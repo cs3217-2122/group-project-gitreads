@@ -45,11 +45,11 @@ class TokenConverter {
 
             var lineNumber = rawTokenStart[0]
 
-            addLeadingSpace(line: lines[lineNumber],
-                            rawTokenStart: rawTokenStart,
-                            rawTokenEnd: rawTokenEnd,
-                            lineTokens: &tokens[lineNumber],
-                            nextStartPosition: &nextStartPosition)
+            addSpace(line: lines[lineNumber],
+                     rawTokenStart: rawTokenStart,
+                     rawTokenEnd: rawTokenEnd,
+                     lineTokens: &tokens[lineNumber],
+                     nextStartPosition: &nextStartPosition)
 
             // Get strings from token positions
             let strings = getTokenString(lines: lines, start: rawTokenStart, end: rawTokenEnd)
@@ -64,22 +64,27 @@ class TokenConverter {
         return tokensToLines(tokens)
     }
 
-    private static func addLeadingSpace(line: String.UTF8View,
-                                        rawTokenStart: [Int],
-                                        rawTokenEnd: [Int],
-                                        lineTokens: inout [Token],
-                                        nextStartPosition: inout Int
+    private static func addSpace(line: String.UTF8View,
+                                 rawTokenStart: [Int],
+                                 rawTokenEnd: [Int],
+                                 lineTokens: inout [Token],
+                                 nextStartPosition: inout Int
     ) {
         if lineTokens.isEmpty {
             let indent = rawTokenStart[1]
             if indent > 0 {
-                if String(getSubstring(line: line, start: 0, end: 1)) == "\t" {
-                    // If the indent is tab, insert spaces
-                    lineTokens.append(getSpaceToken(Constants.tabWidth))
-                } else {
-                    // If no tab, add spaces before first token in each line
-                    // based on indent size
-                    lineTokens.append(getSpaceToken(indent))
+                var start = 0
+                while String(getSubstring(line: line, start: start, end: start + 1)) == "\t" {
+                    // If the indent is tab, insert tab token(s)
+                    lineTokens.append(getTabToken())
+                    start += 1
+                }
+
+                let numSpaces = indent - start
+                // Add spaces before first token in each line
+                // based on indent size - number of tabs
+                if numSpaces > 0 {
+                    lineTokens.append(getSpaceToken(numSpaces))
                 }
             }
         } else if nextStartPosition < rawTokenStart[1] {
@@ -94,6 +99,11 @@ class TokenConverter {
     private static func getSpaceToken(_ spaceCount: Int) -> Token {
         Token(type: .space,
               value: String(repeating: " ", count: spaceCount))
+    }
+
+    // Return a tab token
+    private static func getTabToken() -> Token {
+        Token(type: .tab, value: "\t")
     }
 
     // Return string from start position to end position in file,

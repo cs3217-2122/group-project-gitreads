@@ -20,6 +20,7 @@ enum TokenType: String {
     case number
     case constant
     case comment
-    case others
     case space
+    case tab
+    case others
 }
