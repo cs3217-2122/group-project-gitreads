@@ -1,9 +1,6 @@
 //
 //  ScreenView.swift
 //  GitReads
-//
-//  Created by Tan Kang Liang on 14/3/22.
-//
 
 import SwiftUI
 
@@ -12,6 +9,7 @@ struct ScreenView: View {
     @StateObject var settings = SettingViewModel()
     @State var rootDirectoryViewModel: DirectoryBarViewModel?
     @State var loading = true
+    @State var preloader = PreloadVisitor()
 
     let repoFetcher: () async -> Result<Repo, Error>
 
@@ -19,10 +17,19 @@ struct ScreenView: View {
         self.repoFetcher = repoFetcher
     }
 
+    func initializeWithRepo(_ repo: Repo) {
+        preloader = PreloadVisitor()
+        viewModel.setRepo(repo)
+        repo.accept(visitor: preloader)
+        preloader.preload()
+        rootDirectoryViewModel = DirectoryBarViewModel(directory: repo.root)
+        rootDirectoryViewModel?.setDelegate(delegate: viewModel)
+    }
+
     var body: some View {
         ZStack {
             if let repo = viewModel.repository {
-                repoView(repo: repo)
+                    repoView(repo: repo)
             }
             if loading {
                 ProgressView()
@@ -34,11 +41,12 @@ struct ScreenView: View {
                 loading = false
                 // TODO: handle errors
                 if case let .success(repo) = repo {
-                    viewModel.setRepo(repo)
-                    rootDirectoryViewModel = DirectoryBarViewModel(directory: repo.root)
-                    rootDirectoryViewModel?.setDelegate(delegate: viewModel)
+                    initializeWithRepo(repo)
                 }
             }
+        }
+        .onDisappear {
+            preloader.stop()
         }
     }
 

@@ -79,6 +79,7 @@
 		DE43325227EB4B0A0012FD81 /* MockDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43325127EB4B0A0012FD81 /* MockDelegate.swift */; };
 		DE43325627EB4C1A0012FD81 /* DirectoryBarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43325527EB4C1A0012FD81 /* DirectoryBarViewModelTests.swift */; };
 		DE43325827EB4E830012FD81 /* ScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43325727EB4E830012FD81 /* ScreenViewModelTests.swift */; };
+		DE43325C27EB89CE0012FD81 /* PreloadVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43325B27EB89CE0012FD81 /* PreloadVisitor.swift */; };
 		DE580D4B27DF570200C37142 /* WindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D4A27DF570200C37142 /* WindowView.swift */; };
 		DE580D4D27DF570F00C37142 /* ScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D4C27DF570F00C37142 /* ScreenView.swift */; };
 		DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D5227DF64AB00C37142 /* FilesSideBar.swift */; };
@@ -182,6 +183,7 @@
 		DE43325127EB4B0A0012FD81 /* MockDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDelegate.swift; sourceTree = "<group>"; };
 		DE43325527EB4C1A0012FD81 /* DirectoryBarViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryBarViewModelTests.swift; sourceTree = "<group>"; };
 		DE43325727EB4E830012FD81 /* ScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenViewModelTests.swift; sourceTree = "<group>"; };
+		DE43325B27EB89CE0012FD81 /* PreloadVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadVisitor.swift; sourceTree = "<group>"; };
 		DE580D4A27DF570200C37142 /* WindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowView.swift; sourceTree = "<group>"; };
 		DE580D4C27DF570F00C37142 /* ScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenView.swift; sourceTree = "<group>"; };
 		DE580D5227DF64AB00C37142 /* FilesSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesSideBar.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				DE43323927EB1A760012FD81 /* RepoVisitor.swift */,
+				DE43325B27EB89CE0012FD81 /* PreloadVisitor.swift */,
 			);
 			path = RepoVisitor;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */,
 				DE43323227E1EF4B0012FD81 /* Language.swift in Sources */,
 				6ED322D127E1327F00F0AD09 /* GitObject.swift in Sources */,
+				DE43325C27EB89CE0012FD81 /* PreloadVisitor.swift in Sources */,
 				DE43324527EB3E7D0012FD81 /* DirectoryBarViewModel.swift in Sources */,
 				6ED322D327E1537000F0AD09 /* DirectoryStucture.swift in Sources */,
 				6ED3227027DC88F400F0AD09 /* GitRepo.swift in Sources */,
