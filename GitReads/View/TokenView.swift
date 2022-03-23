@@ -12,7 +12,7 @@ struct TokenView: View {
     @Binding var fontSize: Int
 
     var body: some View {
-        Menu(token.value) {
+        Menu(token.type == .tab ? String(repeating: " ", count: 4) : token.value) {
             Text(token.type.rawValue)
         }.frame(height: CGFloat($fontSize.wrappedValue) + 10)
         .font(.system(size: CGFloat($fontSize.wrappedValue)))
