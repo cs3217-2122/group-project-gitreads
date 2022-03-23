@@ -63,6 +63,7 @@
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
 		B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263F0A327E5F98A00CDD569 /* SettingView.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
+		B299CA4D27EB187E00AB4FEC /* Courier.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B299CA4B27EB154600AB4FEC /* Courier.ttf */; };
 		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
 		DE43322227E1E6D70012FD81 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322127E1E6D70012FD81 /* Get */; };
 		DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322427E1E7080012FD81 /* SwiftTreeSitter */; };
@@ -161,6 +162,8 @@
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
 		B263F0A327E5F98A00CDD569 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
+		B299CA4B27EB154600AB4FEC /* Courier.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Courier.ttf; sourceTree = "<group>"; };
+		B299CA4C27EB155600AB4FEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B2C77B5627E480110072B80A /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		DE43323127E1EF4B0012FD81 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		DE580D4A27DF570200C37142 /* WindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowView.swift; sourceTree = "<group>"; };
@@ -308,6 +311,8 @@
 		B223E1CD27D9DDA7008ACEEF /* GitReads */ = {
 			isa = PBXGroup;
 			children = (
+				B299CA4C27EB155600AB4FEC /* Info.plist */,
+				B299CA4A27EB153900AB4FEC /* Fonts */,
 				FF11943627E0701F001BE497 /* Constants */,
 				6ED3225D27DBE8E900F0AD09 /* Utils */,
 				B223E20127D9DE46008ACEEF /* Git */,
@@ -424,6 +429,14 @@
 				6ED322D227E1536F00F0AD09 /* DirectoryStucture.swift */,
 			);
 			path = Git;
+			sourceTree = "<group>";
+		};
+		B299CA4A27EB153900AB4FEC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B299CA4B27EB154600AB4FEC /* Courier.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		DE43323527E76E970012FD81 /* Frameworks */ = {
@@ -560,6 +573,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B299CA4D27EB187E00AB4FEC /* Courier.ttf in Resources */,
 				6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */,
 				B223E1D627D9DDA8008ACEEF /* Preview Assets.xcassets in Resources */,
 				6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */,
@@ -627,7 +641,6 @@
 				6ED322E527E1F71D00F0AD09 /* GitHubRef.swift in Sources */,
 				FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */,
 				6E67ECF327E6D9C600C75F8C /* Publisher+AsyncMap.swift in Sources */,
-				DE43322D27E1E7A50012FD81 /* ParserOutput.swift in Sources */,
 				6E67ED0E27E9A91400C75F8C /* GitHubPageInfo.swift in Sources */,
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
@@ -838,6 +851,7 @@
 				DEVELOPMENT_TEAM = UX5B5ZUKD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitReads/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -867,6 +881,7 @@
 				DEVELOPMENT_TEAM = UX5B5ZUKD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitReads/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -14,8 +14,8 @@ struct TokenView: View {
     var body: some View {
         Menu(token.value) {
             Text(token.type.rawValue)
-        }.frame(height: CGFloat($fontSize.wrappedValue) + 10)
-        .font(.system(size: CGFloat($fontSize.wrappedValue)))
+        }
+        .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
         // here can use config file to set colour based on the tokenType
     }
 }
