@@ -18,6 +18,8 @@ class DirectoryBarViewModel: ObservableObject {
         self.isOpen = false
         self.directories = directory.directories.map { DirectoryBarViewModel(directory: $0) }
         self.files = directory.files.map { FileBarViewModel(file: $0) }
+        self.directories.sort { $0.name < $1.name }
+        self.files.sort { $0.file.name < $1.file.name }
     }
 
     func setDelegate(delegate: SideBarSelectionDelegate) {
