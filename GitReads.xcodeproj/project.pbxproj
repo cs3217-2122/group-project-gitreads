@@ -91,7 +91,6 @@
 		FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5EAA6927E9FE1400A3825E /* FileParser.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
 		FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */; };
-		FFE8F2C627E8C43800D82823 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2C527E8C43800D82823 /* ParseError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,7 +194,6 @@
 		FF5EAA6927E9FE1400A3825E /* FileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileParser.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConverter.swift; sourceTree = "<group>"; };
-		FFE8F2C527E8C43800D82823 /* ParseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,7 +380,6 @@
 				FF11943127E04356001BE497 /* Parser.swift */,
 				FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */,
 				FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */,
-				FFE8F2C527E8C43800D82823 /* ParseError.swift */,
 				FF5EAA6927E9FE1400A3825E /* FileParser.swift */,
 			);
 			path = Parser;
@@ -702,7 +699,6 @@
 				6E67ECEF27E6D45800C75F8C /* RepoSearchView.swift in Sources */,
 				6ED322E927E1F90800F0AD09 /* Token.swift in Sources */,
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
-				FFE8F2C627E8C43800D82823 /* ParseError.swift in Sources */,
 				DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */,
 				6E67ED1027E9BB7B00C75F8C /* PaginatedResponse.swift in Sources */,
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
