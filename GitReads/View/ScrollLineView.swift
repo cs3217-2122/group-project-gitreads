@@ -13,7 +13,7 @@ struct ScrollLineView: View {
 
     var body: some View {
         ScrollView(.horizontal) {
-            HStack {
+            HStack(spacing: 0) {
                 ForEach((0..<line.tokens.count), id: \.self) { pos in
                     TokenView(token: line.tokens[pos], fontSize: $fontSize)
                 }
