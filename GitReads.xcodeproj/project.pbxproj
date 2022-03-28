@@ -101,6 +101,8 @@
 		DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE580D5C27DF7A9600C37142 /* ScreenViewModel.swift */; };
 		FF11943227E04356001BE497 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF11943127E04356001BE497 /* Parser.swift */; };
 		FF11943827E0702E001BE497 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF11943727E0702E001BE497 /* Constants.swift */; };
+		FF1A42DA27F0043800D6F322 /* GoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42D927F0043800D6F322 /* GoParser.swift */; };
+		FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42DD27F1803D00D6F322 /* ASTNode.swift */; };
 		FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5EAA6927E9FE1400A3825E /* FileParser.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
 		FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */; };
@@ -218,6 +220,8 @@
 		DE580D5C27DF7A9600C37142 /* ScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenViewModel.swift; path = GitReads/ScreenViewModel.swift; sourceTree = SOURCE_ROOT; };
 		FF11943127E04356001BE497 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FF11943727E0702E001BE497 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FF1A42D927F0043800D6F322 /* GoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoParser.swift; sourceTree = "<group>"; };
+		FF1A42DD27F1803D00D6F322 /* ASTNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
 		FF5EAA6927E9FE1400A3825E /* FileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileParser.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConverter.swift; sourceTree = "<group>"; };
@@ -407,10 +411,12 @@
 		B223E1FD27D9DDC4008ACEEF /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				FF1A42D827F0042000D6F322 /* FileParsers */,
 				FF11943127E04356001BE497 /* Parser.swift */,
 				FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */,
 				FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */,
 				FF5EAA6927E9FE1400A3825E /* FileParser.swift */,
+				FF1A42DD27F1803D00D6F322 /* ASTNode.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -571,6 +577,14 @@
 				FF11943727E0702E001BE497 /* Constants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		FF1A42D827F0042000D6F322 /* FileParsers */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A42D927F0043800D6F322 /* GoParser.swift */,
+			);
+			path = FileParsers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -756,6 +770,7 @@
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				6ED322E327E1F71D00F0AD09 /* GitHubRepoContent+Codable.swift in Sources */,
+				FF1A42DA27F0043800D6F322 /* GoParser.swift in Sources */,
 				DE580D5727DF6C1100C37142 /* DirectoryBarView.swift in Sources */,
 				6ED322E727E1F71D00F0AD09 /* GitHubObject.swift in Sources */,
 				6ED322E527E1F71D00F0AD09 /* GitHubRef.swift in Sources */,
@@ -803,6 +818,7 @@
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
+				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */,
 				6ED322D527E15E0A00F0AD09 /* GitRef.swift in Sources */,
