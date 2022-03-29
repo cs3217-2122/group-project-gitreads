@@ -13,9 +13,7 @@ class ScreenViewModel: ObservableObject {
 
     func setRepo(_ repo: Repo) {
         self.repository = repo
-        for file in repo.root.files {
-            file.lines.preload()
-        }
+        repo.root.preloadFiles()
     }
 
     func toggleSideBar() {
