@@ -9,7 +9,6 @@ struct ScreenView: View {
     @StateObject var settings = SettingViewModel()
     @State var rootDirectoryViewModel: DirectoryBarViewModel?
     @State var loading = true
-    @State var preloader = PreloadVisitor()
 
     let repoFetcher: () async -> Result<Repo, Error>
 
@@ -18,10 +17,7 @@ struct ScreenView: View {
     }
 
     func initializeWithRepo(_ repo: Repo) {
-        preloader = PreloadVisitor()
         viewModel.setRepo(repo)
-        repo.accept(visitor: preloader)
-        preloader.preload()
         rootDirectoryViewModel = DirectoryBarViewModel(directory: repo.root)
         rootDirectoryViewModel?.setDelegate(delegate: viewModel)
     }
@@ -46,7 +42,7 @@ struct ScreenView: View {
             }
         }
         .onDisappear {
-            preloader.stop()
+            viewModel.cleanUp()
         }
     }
 
