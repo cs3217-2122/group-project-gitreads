@@ -6,12 +6,12 @@
 //
 
 struct FileParser {
-    static func parseFile(fileString: String, language: Language) -> [Line] {
+    static func parseFile(fileString: String, language: Language) async throws -> [Line] {
         switch language {
         case .others:
             return pseudoParse(fileString: fileString)
         default:
-            return parse(fileString: fileString, language: language)
+            return try await parse(fileString: fileString, language: language)
         }
     }
 
@@ -22,8 +22,8 @@ struct FileParser {
             }
     }
 
-    static func parse(fileString: String, language: Language) -> [Line] {
-        let rawTokens = WebApiClient.sendParsingRequest(fileString: fileString, language: language)
+    static func parse(fileString: String, language: Language) async throws -> [Line] {
+        let rawTokens = try await WebApiClient.sendParsingRequest(fileString: fileString, language: language)
         return TokenConverter.rawTokensToFile(fileString: fileString,
                                               rawTokens: rawTokens)
     }

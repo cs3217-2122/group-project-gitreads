@@ -27,6 +27,9 @@ struct DirectoryBarView: View {
                 }
             }
             .padding(.leading, 10)
+            .onAppear {
+                viewModel.directory.preloadFiles()
+            }
         }
 
     }
