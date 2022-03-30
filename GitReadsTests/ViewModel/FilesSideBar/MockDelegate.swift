@@ -4,7 +4,7 @@
 import Foundation
 @testable import GitReads
 
-class MockDelegate: SideBarSelectionDelegate {
+class MockDelegate: FileNavigateDelegate {
     private(set) var count = 0
     private(set) var files = [File]()
 

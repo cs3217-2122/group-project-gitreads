@@ -23,3 +23,9 @@ extension File: Equatable {
         lhs.path == rhs.path
     }
 }
+
+extension File: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(path)
+    }
+}

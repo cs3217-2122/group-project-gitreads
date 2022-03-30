@@ -96,6 +96,7 @@ class LazyDataSource<T> {
         }
     }
 
+    private(set) var fetchedValue: Result<T, Error>?
     private var valueFetcher: ValueFetcher
 
     init(fetcherFunc: @escaping () async -> Result<T, Error>) {
@@ -111,7 +112,11 @@ class LazyDataSource<T> {
     }
 
     var value: Result<T, Error> {
-        get async { await valueFetcher.value }
+        get async {
+            let val = await valueFetcher.value
+            self.fetchedValue = val
+            return val
+        }
     }
 
     func preload(priority: TaskPriority = .low) {

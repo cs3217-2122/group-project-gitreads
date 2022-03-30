@@ -59,8 +59,8 @@ class ScreenViewModel: ObservableObject {
 
 }
 
-extension ScreenViewModel: SideBarSelectionDelegate {
-    func onSelectFile(_ file: File) {
-        openFile(file: file)
+extension ScreenViewModel: FileNavigateDelegate {
+    func navigateTo(_ option: FileNavigateOption) {
+        openFile(file: option.file)
     }
 }
