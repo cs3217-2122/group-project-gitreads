@@ -28,7 +28,7 @@ class DirectoryBarViewModel: ObservableObject {
         self.files.sort { $0.file.name < $1.file.name }
     }
 
-    func setDelegate(delegate: SideBarSelectionDelegate) {
+    func setDelegate(delegate: FileNavigateDelegate) {
         self.directories.forEach { $0.setDelegate(delegate: delegate) }
         self.files.forEach { $0.setDelegate(delegate: delegate) }
     }

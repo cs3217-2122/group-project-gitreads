@@ -9,9 +9,9 @@ class FilesSideBarViewModel: ObservableObject {
     @Published var filterText: String = ""
     @Published var rootDirectory: DirectoryBarViewModel
 
-    private weak var delegate: SideBarSelectionDelegate?
+    let repo: Repo
+    private weak var delegate: FileNavigateDelegate?
     private let originalRootDirectory: DirectoryBarViewModel
-    private let repo: Repo
     private var subscriptions: Set<AnyCancellable> = []
 
     init(repo: Repo) {
@@ -24,7 +24,11 @@ class FilesSideBarViewModel: ObservableObject {
             .sink { self.rootDirectory = self.search($0) }.store(in: &subscriptions)
     }
 
-    func setDelegate(delegate: SideBarSelectionDelegate) {
+    func onFileNavigate(option: FileNavigateOption) {
+        self.delegate?.navigateTo(option)
+    }
+
+    func setDelegate(delegate: FileNavigateDelegate) {
         self.delegate = delegate
         self.originalRootDirectory.setDelegate(delegate: delegate)
         self.rootDirectory.setDelegate(delegate: delegate)
