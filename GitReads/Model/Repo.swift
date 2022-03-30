@@ -12,11 +12,12 @@ struct Repo {
     let branch = "main"
 
     /// Accepts a visitor, calling its method for every directory and file that is present in the current repository.
-    func accept(visitor: RepoVisitor) {
+    func accept<Visitor: RepoVisitor>(visitor: Visitor) -> Visitor.VisitorOutput {
         visitDirectory(directory: root, visitor: visitor)
+        return visitor.afterVisit()
     }
 
-    private func visitDirectory(directory: Directory, visitor: RepoVisitor) {
+    private func visitDirectory<Visitor: RepoVisitor>(directory: Directory, visitor: Visitor) {
         visitor.visit(directory: directory)
         for file in directory.files {
             visitor.visit(file: file)
@@ -25,5 +26,6 @@ struct Repo {
         for dir in directory.directories {
             visitDirectory(directory: dir, visitor: visitor)
         }
+        visitor.afterVisit(directory: directory)
     }
 }

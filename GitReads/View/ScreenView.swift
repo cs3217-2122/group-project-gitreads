@@ -7,7 +7,7 @@ import SwiftUI
 struct ScreenView: View {
     @StateObject var viewModel = ScreenViewModel()
     @StateObject var settings = SettingViewModel()
-    @State var rootDirectoryViewModel: DirectoryBarViewModel?
+    @State var sideBarViewModel: FilesSideBarViewModel?
     @State var loading = true
 
     let repoFetcher: () async -> Result<Repo, Error>
@@ -18,8 +18,9 @@ struct ScreenView: View {
 
     func initializeWithRepo(_ repo: Repo) {
         viewModel.setRepo(repo)
-        rootDirectoryViewModel = DirectoryBarViewModel(directory: repo.root)
-        rootDirectoryViewModel?.setDelegate(delegate: viewModel)
+
+        sideBarViewModel = FilesSideBarViewModel(repo: repo)
+        sideBarViewModel?.setDelegate(delegate: viewModel)
     }
 
     var body: some View {
@@ -48,9 +49,10 @@ struct ScreenView: View {
 
     func repoView(repo: Repo) -> some View {
         HStack {
-            if let rootDirectoryViewModel = rootDirectoryViewModel, viewModel.showSideBar {
+            if let sideBarViewModel = sideBarViewModel,
+               viewModel.showSideBar {
                 FilesSideBar(
-                    rootDirectoryViewModel: rootDirectoryViewModel,
+                    viewModel: sideBarViewModel,
                     closeSideBar: viewModel.toggleSideBar)
             }
             VStack {

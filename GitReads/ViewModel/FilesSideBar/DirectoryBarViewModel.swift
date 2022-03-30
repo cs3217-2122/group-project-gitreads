@@ -19,10 +19,10 @@ class DirectoryBarViewModel: ObservableObject {
         directory.path
     }
 
-    init(directory: Directory) {
+    init(directory: Directory, isOpen: Bool = false) {
         self.directory = directory
-        self.isOpen = false
-        self.directories = directory.directories.map { DirectoryBarViewModel(directory: $0) }
+        self.isOpen = isOpen
+        self.directories = directory.directories.map { DirectoryBarViewModel(directory: $0, isOpen: isOpen) }
         self.files = directory.files.map { FileBarViewModel(file: $0) }
         self.directories.sort { $0.name < $1.name }
         self.files.sort { $0.file.name < $1.file.name }
