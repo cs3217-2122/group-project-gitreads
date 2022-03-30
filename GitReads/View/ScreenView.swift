@@ -69,6 +69,7 @@ struct ScreenView: View {
                 }
                 WindowView(
                     files: viewModel.files,
+                    viewModel: viewModel, // not the ideal case
                     openFile: $viewModel.openFile,
                     fontSize: $settings.fontSize,
                     isScrollView: $settings.isScrollView,

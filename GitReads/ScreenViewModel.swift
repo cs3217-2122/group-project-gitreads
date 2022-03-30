@@ -10,6 +10,7 @@ class ScreenViewModel: ObservableObject {
     @Published private(set) var showSideBar = false
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
+    private let plugins: [Plugin] = [CommentPlugin()]
 
     func setRepo(_ repo: Repo) {
         self.repository = repo
@@ -44,6 +45,14 @@ class ScreenViewModel: ObservableObject {
         if openFile == file {
             openFile = files.first
         }
+    }
+
+    func getLineOption(lineNum: Int) -> [PluginAction] {
+        var result: [PluginAction] = []
+        for plugin in plugins {
+            result.append(plugin.getLineAction(file: openFile, lineNum: lineNum))
+        }
+        return result
     }
 }
 

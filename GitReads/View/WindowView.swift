@@ -38,6 +38,7 @@ struct TabView: View {
 
 struct WindowView: View {
     let files: [File]
+    @StateObject var viewModel: ScreenViewModel
     @Binding var openFile: File?
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
@@ -59,7 +60,7 @@ struct WindowView: View {
             Divider()
             ZStack {
                 ForEach(files, id: \.path) { file in
-                    CodeView(file: file, fontSize: $fontSize, isScrollView: $isScrollView)
+                    CodeView(file: file, viewModel: viewModel, fontSize: $fontSize, isScrollView: $isScrollView)
                         .opacity(file == openFile ? 1 : 0)
                 }
             }
@@ -93,6 +94,7 @@ struct WindowView_Previews: PreviewProvider {
         ]
         return WindowView(
             files: files,
+            viewModel: ScreenViewModel(),
             openFile: $openFile,
             fontSize: $fontSize,
             isScrollView: $isScrollView,
