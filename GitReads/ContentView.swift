@@ -10,7 +10,6 @@ import CoreData
 import Cache
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @State var repo: Repo?
 
     let gitClient: GitClient
@@ -35,6 +34,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }

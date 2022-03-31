@@ -8,8 +8,14 @@
 import Foundation
 
 struct Repo {
+    let name: String
+    let owner: String
+    let description: String
+
+    let platform: RepoPlatform
+
+    let defaultBranch: String
     let root: Directory
-    let branch = "main"
 
     /// Accepts a visitor, calling its method for every directory and file that is present in the current repository.
     func accept<Visitor: RepoVisitor>(visitor: Visitor) -> Visitor.VisitorOutput {

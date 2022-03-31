@@ -107,6 +107,15 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView(repoFetcher: { .success(Repo(root: MOCK_ROOT_DIRECTORY)) })
+        ScreenView(repoFetcher: {
+            .success(Repo(
+                name: "test",
+                owner: "djisktra123",
+                description: "test repo",
+                platform: .github,
+                defaultBranch: "main",
+                root: MOCK_ROOT_DIRECTORY
+            ))
+        })
     }
 }
