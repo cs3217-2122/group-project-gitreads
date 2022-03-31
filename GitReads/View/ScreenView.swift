@@ -8,12 +8,11 @@ struct ScreenView: View {
     @StateObject var viewModel = ScreenViewModel()
     @StateObject var settings = SettingViewModel()
     @State var sideBarViewModel: FilesSideBarViewModel?
-    @State var loading = true
 
-    let repoFetcher: () async -> Result<Repo, Error>
+    @State var repo: Repo
 
-    init(repoFetcher: @escaping () async -> Result<Repo, Error>) {
-        self.repoFetcher = repoFetcher
+    init(repo: Repo) {
+        self.repo = repo
     }
 
     func initializeWithRepo(_ repo: Repo) {
@@ -25,26 +24,22 @@ struct ScreenView: View {
 
     var body: some View {
         ZStack {
-            if let repo = viewModel.repository {
-                    repoView(repo: repo)
-            }
-            if loading {
-                ProgressView()
-            }
+            repoView(repo: repo)
         }
         .onAppear {
-            Task {
-                let repo = await self.repoFetcher()
-                loading = false
-                // TODO: handle errors
-                if case let .success(repo) = repo {
-                    initializeWithRepo(repo)
-                }
-            }
+            initializeWithRepo(repo)
+//            Task {
+//                let repo = await self.repoFetcher()
+//                loading = false
+//                // TODO: handle errors
+//                if case let .success(repo) = repo {
+//                    initializeWithRepo(repo)
+//                }
+//            }
         }
-        .onDisappear {
-            viewModel.cleanUp()
-        }
+//        .onDisappear {
+//            viewModel.cleanUp()
+//        }
     }
 
     func repoView(repo: Repo) -> some View {
@@ -107,8 +102,7 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView(repoFetcher: {
-            .success(Repo(
+        ScreenView(repo: Repo(
                 name: "test",
                 owner: "djisktra123",
                 description: "test repo",
@@ -116,6 +110,5 @@ struct ScreenView_Previews: PreviewProvider {
                 defaultBranch: "main",
                 root: MOCK_ROOT_DIRECTORY
             ))
-        })
     }
 }
