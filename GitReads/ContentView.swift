@@ -27,7 +27,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            RepoSearchView(gitClient: gitClient)
+            HomeView(gitClient: gitClient)
         }
     }
 
