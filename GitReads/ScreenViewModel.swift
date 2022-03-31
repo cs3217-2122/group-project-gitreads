@@ -10,7 +10,7 @@ class ScreenViewModel: ObservableObject {
     @Published private(set) var showSideBar = false
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
-    private let plugins: [Plugin] = [GetCommentPlugin()]
+    private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
 
     func setRepo(_ repo: Repo) {
         self.repository = repo

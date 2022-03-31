@@ -54,13 +54,19 @@ struct LineNumView: View {
     let file: File
     let lineNum: Int
     let options: [LineAction]
+    @State private var showingAlert = false
+    @State private var currentActiveAction: ((File, Int) -> Void)?
 
     var body: some View {
         Menu(String(lineNum + 1)) {
             ForEach(0..<options.count, id: \.self) { pos in
                 let closure = {} // convert the closure properly
-                Button(options[pos].text, action: closure)
+                Button(options[pos].text, action: options[pos].takeInput
+                       ? { showingAlert = true; currentActiveAction = options[pos].action }
+                       : closure)
             }
+        }.alert("Action", isPresented: $showingAlert) {
+            Button("OK") { print("ADD COMMENT FOR LINE"); currentActiveAction = nil }
         }
     }
 }

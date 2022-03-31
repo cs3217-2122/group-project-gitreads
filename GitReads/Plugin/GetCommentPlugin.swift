@@ -9,11 +9,11 @@ struct GetCommentPlugin: Plugin {
     func getLineAction(file: File?, lineNum: Int) -> LineAction? {
         // this will be retriveing the comment in future
         let comment = "THIS IS A COMMENT ON LINE \(lineNum)"
-        return LineAction(text: comment, action: { _, _ in })
+        return LineAction(text: comment, action: { _, _ in }, takeInput: false)
     }
 
     func getTokenAction(file: File?, lineNum: Int, posNum: Int) -> TokenAction? {
         let comment = "THIS IS A COMMENT ON Line \(lineNum) POS \(posNum)"
-        return TokenAction(text: comment, action: { _, _, _ in })
+        return TokenAction(text: comment, action: { _, _, _ in }, takeInput: false)
     }
 }
