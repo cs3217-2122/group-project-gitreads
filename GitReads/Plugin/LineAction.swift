@@ -5,8 +5,7 @@
 //  Created by Zhou Jiahao on 28/3/22.
 //
 
-// ONLY LINE NOW
-struct PluginAction {
+struct LineAction {
     var text: String
     var action: (File, Int) -> Void
 

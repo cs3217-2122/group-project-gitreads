@@ -7,5 +7,6 @@
 
 // ONLY LINE FOR NOW
 protocol Plugin {
-    func getLineAction(file: File?, lineNum: Int) -> PluginAction
+    func getLineAction(file: File?, lineNum: Int) -> LineAction?
+    func getTokenAction(file: File?, lineNum: Int, posNum: Int) -> TokenAction?
 }

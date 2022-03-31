@@ -24,9 +24,11 @@ struct CodeView: View {
                             LineNumView(file: file, lineNum: lineNum, options: options)
                                 .font(.system(size: CGFloat($fontSize.wrappedValue)))
                             if isScrollView {
-                                ScrollLineView(line: lines[lineNum], fontSize: $fontSize)
+                                ScrollLineView(viewModel: viewModel, line: lines[lineNum],
+                                               lineNum: lineNum, fontSize: $fontSize)
                             } else {
-                                WrapLineView(line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
+                                WrapLineView(viewModel: viewModel, lineNum: lineNum,
+                                             line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
                             }
                             Spacer()
                         }
@@ -51,12 +53,12 @@ struct CodeView: View {
 struct LineNumView: View {
     let file: File
     let lineNum: Int
-    let options: [PluginAction]
+    let options: [LineAction]
 
     var body: some View {
         Menu(String(lineNum + 1)) {
             ForEach(0..<options.count, id: \.self) { pos in
-                let closure = {}
+                let closure = {} // convert the closure properly
                 Button(options[pos].text, action: closure)
             }
         }
