@@ -9,4 +9,8 @@ import Foundation
 
 struct Line {
     let tokens: [Token]
+
+    var content: String {
+        tokens.map { $0.value }.joined()
+    }
 }

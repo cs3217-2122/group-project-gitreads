@@ -59,7 +59,11 @@ struct WrapLineView: View {
             ForEach(group, id: \.self) { subGroup in
                 HStack {
                     ForEach(subGroup, id: \.self) { _ in
-                        // TokenView(viewModel: viewModel, token: Token(type: .keyword, value: word), fontSize: $fontSize)
+//                        TokenView(
+//                            viewModel: viewModel,
+//                            token: Token(type: .keyword, value: word),
+//                            fontSize: $fontSize
+//                        )
                     }
                 }
             }
@@ -70,14 +74,20 @@ struct WrapLineView: View {
 struct WrapLineView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        WrapLineView(viewModel: ScreenViewModel(), lineNum: 0, line: Line(tokens: [Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST"),
-                                                                                   Token(type: .keyword, value: "TEST")]), fontSize: $fontSize)
+        WrapLineView(
+            viewModel: ScreenViewModel(),
+            lineNum: 0,
+            line: Line(tokens: [
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST")
+            ]),
+            fontSize: $fontSize)
     }
 }

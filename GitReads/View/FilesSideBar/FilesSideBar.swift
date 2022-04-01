@@ -49,7 +49,16 @@ struct FilesSideBar: View {
 struct FilesSideBar_Previews: PreviewProvider {
     static var previews: some View {
         FilesSideBar(
-            viewModel: FilesSideBarViewModel(repo: Repo(root: MOCK_ROOT_DIRECTORY)),
+            viewModel: FilesSideBarViewModel(repo: Repo(
+                name: "test",
+                owner: "djisktra123",
+                description: "test repo",
+                platform: .github,
+                defaultBranch: "main",
+                branches: ["main"],
+                currBranch: "main",
+                root: MOCK_ROOT_DIRECTORY
+            )),
             closeSideBar: { })
     }
 }

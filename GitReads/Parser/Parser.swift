@@ -7,12 +7,22 @@
 
 import Foundation
 import SwiftTreeSitter
+import SwiftUI
 
 class Parser {
 
     static func parse(gitRepo: GitRepo) async -> Result<Repo, Error> {
         await parse(gitDir: gitRepo.tree.rootDir, path: .root).map { rootDir in
-            Repo(root: rootDir)
+            Repo(name: gitRepo.name,
+                 owner: gitRepo.owner,
+                 description: gitRepo.description,
+                 platform: gitRepo.platform,
+                 defaultBranch: gitRepo.defaultBranch,
+                 branches: gitRepo.branches,
+                 currBranch: gitRepo.currBranch,
+                 root: rootDir,
+                 htmlURL: gitRepo.htmlURL
+            )
         }
     }
 

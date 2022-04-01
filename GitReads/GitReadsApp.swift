@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct GitReadsApp: App {
-//    let persistenceController = PersistenceController.shared
+
+    @StateObject var persistenceController = PersistenceController()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                // .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext,
+                             persistenceController.container.viewContext)
         }
     }
 }

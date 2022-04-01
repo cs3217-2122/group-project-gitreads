@@ -8,42 +8,24 @@ struct ScreenView: View {
     @StateObject var viewModel = ScreenViewModel()
     @StateObject var settings = SettingViewModel()
     @State var sideBarViewModel: FilesSideBarViewModel?
-    @State var loading = true
 
-    let repoFetcher: () async -> Result<Repo, Error>
+    @State var repo: Repo
 
-    init(repoFetcher: @escaping () async -> Result<Repo, Error>) {
-        self.repoFetcher = repoFetcher
+    init(repo: Repo) {
+        self._repo = State(wrappedValue: repo)
     }
 
     func initializeWithRepo(_ repo: Repo) {
-        viewModel.setRepo(repo)
-
         sideBarViewModel = FilesSideBarViewModel(repo: repo)
         sideBarViewModel?.setDelegate(delegate: viewModel)
     }
 
     var body: some View {
         ZStack {
-            if let repo = viewModel.repository {
-                    repoView(repo: repo)
-            }
-            if loading {
-                ProgressView()
-            }
+            repoView(repo: repo)
         }
         .onAppear {
-            Task {
-                let repo = await self.repoFetcher()
-                loading = false
-                // TODO: handle errors
-                if case let .success(repo) = repo {
-                    initializeWithRepo(repo)
-                }
-            }
-        }
-        .onDisappear {
-            viewModel.cleanUp()
+            initializeWithRepo(repo)
         }
     }
 
@@ -108,6 +90,15 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView(repoFetcher: { .success(Repo(root: MOCK_ROOT_DIRECTORY)) })
+        ScreenView(repo: Repo(
+                name: "test",
+                owner: "djisktra123",
+                description: "test repo",
+                platform: .github,
+                defaultBranch: "main",
+                branches: ["main"],
+                currBranch: "main",
+                root: MOCK_ROOT_DIRECTORY
+            ))
     }
 }

@@ -5,9 +5,12 @@
 import Foundation
 
 struct GitRepo {
-    let fullName: String
+    let name: String
+    let owner: String
     let htmlURL: URL
     let description: String
+
+    let platform: RepoPlatform
 
     let defaultBranch: String
     let branches: [String]

@@ -76,13 +76,17 @@ class GitHubClient: GitClient {
                         }
                     )
 
-                    return GitRepo(fullName: repo.fullName,
-                                   htmlURL: repo.htmlURL,
-                                   description: repo.description ?? "",
-                                   defaultBranch: repo.defaultBranch,
-                                   branches: branches.map { $0.name },
-                                   currBranch: currBranch,
-                                   tree: tree)
+                    return GitRepo(
+                        name: repo.name,
+                        owner: repo.owner,
+                        htmlURL: repo.htmlURL,
+                        description: repo.description ?? "",
+                        platform: .github,
+                        defaultBranch: repo.defaultBranch,
+                        branches: branches.map { $0.name },
+                        currBranch: currBranch,
+                        tree: tree
+                    )
                 }
             }
         }
