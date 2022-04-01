@@ -10,6 +10,7 @@
 		6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E5E27F701C400E13A30 /* MarkdownUI */; };
 		6E631E6227F713CD00E13A30 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6127F713CD00E13A30 /* Fuse */; };
 		6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */; };
+		6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */; };
 		6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */; };
 		6E67ECEF27E6D45800C75F8C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEE27E6D45800C75F8C /* HomeView.swift */; };
 		6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */; };
@@ -141,6 +142,7 @@
 
 /* Begin PBXFileReference section */
 		6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoHomePageViewModel.swift; sourceTree = "<group>"; };
+		6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchResponse.swift; sourceTree = "<group>"; };
 		6E67ECEE27E6D45800C75F8C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoSearchViewModel.swift; sourceTree = "<group>"; };
@@ -285,6 +287,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E631E6527F7AEE900E13A30 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				DE05002F27F4666800ABEC27 /* StyledText.swift */,
+				6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		6E67ECF627E8218B00C75F8C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,7 +503,7 @@
 		B223E20027D9DDDC008ACEEF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DE05002F27F4666800ABEC27 /* StyledText.swift */,
+				6E631E6527F7AEE900E13A30 /* Utility */,
 				DE43324A27EB488B0012FD81 /* FilesSideBar */,
 				6E67ED0A27E97BD700C75F8C /* Modifiers */,
 				DE580D4A27DF570200C37142 /* WindowView.swift */,
@@ -846,6 +857,7 @@
 				6E67ED0E27E9A91400C75F8C /* GitHubPageInfo.swift in Sources */,
 				DE05002C27F4563500ABEC27 /* AdvancedSearchView.swift in Sources */,
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
+				6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */,
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
 				B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */,
 				B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */,

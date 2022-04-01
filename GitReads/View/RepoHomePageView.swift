@@ -11,6 +11,8 @@ struct RepoHomePageView: View {
     @State var loading = true
     @State var repo: Repo?
 
+    let handler = makeErrorHandler()
+
     // Fetches the repo with information for the specified branch. If no branch is specified
     // should use the default branch.
     let repoFetcher: (_ branch: String?) async -> Result<Repo, Error>
@@ -33,6 +35,7 @@ struct RepoHomePageView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .withErrorHandler(handler)
         .onAppear {
             if repo != nil {
                 return
@@ -46,9 +49,9 @@ struct RepoHomePageView: View {
     private func loadRepo(branch: String? = nil) async {
         let repo = await self.repoFetcher(branch)
         loading = false
-        // TODO: handle errors
-        if case let .success(repo) = repo {
-            self.repo = repo
+
+        handler.doWithErrorHandling {
+            self.repo = try repo.get()
         }
     }
 }
@@ -63,6 +66,7 @@ struct RepoLoadedHomePageView: View {
 
     let repo: Repo
     let onChangeBranch: (String) -> Void
+    let handler = makeErrorHandler()
 
     init(repo: Repo, onChangeBranch: @escaping (String) -> Void) {
         self._viewModel = StateObject(wrappedValue: RepoHomePageViewModel(repo: repo))
@@ -117,6 +121,14 @@ struct RepoLoadedHomePageView: View {
                 .hidden()
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .withErrorHandler(handler)
+        .onAppear {
+            Task {
+                await handler.doAsyncWithErrorHandling {
+                    try await viewModel.loadReadme()
+                }
+            }
+        }
         .onDisappear {
             viewModel.cleanUp()
         }
@@ -150,12 +162,16 @@ struct RepoLoadedHomePageView: View {
     var favouriteRepoButton: some View {
         Button {
             if favourited {
-                try? viewModel.unfavouriteRepository(
-                    context: managedObjectContext,
-                    repos: matchingFavouritedRepos
-                )
+                handler.doWithErrorHandling {
+                    try viewModel.unfavouriteRepository(
+                        context: managedObjectContext,
+                        repos: matchingFavouritedRepos
+                    )
+                }
             } else {
-                try? viewModel.favouriteRepository(context: managedObjectContext)
+                handler.doWithErrorHandling {
+                    try viewModel.favouriteRepository(context: managedObjectContext)
+                }
             }
         } label: {
             Label {

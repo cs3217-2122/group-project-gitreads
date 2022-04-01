@@ -15,7 +15,6 @@ class RepoHomePageViewModel: ObservableObject {
     init(repo: Repo) {
         self.repo = repo
         self.preload()
-        self.loadReadme()
     }
 
     func cleanUp() {
@@ -30,22 +29,19 @@ class RepoHomePageViewModel: ObservableObject {
         }
     }
 
-    func loadReadme() {
+    @MainActor func loadReadme() async throws {
+        if readmeContents != nil {
+            return
+        }
+
         let readme = repo.root.files.first { $0.isReadme() }
         guard let readme = readme else {
             readmeContents = "*No description provided*"
             return
         }
 
-        Task { @MainActor in
-            let readmeLines = await readme.lines.value
-            switch readmeLines {
-            case let .success(lines):
-                readmeContents = lines.map { $0.content }.joined(separator: "\n")
-            case let .failure(err):
-                print("Error: \(err.localizedDescription)")
-            }
-        }
+        let readmeLines = try await readme.lines.value.get()
+        readmeContents = readmeLines.map { $0.content }.joined(separator: "\n")
     }
 
     func favouriteRepository(context: NSManagedObjectContext) throws {
