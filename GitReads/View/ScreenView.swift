@@ -12,7 +12,7 @@ struct ScreenView: View {
     @State var repo: Repo
 
     init(repo: Repo) {
-        self.repo = repo
+        self._repo = State(wrappedValue: repo)
     }
 
     func initializeWithRepo(_ repo: Repo) {
@@ -108,6 +108,8 @@ struct ScreenView_Previews: PreviewProvider {
                 description: "test repo",
                 platform: .github,
                 defaultBranch: "main",
+                branches: ["main"],
+                currBranch: "main",
                 root: MOCK_ROOT_DIRECTORY
             ))
     }

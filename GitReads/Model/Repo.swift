@@ -8,6 +8,7 @@
 import Foundation
 
 struct Repo {
+
     let name: String
     let owner: String
     let description: String
@@ -15,7 +16,34 @@ struct Repo {
     let platform: RepoPlatform
 
     let defaultBranch: String
+    let branches: [String]
+    let currBranch: String
+
     let root: Directory
+
+    let htmlURL: URL?
+
+    init(
+        name: String,
+        owner: String,
+        description: String,
+        platform: RepoPlatform,
+        defaultBranch: String,
+        branches: [String],
+        currBranch: String,
+        root: Directory,
+        htmlURL: URL? = nil
+    ) {
+        self.name = name
+        self.owner = owner
+        self.description = description
+        self.platform = platform
+        self.defaultBranch = defaultBranch
+        self.branches = branches
+        self.currBranch = currBranch
+        self.root = root
+        self.htmlURL = htmlURL
+    }
 
     /// Accepts a visitor, calling its method for every directory and file that is present in the current repository.
     func accept<Visitor: RepoVisitor>(visitor: Visitor) -> Visitor.VisitorOutput {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E5E27F701C400E13A30 /* MarkdownUI */; };
+		6E631E6227F713CD00E13A30 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6127F713CD00E13A30 /* Fuse */; };
 		6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */; };
 		6E67ECEF27E6D45800C75F8C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEE27E6D45800C75F8C /* HomeView.swift */; };
 		6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */; };
@@ -21,6 +23,7 @@
 		6E67ED1627F5871900C75F8C /* FavouritedRepo+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ED1527F5871900C75F8C /* FavouritedRepo+Platform.swift */; };
 		6E67ED1827F5874000C75F8C /* RepoPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ED1727F5874000C75F8C /* RepoPlatform.swift */; };
 		6E67ED1A27F5930A00C75F8C /* RepoHomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ED1927F5930A00C75F8C /* RepoHomePageView.swift */; };
+		6E67ED1C27F6EDE000C75F8C /* SelectBranchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ED1B27F6EDE000C75F8C /* SelectBranchView.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -141,6 +144,7 @@
 		6E67ED1527F5871900C75F8C /* FavouritedRepo+Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouritedRepo+Platform.swift"; sourceTree = "<group>"; };
 		6E67ED1727F5874000C75F8C /* RepoPlatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoPlatform.swift; sourceTree = "<group>"; };
 		6E67ED1927F5930A00C75F8C /* RepoHomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoHomePageView.swift; sourceTree = "<group>"; };
+		6E67ED1B27F6EDE000C75F8C /* SelectBranchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBranchView.swift; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -239,8 +243,10 @@
 				6E67ED0627E88BA800C75F8C /* Mocker in Frameworks */,
 				DE43322227E1E6D70012FD81 /* Get in Frameworks */,
 				DE43323727E76E970012FD81 /* Cache in Frameworks */,
+				6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */,
 				DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */,
 				DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */,
+				6E631E6227F713CD00E13A30 /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,12 +337,12 @@
 			children = (
 				6ED322D727E1F71D00F0AD09 /* GitHubBranch.swift */,
 				6ED322D827E1F71D00F0AD09 /* GitHubErrorResponse.swift */,
-				6ED322D927E1F71D00F0AD09 /* GitHubRepo.swift */,
 				6ED322DA27E1F71D00F0AD09 /* GitHubRepoContent+Codable.swift */,
 				6ED322DB27E1F71D00F0AD09 /* GitHubTree.swift */,
 				6ED322DC27E1F71D00F0AD09 /* GitHubRef.swift */,
 				6ED322DD27E1F71D00F0AD09 /* GitHubRepoContent.swift */,
 				6ED322DE27E1F71D00F0AD09 /* GitHubObject.swift */,
+				6ED322D927E1F71D00F0AD09 /* GitHubRepo.swift */,
 				6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */,
 				6E67ED0D27E9A91400C75F8C /* GitHubPageInfo.swift */,
 			);
@@ -477,6 +483,7 @@
 				6E67ECEE27E6D45800C75F8C /* HomeView.swift */,
 				6E67ED1927F5930A00C75F8C /* RepoHomePageView.swift */,
 				DE43326B27F449950012FD81 /* SearchBarView.swift */,
+				6E67ED1B27F6EDE000C75F8C /* SelectBranchView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -616,6 +623,8 @@
 				DE43322727E1E7140012FD81 /* CollectionConcurrencyKit */,
 				DE43323627E76E970012FD81 /* Cache */,
 				6E67ED0527E88BA800C75F8C /* Mocker */,
+				6E631E5E27F701C400E13A30 /* MarkdownUI */,
+				6E631E6127F713CD00E13A30 /* Fuse */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -695,6 +704,8 @@
 				DE43322627E1E7140012FD81 /* XCRemoteSwiftPackageReference "CollectionConcurrencyKit" */,
 				DE43322927E1E71F0012FD81 /* XCRemoteSwiftPackageReference "Cache" */,
 				6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */,
+				6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
+				6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
@@ -792,6 +803,7 @@
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
 				DE580D4B27DF570200C37142 /* WindowView.swift in Sources */,
 				6E67ED1627F5871900C75F8C /* FavouritedRepo+Platform.swift in Sources */,
+				6E67ED1C27F6EDE000C75F8C /* SelectBranchView.swift in Sources */,
 				DE580D4D27DF570F00C37142 /* ScreenView.swift in Sources */,
 				DE580D5927DF6C9C00C37142 /* FileBarView.swift in Sources */,
 				6ED322E227E1F71D00F0AD09 /* GitHubRepo.swift in Sources */,
@@ -1182,6 +1194,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/MarkdownUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krisk/fuse-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WeTransfer/Mocker";
@@ -1225,6 +1253,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6E631E5E27F701C400E13A30 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */;
+			productName = MarkdownUI;
+		};
+		6E631E6127F713CD00E13A30 /* Fuse */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */;
+			productName = Fuse;
+		};
 		6E67ED0527E88BA800C75F8C /* Mocker */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */;

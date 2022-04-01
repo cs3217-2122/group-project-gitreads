@@ -55,6 +55,8 @@ struct FilesSideBar_Previews: PreviewProvider {
                 description: "test repo",
                 platform: .github,
                 defaultBranch: "main",
+                branches: ["main"],
+                currBranch: "main",
                 root: MOCK_ROOT_DIRECTORY
             )),
             closeSideBar: { })

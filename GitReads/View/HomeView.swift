@@ -69,10 +69,11 @@ func repoFetcherFor(
     gitClient: GitClient,
     owner: String,
     name: String
-) -> (() async -> Result<Repo, Error>) {
-    {
-        await gitClient
-            .getRepository(owner: owner, name: name)
+) -> ((String?) async -> Result<Repo, Error>) {
+    { branch in
+        let ref = branch.map { GitRef.branch($0) }
+        return await gitClient
+            .getRepository(owner: owner, name: name, ref: ref)
             .asyncFlatMap { await Parser.parse(gitRepo: $0) }
     }
 }
@@ -168,9 +169,9 @@ struct FavouritesView: View {
                         // the view of the repository. This is to avoid the case where the user
                         // unfavourites a repository after he navigated via this navigation link.
                         // With the other method, the fetched results will update and the repository
-                        // will be gone from the search results, causing the navigation link for that repo to not be
-                        // rendered, and thus forcibly navigating the user back. With this approach, the
-                        // navigation link will still exist so the user can continue browsing in peace :)
+                        // will be gone from the search results, causing the navigation link for that repo
+                        // to not be rendered, and thus forcibly navigating the user back. With this approach,
+                        // the navigation link will still exist so the user can continue browsing in peace :)
                         NavigationLink("", destination: repoView, isActive: $showRepoPage).hidden()
                     }
 
@@ -182,8 +183,14 @@ struct FavouritesView: View {
                     if favouritedRepos.isEmpty {
                         HStack {
                             Spacer()
-                            Text("You have no favourited repositories 😅")
+                            Text("""
+                                 You have no favourited repositories. 😅
+
+                                 Add repositories to your favourites to quickly access them. \
+                                 Repositories you favourite can also be viewed offline.
+                                 """)
                                 .font(.subheadline)
+                                .multilineTextAlignment(.center)
                             Spacer()
                         }
                         .padding(.vertical, 24)

@@ -16,6 +16,10 @@ struct File {
     var name: String {
         path.lastPathComponent ?? ""
     }
+
+    func isReadme() -> Bool {
+        name.caseInsensitiveCompare("README.md") == .orderedSame
+    }
 }
 
 extension File: Equatable {

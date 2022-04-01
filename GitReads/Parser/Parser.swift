@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftTreeSitter
+import SwiftUI
 
 class Parser {
 
@@ -17,7 +18,10 @@ class Parser {
                  description: gitRepo.description,
                  platform: gitRepo.platform,
                  defaultBranch: gitRepo.defaultBranch,
-                 root: rootDir
+                 branches: gitRepo.branches,
+                 currBranch: gitRepo.currBranch,
+                 root: rootDir,
+                 htmlURL: gitRepo.htmlURL
             )
         }
     }
