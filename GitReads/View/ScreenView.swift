@@ -16,8 +16,6 @@ struct ScreenView: View {
     }
 
     func initializeWithRepo(_ repo: Repo) {
-        viewModel.setRepo(repo)
-
         sideBarViewModel = FilesSideBarViewModel(repo: repo)
         sideBarViewModel?.setDelegate(delegate: viewModel)
     }
@@ -28,18 +26,7 @@ struct ScreenView: View {
         }
         .onAppear {
             initializeWithRepo(repo)
-//            Task {
-//                let repo = await self.repoFetcher()
-//                loading = false
-//                // TODO: handle errors
-//                if case let .success(repo) = repo {
-//                    initializeWithRepo(repo)
-//                }
-//            }
         }
-//        .onDisappear {
-//            viewModel.cleanUp()
-//        }
     }
 
     func repoView(repo: Repo) -> some View {

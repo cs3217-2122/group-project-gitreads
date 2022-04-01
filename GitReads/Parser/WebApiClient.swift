@@ -22,11 +22,6 @@ class WebApiClient {
         ])
 
         let result = try await client.send(req)
-        let responseJson = try? JSONSerialization.jsonObject(with: result.value, options: [])
-        guard let result = responseJson as? [Any] else {
-            return nil
-        }
-
-        return result
+        return try? JSONSerialization.jsonObject(with: result.value, options: [])
     }
 }

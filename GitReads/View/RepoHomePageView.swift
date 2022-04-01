@@ -40,9 +40,6 @@ struct RepoHomePageView: View {
 
             Task(priority: .userInitiated) { await loadRepo(branch: nil) }
         }
-        .onDisappear {
-//            viewModel.cleanUp()
-        }
     }
 
     // branch of nil represents the default branch
@@ -52,8 +49,6 @@ struct RepoHomePageView: View {
         // TODO: handle errors
         if case let .success(repo) = repo {
             self.repo = repo
-            // TODO: do the preloading
-//                    initializeWithRepo(repo)
         }
     }
 }
@@ -63,12 +58,14 @@ struct RepoLoadedHomePageView: View {
     @FetchRequest var matchingFavouritedRepos: FetchedResults<FavouritedRepo>
 
     @State private var showCode = false
-    @State var readmeContents: String?
+
+    @StateObject var viewModel: RepoHomePageViewModel
 
     let repo: Repo
     let onChangeBranch: (String) -> Void
 
     init(repo: Repo, onChangeBranch: @escaping (String) -> Void) {
+        self._viewModel = StateObject(wrappedValue: RepoHomePageViewModel(repo: repo))
         self.repo = repo
         self.onChangeBranch = onChangeBranch
 
@@ -88,6 +85,40 @@ struct RepoLoadedHomePageView: View {
             repo.name == elem.name
             && repo.owner == elem.owner
             && repo.platform == elem.platform
+        }
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 18) {
+                    repoInfoHeader
+                    favouriteRepoButton
+                    changeBranchSection
+                    Divider()
+                    if let readmeContents = viewModel.readmeContents {
+                        Markdown(
+                            readmeContents,
+                            baseURL: URL(
+                                string: "https://github.com/\(repo.owner)/\(repo.name)/raw/\(repo.currBranch)/"
+                            )
+                        )
+                    }
+                    Spacer()
+                }
+                .padding()
+            }
+            showCodeSection
+
+            let screenView = ScreenView(repo: repo)
+                .navigationBarTitle("\(repo.owner)/\(repo.name)", displayMode: .inline)
+
+            NavigationLink("", destination: screenView, isActive: $showCode)
+                .hidden()
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        .onDisappear {
+            viewModel.cleanUp()
         }
     }
 
@@ -119,9 +150,12 @@ struct RepoLoadedHomePageView: View {
     var favouriteRepoButton: some View {
         Button {
             if favourited {
-                self.unfavouriteRepository()
+                try? viewModel.unfavouriteRepository(
+                    context: managedObjectContext,
+                    repos: matchingFavouritedRepos
+                )
             } else {
-                self.favouriteRepository()
+                try? viewModel.favouriteRepository(context: managedObjectContext)
             }
         } label: {
             Label {
@@ -214,78 +248,5 @@ struct RepoLoadedHomePageView: View {
             branches: repo.branches,
             onBranchSelected: onChangeBranch
         )
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 18) {
-                    repoInfoHeader
-                    favouriteRepoButton
-                    changeBranchSection
-                    Divider()
-                    if let readmeContents = readmeContents {
-                        Markdown(
-                            readmeContents,
-                            baseURL: URL(
-                                string: "https://github.com/\(repo.owner)/\(repo.name)/raw/\(repo.currBranch)/"
-                            )
-                        )
-                    }
-                    Spacer()
-                }
-                .padding()
-            }
-            showCodeSection
-
-            let screenView = ScreenView(repo: repo)
-                .navigationBarTitle("\(repo.owner)/\(repo.name)", displayMode: .inline)
-
-            NavigationLink("", destination: screenView, isActive: $showCode)
-                .hidden()
-        }
-        .ignoresSafeArea(.all, edges: .bottom)
-        .onAppear {
-            let readme = repo.root.files.first { $0.isReadme() }
-            guard let readme = readme else {
-                readmeContents = "*No description provided*"
-                return
-            }
-
-            Task {
-                let readmeLines = await readme.lines.value
-                switch readmeLines {
-                case let .success(lines):
-                    readmeContents = lines.map { $0.content }.joined(separator: "\n")
-                case let .failure(err):
-                    print("Error: \(err.localizedDescription)")
-                }
-            }
-        }
-    }
-
-    private func favouriteRepository() {
-        let favouritedRepo = FavouritedRepo(context: managedObjectContext)
-        favouritedRepo.name = repo.name
-        favouritedRepo.owner = repo.owner
-        favouritedRepo.platform = repo.platform
-
-        saveContext()
-    }
-
-    private func unfavouriteRepository() {
-        for match in matchingFavouritedRepos {
-            managedObjectContext.delete(match)
-            saveContext()
-        }
-    }
-
-    private func saveContext() {
-        do {
-            try managedObjectContext.save()
-        } catch {
-            // TODO: handle errors
-            print(error)
-        }
     }
 }
