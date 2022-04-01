@@ -14,7 +14,7 @@ struct TokenView: View {
     let pos: Int
     @Binding var fontSize: Int
     @State private var showingAlert = false
-    @State private var currentActiveAction: ((File, Int, Int) -> Void)?
+    @State private var currentActiveAction: ((File, Int, Int, String) -> Void)?
 
     var body: some View {
         let options = viewModel.getTokenOption(lineNum: lineNum, posNum: pos)
@@ -25,8 +25,9 @@ struct TokenView: View {
                        ? { showingAlert = true; currentActiveAction = options[pos].action }
                        : closure)
             }
-        }.alert("Action", isPresented: $showingAlert) {
-            Button("OK") { }
+        }
+        .alert("Action", isPresented: $showingAlert) {
+            Text("OK")
         }
         .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
         // here can use config file to set colour based on the tokenType

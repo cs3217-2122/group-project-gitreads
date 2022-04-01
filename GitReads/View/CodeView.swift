@@ -13,27 +13,45 @@ struct CodeView: View {
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
     @State private var lines: Result<[Line], Error>?
+    @State private var currentActiveAction: ((File, Int, String) -> Void)?
+    @State private var editingLine: Int?
+    @State private var text = ""
 
     var body: some View {
         ScrollView {
             LazyVStack {
                 if let lines = lines, case let .success(lines) = lines {
                     ForEach(0..<lines.count, id: \.self) { lineNum in
-                        let options = viewModel.getLineOption(lineNum: lineNum)
                         HStack(alignment: .center) {
-                            LineNumView(file: file, lineNum: lineNum, options: options)
-                                .font(.system(size: CGFloat($fontSize.wrappedValue)))
-                            if isScrollView {
-                                ScrollLineView(viewModel: viewModel, line: lines[lineNum],
-                                               lineNum: lineNum, fontSize: $fontSize)
-                            } else {
-                                WrapLineView(viewModel: viewModel, lineNum: lineNum,
-                                             line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
+                            Menu(String(lineNum + 1)) {
+                                let options = viewModel.getLineOption(lineNum: lineNum)
+                                ForEach(0..<options.count, id: \.self) { pos in
+                                    if let buttonText = options[pos].text {
+                                        Button(buttonText, action: options[pos].takeInput
+                                                ? { editingLine = lineNum; currentActiveAction = options[pos].action }
+                                                : { options[pos].action(file, lineNum, "") })
+                                    }
+                                }
+                            }.font(.system(size: CGFloat($fontSize.wrappedValue)))
+                            VStack {
+                                if isScrollView {
+                                    ScrollLineView(viewModel: viewModel, line: lines[lineNum],
+                                                   lineNum: lineNum, fontSize: $fontSize)
+                                } else {
+                                    WrapLineView(viewModel: viewModel, lineNum: lineNum,
+                                                 line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
+                                }
+                                if editingLine == lineNum, let action = currentActiveAction {
+                                    TextField("Enter", text: $text, onCommit: {
+                                        action(file, lineNum, text)
+                                        text = ""
+                                        editingLine = nil
+                                        currentActiveAction = nil
+                                    })
+                                }
                             }
                             Spacer()
-                        }
-                        .frame(width: UIScreen.main.bounds.width)
-                        .padding(.leading, 6)
+                        }.padding(.leading, 6)
                     }
                 }
             }
@@ -46,27 +64,6 @@ struct CodeView: View {
 
         if lines == nil {
             ProgressView()
-        }
-    }
-}
-
-struct LineNumView: View {
-    let file: File
-    let lineNum: Int
-    let options: [LineAction]
-    @State private var showingAlert = false
-    @State private var currentActiveAction: ((File, Int) -> Void)?
-
-    var body: some View {
-        Menu(String(lineNum + 1)) {
-            ForEach(0..<options.count, id: \.self) { pos in
-                let closure = {} // convert the closure properly
-                Button(options[pos].text, action: options[pos].takeInput
-                       ? { showingAlert = true; currentActiveAction = options[pos].action }
-                       : closure)
-            }
-        }.alert("Action", isPresented: $showingAlert) {
-            Button("OK") { print("ADD COMMENT FOR LINE"); currentActiveAction = nil }
         }
     }
 }

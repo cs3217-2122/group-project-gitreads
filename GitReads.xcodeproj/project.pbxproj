@@ -68,6 +68,7 @@
 		B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */; };
 		B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */; };
 		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
+		B2C791DF27F68EA2008AEA6B /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C791DE27F68EA2008AEA6B /* CommentData.swift */; };
 		B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956D827F1F12000FBA708 /* Plugin.swift */; };
 		B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956DA27F1F2C300FBA708 /* LineAction.swift */; };
 		DE43322227E1E6D70012FD81 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322127E1E6D70012FD81 /* Get */; };
@@ -182,6 +183,7 @@
 		B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCommentPlugin.swift; sourceTree = "<group>"; };
 		B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentPlugin.swift; sourceTree = "<group>"; };
 		B2C77B5627E480110072B80A /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		B2C791DE27F68EA2008AEA6B /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		B2E956D827F1F12000FBA708 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
 		B2E956DA27F1F2C300FBA708 /* LineAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAction.swift; sourceTree = "<group>"; };
 		DE43323127E1EF4B0012FD81 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 				B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */,
 				B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */,
 				B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */,
+				B2C791DE27F68EA2008AEA6B /* CommentData.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -733,6 +736,7 @@
 				6ED322EC27E1F92B00F0AD09 /* Repo.swift in Sources */,
 				6ED322EB27E1F92700F0AD09 /* ContentView.swift in Sources */,
 				6ED322EA27E1F92000F0AD09 /* PersistenceController.swift in Sources */,
+				B2C791DF27F68EA2008AEA6B /* CommentData.swift in Sources */,
 				6E67ECEF27E6D45800C75F8C /* RepoSearchView.swift in Sources */,
 				6ED322E927E1F90800F0AD09 /* Token.swift in Sources */,
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
