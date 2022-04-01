@@ -1,52 +1,50 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Cache",
-        "repositoryURL": "https://github.com/hyperoslo/Cache",
-        "state": {
-          "branch": null,
-          "revision": "c7f4d633049c3bd649a353bad36f6c17e9df085f",
-          "version": "6.0.0"
-        }
-      },
-      {
-        "package": "CollectionConcurrencyKit",
-        "repositoryURL": "https://github.com/JohnSundell/CollectionConcurrencyKit",
-        "state": {
-          "branch": null,
-          "revision": "b4f23e24b5a1bff301efc5e70871083ca029ff95",
-          "version": "0.2.0"
-        }
-      },
-      {
-        "package": "Get",
-        "repositoryURL": "https://github.com/kean/Get",
-        "state": {
-          "branch": null,
-          "revision": "068b400e3850f0953ec25d11d3a3893c4538ffd5",
-          "version": "0.5.0"
-        }
-      },
-      {
-        "package": "Mocker",
-        "repositoryURL": "https://github.com/WeTransfer/Mocker",
-        "state": {
-          "branch": null,
-          "revision": "077c52a31f5ebb649ebe546cc77d8647760b2279",
-          "version": "2.5.5"
-        }
-      },
-      {
-        "package": "SwiftTreeSitter",
-        "repositoryURL": "https://github.com/viktorstrate/swift-tree-sitter",
-        "state": {
-          "branch": null,
-          "revision": "3aa6f8d567e1d4d96a71c5bc0f483173d8213159",
-          "version": "0.1.1"
-        }
+  "pins" : [
+    {
+      "identity" : "cache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hyperoslo/Cache",
+      "state" : {
+        "revision" : "c7f4d633049c3bd649a353bad36f6c17e9df085f",
+        "version" : "6.0.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "collectionconcurrencykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/CollectionConcurrencyKit",
+      "state" : {
+        "revision" : "b4f23e24b5a1bff301efc5e70871083ca029ff95",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "get",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kean/Get",
+      "state" : {
+        "revision" : "068b400e3850f0953ec25d11d3a3893c4538ffd5",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "mocker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/WeTransfer/Mocker",
+      "state" : {
+        "revision" : "077c52a31f5ebb649ebe546cc77d8647760b2279",
+        "version" : "2.5.5"
+      }
+    },
+    {
+      "identity" : "swift-tree-sitter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/viktorstrate/swift-tree-sitter",
+      "state" : {
+        "revision" : "3aa6f8d567e1d4d96a71c5bc0f483173d8213159",
+        "version" : "0.1.1"
+      }
+    }
+  ],
+  "version" : 2
 }
