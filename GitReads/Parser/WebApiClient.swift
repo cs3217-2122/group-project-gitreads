@@ -10,12 +10,13 @@ import Get
 
 class WebApiClient {
 
-    static let client = APIClient(host: "parser-api.fly.dev")
+    static let client = APIClient(host: Constants.webParserApiUrl)
 
-    static func sendParsingRequest(fileString: String,
+    static func sendParsingRequest(apiPath: String,
+                                   fileString: String,
                                    language: Language) async throws -> Any? {
 
-        let req: Request<Data> = .post("/parse", body: [
+        let req: Request<Data> = .post(apiPath, body: [
             "string": fileString,
             "language": language.rawValue
         ])

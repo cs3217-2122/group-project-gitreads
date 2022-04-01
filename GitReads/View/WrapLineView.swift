@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WrapLineView: View {
     // will be in viewmodel logic
+    @StateObject var viewModel: ScreenViewModel
+    let lineNum: Int
     let screenWidth = UIScreen.main.bounds.width
     let padding: CGFloat = 100
     var indetationLevel = 4
@@ -16,7 +18,9 @@ struct WrapLineView: View {
     var group = [[String]]()
     @Binding var fontSize: Int
 
-    init(line: Line, fontSize: Binding<Int>) {
+    init(viewModel: ScreenViewModel, lineNum: Int, line: Line, fontSize: Binding<Int>) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        self.lineNum = lineNum
         _fontSize = fontSize
         self.line = line
         self.group = createGroup(line)
@@ -54,8 +58,12 @@ struct WrapLineView: View {
         VStack(alignment: .leading) {
             ForEach(group, id: \.self) { subGroup in
                 HStack {
-                    ForEach(subGroup, id: \.self) { word in
-                        TokenView(token: Token(type: .keyword, value: word), fontSize: $fontSize)
+                    ForEach(subGroup, id: \.self) { _ in
+//                        TokenView(
+//                            viewModel: viewModel,
+//                            token: Token(type: .keyword, value: word),
+//                            fontSize: $fontSize
+//                        )
                     }
                 }
             }
@@ -66,14 +74,20 @@ struct WrapLineView: View {
 struct WrapLineView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        WrapLineView(line: Line(tokens: [Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST"),
-                                         Token(type: .keyword, value: "TEST")]), fontSize: $fontSize)
+        WrapLineView(
+            viewModel: ScreenViewModel(),
+            lineNum: 0,
+            line: Line(tokens: [
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST"),
+                Token(type: .keyword, value: "TEST")
+            ]),
+            fontSize: $fontSize)
     }
 }
