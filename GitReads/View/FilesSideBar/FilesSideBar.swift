@@ -5,8 +5,15 @@
 import SwiftUI
 
 struct FilesSideBar: View {
-    let rootDirectoryViewModel: DirectoryBarViewModel
+    @ObservedObject var viewModel: FilesSideBarViewModel
+    @State var showAdvancedSearch = false
     let closeSideBar: () -> Void
+
+    func onAdvancedSearch(option: FileNavigateOption) {
+        self.viewModel.onFileNavigate(option: option)
+        self.closeSideBar()
+        showAdvancedSearch = false
+    }
 
     var body: some View {
         VStack {
@@ -17,12 +24,18 @@ struct FilesSideBar: View {
                     .foregroundColor(.accentColor)
                     .onTapGesture(perform: closeSideBar)
             }
+            SearchBarView(searchText: $viewModel.filterText, prompt: "Filter by name")
+            NavigationLink("Advanced Search",
+                           destination: AdvancedSearchView(
+                            viewModel: AdvancedSearchViewModel(repo: viewModel.repo),
+                            onSelectOption: onAdvancedSearch),
+                           isActive: $showAdvancedSearch)
             List {
-                ForEach(rootDirectoryViewModel.directories, id: \.path) { vm in
+                ForEach(viewModel.rootDirectory.directories, id: \.path) { vm in
                     DirectoryBarView(viewModel: vm)
                 }
 
-                ForEach(rootDirectoryViewModel.files, id: \.file.path) { vm in
+                ForEach(viewModel.rootDirectory.files, id: \.file.path) { vm in
                     FileBarView(viewModel: vm)
 
                 }
@@ -36,7 +49,7 @@ struct FilesSideBar: View {
 struct FilesSideBar_Previews: PreviewProvider {
     static var previews: some View {
         FilesSideBar(
-            rootDirectoryViewModel: DirectoryBarViewModel(directory: MOCK_ROOT_DIRECTORY),
+            viewModel: FilesSideBarViewModel(repo: Repo(root: MOCK_ROOT_DIRECTORY)),
             closeSideBar: { })
     }
 }

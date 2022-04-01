@@ -2,6 +2,8 @@
 //  LazyDataSource.swift
 //  GitReads
 
+import Foundation
+
 protocol DataFetcher {
     associatedtype Value
 
@@ -94,6 +96,7 @@ class LazyDataSource<T> {
         }
     }
 
+    private(set) var fetchedValue: Result<T, Error>?
     private var valueFetcher: ValueFetcher
 
     init(fetcherFunc: @escaping () async -> Result<T, Error>) {
@@ -109,11 +112,17 @@ class LazyDataSource<T> {
     }
 
     var value: Result<T, Error> {
-        get async { await valueFetcher.value }
+        get async {
+            let val = await valueFetcher.value
+            self.fetchedValue = val
+            return val
+        }
     }
 
-    func preload() {
-        Task { _ = await valueFetcher.value }
+    func preload(priority: TaskPriority = .low) {
+        Task.detached(priority: priority) {
+            _ = await self.valueFetcher.value
+        }
     }
 
     func map<NewValue>(

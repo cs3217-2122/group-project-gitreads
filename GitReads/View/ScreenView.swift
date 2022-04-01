@@ -1,16 +1,13 @@
 //
 //  ScreenView.swift
 //  GitReads
-//
-//  Created by Tan Kang Liang on 14/3/22.
-//
 
 import SwiftUI
 
 struct ScreenView: View {
     @StateObject var viewModel = ScreenViewModel()
     @StateObject var settings = SettingViewModel()
-    @State var rootDirectoryViewModel: DirectoryBarViewModel?
+    @State var sideBarViewModel: FilesSideBarViewModel?
     @State var loading = true
 
     let repoFetcher: () async -> Result<Repo, Error>
@@ -19,10 +16,17 @@ struct ScreenView: View {
         self.repoFetcher = repoFetcher
     }
 
+    func initializeWithRepo(_ repo: Repo) {
+        viewModel.setRepo(repo)
+
+        sideBarViewModel = FilesSideBarViewModel(repo: repo)
+        sideBarViewModel?.setDelegate(delegate: viewModel)
+    }
+
     var body: some View {
         ZStack {
             if let repo = viewModel.repository {
-                repoView(repo: repo)
+                    repoView(repo: repo)
             }
             if loading {
                 ProgressView()
@@ -34,19 +38,21 @@ struct ScreenView: View {
                 loading = false
                 // TODO: handle errors
                 if case let .success(repo) = repo {
-                    viewModel.setRepo(repo)
-                    rootDirectoryViewModel = DirectoryBarViewModel(directory: repo.root)
-                    rootDirectoryViewModel?.setDelegate(delegate: viewModel)
+                    initializeWithRepo(repo)
                 }
             }
+        }
+        .onDisappear {
+            viewModel.cleanUp()
         }
     }
 
     func repoView(repo: Repo) -> some View {
         HStack {
-            if let rootDirectoryViewModel = rootDirectoryViewModel, viewModel.showSideBar {
+            if let sideBarViewModel = sideBarViewModel,
+               viewModel.showSideBar {
                 FilesSideBar(
-                    rootDirectoryViewModel: rootDirectoryViewModel,
+                    viewModel: sideBarViewModel,
                     closeSideBar: viewModel.toggleSideBar)
             }
             VStack {

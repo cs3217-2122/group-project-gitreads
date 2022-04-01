@@ -6,38 +6,26 @@
 //
 
 import Foundation
+import Get
 
 class WebApiClient {
 
-    static func sendParsingRequest(fileString: String,
-                                   language: Language) -> Any? {
-        let semaphore = DispatchSemaphore(value: 0)
+    static let client = APIClient(host: Constants.webParserApiUrl)
 
-        let url = URL(string: Constants.webParserApiUrl)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+    static func sendParsingRequest(apiPath: String,
+                                   fileString: String,
+                                   language: Language) async throws -> Any? {
 
-        let json: [String: String] = ["string": fileString, "language": language.rawValue]
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let req: Request<Data> = .post(apiPath, body: [
+            "string": fileString,
+            "language": language.rawValue
+        ])
 
-        var result: Any?
-
-        let task = URLSession.shared.dataTask(with: request) { data, _, _ in
-            if let data = data {
-                let responseJson = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJson = responseJson as? [Any] {
-                    result = responseJson
-                    semaphore.signal()
-                }
-            } else {
-                result = nil
-            }
+        let result = try await client.send(req)
+        let responseJson = try? JSONSerialization.jsonObject(with: result.value, options: [])
+        guard let result = responseJson as? [Any] else {
+            return nil
         }
-
-        task.resume()
-        semaphore.wait()
 
         return result
     }
