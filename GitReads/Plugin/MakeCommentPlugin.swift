@@ -7,10 +7,11 @@
 
 struct MakeCommentPlugin: Plugin {
     func getLineAction(file: File?, lineNum: Int) -> LineAction? {
-        let text = "Make comment on line \(lineNum)"
+        let text = "Make comment on line \(lineNum + 1)"
         return LineAction(text: text, action: { _, lineNum, input in
-            CommentData.data[lineNum] = input },
-                          takeInput: true) // this will be replaced by the actual comment
+            if !input.isEmpty {
+                CommentData.data[lineNum] = input
+            }}, takeInput: true) // this will be replaced by the actual comment
     }
 
     func getTokenAction(file: File?, lineNum: Int, posNum: Int) -> TokenAction? {

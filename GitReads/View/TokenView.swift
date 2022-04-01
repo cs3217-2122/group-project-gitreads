@@ -20,10 +20,11 @@ struct TokenView: View {
         let options = viewModel.getTokenOption(lineNum: lineNum, posNum: pos)
         Menu(token.type == .tab ? String(repeating: " ", count: 4) : token.value) {
             ForEach(0..<options.count, id: \.self) { pos in
-                let closure = {} // convert the closure properly
-                Button(options[pos].text, action: options[pos].takeInput
-                       ? { showingAlert = true; currentActiveAction = options[pos].action }
-                       : closure)
+                if let buttonText = options[pos].text {
+                    Button(buttonText, action: options[pos].takeInput
+                           ? { showingAlert = true; currentActiveAction = options[pos].action }
+                           : { options[pos].action(viewModel.openFile!, lineNum, pos, "") }) // might want to change
+                }
             }
         }
         .alert("Action", isPresented: $showingAlert) {
