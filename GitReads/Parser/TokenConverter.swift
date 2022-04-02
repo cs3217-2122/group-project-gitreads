@@ -113,7 +113,7 @@ class TokenConverter {
 
             // If there are at least 3 lines, add more lines
             if start[0] + 1 <= end[0] - 1 {
-                for lineNumber in (start[0] + 1)...(end[0] - 1) where !lines[lineNumber].isEmpty {
+                for lineNumber in (start[0] + 1)...(end[0] - 1) {
                     strings.append(lines[lineNumber])
                 }
             }

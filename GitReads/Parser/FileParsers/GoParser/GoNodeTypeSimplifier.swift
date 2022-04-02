@@ -5,8 +5,6 @@
 //  Created by Liu Zimu on 2/4/22.
 //
 
-import UIKit
-
 class GoNodeTypeSimplifier {
     static var reverseMap = generateReverseMap()
     static let map = [
@@ -126,7 +124,7 @@ class GoNodeTypeSimplifier {
 
         if node.type == "identifier" && parent.type == "function_declaration"
             || (node.type == "field_identifier" && parent.type == "method_declaration") {
-                return "functionDeclaration"
+            return "functionDeclaration"
         }
 
         return reverseMap[node.type] ?? "otherType"

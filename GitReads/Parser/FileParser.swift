@@ -10,6 +10,8 @@ struct FileParser {
         switch language {
         case .go:
             return try await GoParser.parse(fileString: fileString)
+        case .html:
+            return try await HtmlParser.parse(fileString: fileString)
         case .others:
             return PseudoParser.parse(fileString: fileString)
         }

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftTreeSitter
+import SwiftUI
 
 class ASTNode {
     var type: String
@@ -22,7 +24,7 @@ class ASTNode {
         self.parent = parent
     }
 
-    static func buildSyntaxTree(jsonTree: Any?) -> ASTNode? {
+    static func buildAstFromJson(jsonTree: Any?) -> ASTNode? {
         guard let jsonTree = jsonTree as? [String: Any] else {
             return nil
         }
@@ -42,12 +44,12 @@ class ASTNode {
                                parent: nil
         )
 
-        rootNode.children = buildChildren(jsonTrees: children,
-                                          parentNode: rootNode)
+        rootNode.children = buildChildrenFromJson(jsonTrees: children,
+                                                  parentNode: rootNode)
         return rootNode
     }
 
-    static func buildChildren(jsonTrees: [Any], parentNode: ASTNode) -> [ASTNode] {
+    static func buildChildrenFromJson(jsonTrees: [Any], parentNode: ASTNode) -> [ASTNode] {
         var children = [ASTNode]()
         for jsonTree in jsonTrees {
             guard let jsonTree = jsonTree as? [String: Any] else {
@@ -69,11 +71,46 @@ class ASTNode {
                                parent: parentNode
             )
 
-            node.children = buildChildren(jsonTrees: childrenNodes,
-                                          parentNode: node)
+            node.children = buildChildrenFromJson(jsonTrees: childrenNodes,
+                                                  parentNode: node)
             children.append(node)
         }
 
+        return children
+    }
+
+    static func buildAstFromSTSTree(tree: STSTree) -> ASTNode? {
+        let rootSTSNode = tree.rootNode
+        let rootNode = ASTNode(type: rootSTSNode.type,
+                               start: [Int(rootSTSNode.startPoint.row),
+                                       Int(rootSTSNode.startPoint.column)],
+                               end: [Int(rootSTSNode.endPoint.row),
+                                     Int(rootSTSNode.endPoint.column)],
+                               children: [],
+                               parent: nil
+        )
+
+        rootNode.children = buildChildrenFromSTSTree(stsNodes: rootSTSNode.children(),
+                                                     parentNode: rootNode)
+        return rootNode
+    }
+
+    static func buildChildrenFromSTSTree(stsNodes: [STSNode], parentNode: ASTNode) -> [ASTNode] {
+        var children = [ASTNode]()
+        for stsNode in stsNodes {
+            let node = ASTNode(type: stsNode.type,
+                               start: [Int(stsNode.startPoint.row),
+                                       Int(stsNode.startPoint.column)],
+                               end: [Int(stsNode.endPoint.row),
+                                     Int(stsNode.endPoint.column)],
+                               children: [],
+                               parent: nil
+            )
+
+            node.children = buildChildrenFromSTSTree(stsNodes: stsNode.children(),
+                                                     parentNode: node)
+            children.append(node)
+        }
         return children
     }
 }
