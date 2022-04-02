@@ -102,13 +102,4 @@ class Parser {
             return ""
         }
     }
-
-    static func readFile(_ filePath: String) -> String {
-        do {
-            return try String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-
 }

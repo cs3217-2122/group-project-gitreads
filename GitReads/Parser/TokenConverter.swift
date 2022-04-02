@@ -10,13 +10,9 @@ import Foundation
 
 class TokenConverter {
 
-    // Convert an array of raw tokens to an array of Line object
-    static func rawTokensToFile(fileString: String, rawTokens: Any?) -> [Line] {
-        guard rawTokens != nil else {
-            return []
-        }
-
-        guard let rawTokens = rawTokens as? [[String: Any]] else {
+    // Convert an array of AST Nodes to an array of Line object
+    static func nodesToLines(fileString: String, nodes: [ASTNode]) -> [Line] {
+        guard !nodes.isEmpty else {
             return []
         }
 
@@ -31,32 +27,25 @@ class TokenConverter {
         // Starting position of next token
         var nextStartPosition = 0
 
-        for rawToken in rawTokens {
-            guard let rawTokenType = rawToken["type"] as? String,
-                  let rawTokenStart = rawToken["start"] as? [Int],
-                  let rawTokenEnd = rawToken["end"] as? [Int]
-            else {
+        for node in nodes {
+            guard let nodeType = TokenType(rawValue: node.type) else {
                 return []
             }
 
-            guard let tokenType = TokenType(rawValue: rawTokenType) else {
-                return []
-            }
-
-            var lineNumber = rawTokenStart[0]
+            var lineNumber = node.start[0]
 
             addSpace(line: lines[lineNumber],
-                     rawTokenStart: rawTokenStart,
-                     rawTokenEnd: rawTokenEnd,
+                     rawTokenStart: node.start,
+                     rawTokenEnd: node.end,
                      lineTokens: &tokens[lineNumber],
                      nextStartPosition: &nextStartPosition)
 
             // Get strings from token positions
-            let strings = getTokenString(lines: lines, start: rawTokenStart, end: rawTokenEnd)
+            let strings = getTokenString(lines: lines, start: node.start, end: node.end)
 
             // If the token spans multiple lines, split into multiple tokens
             for string in strings {
-                tokens[lineNumber].append(Token(type: tokenType, value: String(string)))
+                tokens[lineNumber].append(Token(type: nodeType, value: String(string)))
                 lineNumber += 1
             }
         }

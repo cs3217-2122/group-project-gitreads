@@ -22,5 +22,5 @@ enum TokenType: String {
     case comment
     case space
     case tab
-    case others
+    case otherType
 }

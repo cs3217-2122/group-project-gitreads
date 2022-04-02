@@ -119,6 +119,8 @@
 		FF1A42DA27F0043800D6F322 /* GoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42D927F0043800D6F322 /* GoParser.swift */; };
 		FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42DD27F1803D00D6F322 /* ASTNode.swift */; };
 		FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5EAA6927E9FE1400A3825E /* FileParser.swift */; };
+		FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471AE27F8403500566ECB /* PseudoParser.swift */; };
+		FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
 		FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */; };
 /* End PBXBuildFile section */
@@ -251,6 +253,8 @@
 		FF1A42D927F0043800D6F322 /* GoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoParser.swift; sourceTree = "<group>"; };
 		FF1A42DD27F1803D00D6F322 /* ASTNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
 		FF5EAA6927E9FE1400A3825E /* FileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileParser.swift; sourceTree = "<group>"; };
+		FF7471AE27F8403500566ECB /* PseudoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoParser.swift; sourceTree = "<group>"; };
+		FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -649,9 +653,19 @@
 		FF1A42D827F0042000D6F322 /* FileParsers */ = {
 			isa = PBXGroup;
 			children = (
-				FF1A42D927F0043800D6F322 /* GoParser.swift */,
+				FF7471B027F8483E00566ECB /* GoParser */,
+				FF7471AE27F8403500566ECB /* PseudoParser.swift */,
 			);
 			path = FileParsers;
+			sourceTree = "<group>";
+		};
+		FF7471B027F8483E00566ECB /* GoParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A42D927F0043800D6F322 /* GoParser.swift */,
+				FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */,
+			);
+			path = GoParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -859,6 +873,7 @@
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */,
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
+				FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */,
 				B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */,
 				B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */,
 				DE580D4B27DF570200C37142 /* WindowView.swift in Sources */,
@@ -900,6 +915,7 @@
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */,
+				FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */,
 				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
