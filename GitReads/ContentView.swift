@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var repo: Repo?
 
     let gitClient: GitClient
+    let repoService: RepoService
 
     init() {
         let api = GitHubApi()
@@ -22,11 +23,14 @@ struct ContentView: View {
         }
 
         self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: factory)
+
+        let parser = Parser()
+        self.repoService = RepoService(gitClient: gitClient, parser: parser)
     }
 
     var body: some View {
         ZStack {
-            HomeView(gitClient: gitClient)
+            HomeView(repoService: repoService)
         }
     }
 

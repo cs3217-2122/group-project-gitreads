@@ -86,8 +86,15 @@ class DummyFile {
         let lines = code.map {
             Line(tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) })
         }
-        let lazyLines = LazyDataSource(value: lines)
-        let result = File(path: Path(components: "TEST"), language: .others, declarations: [], lines: lazyLines)
+        let lazyParseOutput = LazyDataSource(
+            value: ParseOutput(fileContents: code.joined(separator: "\n"), lines: lines)
+        )
+
+        let result = File(
+            path: Path(components: "TEST"),
+            language: .others,
+            declarations: [], parseOutput: lazyParseOutput
+        )
         return result
     }
 }

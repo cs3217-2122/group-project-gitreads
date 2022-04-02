@@ -40,7 +40,7 @@ class RepoHomePageViewModel: ObservableObject {
             return
         }
 
-        let readmeLines = try await readme.lines.value.get()
+        let readmeLines = try await readme.parseOutput.value.get().lines
         readmeContents = readmeLines.map { $0.content }.joined(separator: "\n")
     }
 

@@ -26,7 +26,7 @@ class PreloadVisitor: RepoVisitor {
     }
 
     func preload() {
-        task = Task {
+        task = Task(priority: .low) {
             for chunk in self.files.chunked(into: self.chunkSize) {
                 if Task.isCancelled {
                     return
@@ -35,7 +35,7 @@ class PreloadVisitor: RepoVisitor {
                 await withTaskGroup(of: Void.self) { group in
                     for file in chunk {
                         group.addTask {
-                            _ = await file.lines.value
+                            _ = await file.parseOutput.value
                         }
                     }
 

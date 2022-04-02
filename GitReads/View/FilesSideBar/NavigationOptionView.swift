@@ -30,7 +30,7 @@ struct NavigationOptionView_Previews: PreviewProvider {
                 path: Path(string: "/dirA/file1.txt"),
                 language: .go,
                 declarations: [],
-                lines: LazyDataSource(value: [])),
+                parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: []))),
             line: 0,
             preview: "for i := range(5) {"))
     }

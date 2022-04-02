@@ -8,11 +8,11 @@ struct HomeView: View {
 
     @StateObject private var viewModel: RepoSearchViewModel
 
-    let gitClient: GitClient
+    let repoService: RepoService
 
-    init(gitClient: GitClient) {
-        self.gitClient = gitClient
-        _viewModel = StateObject(wrappedValue: RepoSearchViewModel(gitClient: gitClient))
+    init(repoService: RepoService) {
+        self.repoService = repoService
+        _viewModel = StateObject(wrappedValue: RepoSearchViewModel(gitClient: repoService.gitClient))
     }
 
     var body: some View {
@@ -37,7 +37,7 @@ struct HomeView: View {
             }
             .navigationTitle("Home")
             .overlay {
-                FavouritesView(gitClient: gitClient)
+                FavouritesView(repoService: repoService)
             }
         }
         .searchable(text: $viewModel.searchText, prompt: "Search for a repo")
@@ -46,7 +46,7 @@ struct HomeView: View {
 
     func repoSummary(_ repo: GitRepoSummary) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            let fetcher = repoFetcherFor(gitClient: gitClient, owner: repo.owner, name: repo.name)
+            let fetcher = repoFetcherFor(repoService: repoService, owner: repo.owner, name: repo.name)
             let repoView = RepoHomePageView(repoFetcher: fetcher)
                 .navigationBarTitle("", displayMode: .inline)
 
@@ -66,15 +66,13 @@ struct HomeView: View {
 }
 
 func repoFetcherFor(
-    gitClient: GitClient,
+    repoService: RepoService,
     owner: String,
     name: String
 ) -> ((String?) async -> Result<Repo, Error>) {
     { branch in
         let ref = branch.map { GitRef.branch($0) }
-        return await gitClient
-            .getRepository(owner: owner, name: name, ref: ref)
-            .asyncFlatMap { await Parser.parse(gitRepo: $0) }
+        return await repoService.getRepository(owner: owner, name: name, ref: ref)
     }
 }
 
@@ -87,7 +85,7 @@ struct FavouritesView: View {
     @State private var selectedRepo: FavouritedRepo?
     @State private var showRepoPage = false
 
-    let gitClient: GitClient
+    let repoService: RepoService
 
     var favouritesHeader: some View {
         HStack {
@@ -157,7 +155,7 @@ struct FavouritesView: View {
                 VStack(spacing: 0) {
                     if let selectedRepo = selectedRepo {
                         let fetcher = repoFetcherFor(
-                            gitClient: gitClient,
+                            repoService: repoService,
                             owner: selectedRepo.owner ?? "",
                             name: selectedRepo.name ?? ""
                         )
