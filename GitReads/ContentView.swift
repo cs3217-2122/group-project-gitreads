@@ -17,19 +17,19 @@ struct ContentView: View {
 
     init() {
         let api = GitHubApi()
-        let factory = GitHubCachedDataFetcherFactory()
+//        let factory = GitHubCachedDataFetcherFactory()
+//        if factory == nil {
+//            print("Failed to initialize cache for git client")
+//        }
+
+        self.gitClient = GitHubClient(gitHubApi: api)
+
+        let factory = FileCachedDataFetcherFactory()
         if factory == nil {
-            print("Failed to initialize cache for git client")
-        }
-
-        self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: factory)
-
-        let factoryz = FileCachedDataFetcherFactory()
-        if factoryz == nil {
             print("Failed to initialize cache for parser results")
         }
 
-        let parser = Parser(cachedDataFetcherFactory: factoryz )
+        let parser = Parser(cachedDataFetcherFactory: factory )
         self.repoService = RepoService(gitClient: gitClient, parser: parser)
     }
 

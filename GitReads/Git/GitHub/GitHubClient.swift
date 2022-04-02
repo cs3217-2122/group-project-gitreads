@@ -12,14 +12,9 @@ enum GitHubClientError: Error {
 class GitHubClient: GitClient {
 
     private let api: GitHubApi
-    private let cachedDataFetcherFactory: GitHubCachedDataFetcherFactory?
 
-    /// Initializes the `GitHubClient` with the given `GitHubApi` and
-    /// `GitHubCachedDataFetcherFactory`. If the factory is nil, the client will still
-    /// be initialized, but the any fetched will not be cached.
-    init(gitHubApi: GitHubApi, cachedDataFetcherFactory: GitHubCachedDataFetcherFactory?) {
+    init(gitHubApi: GitHubApi) {
         self.api = gitHubApi
-        self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
     func searchRepositories(query: String) async -> Swift.Result<PaginatedResponse<GitRepoSummary>, Error> {
@@ -51,9 +46,7 @@ class GitHubClient: GitClient {
             await api.getRef(owner: owner, repoName: name, ref: ref ?? .branch(repo.defaultBranch))
         }
         .asyncFlatMap { ref in
-            await dataFetcherFor(owner: owner, repo: name, sha: ref.object.sha) {
-                await self.api.getTree(owner: owner, repoName: name, treeSha: ref.object.sha)
-            }.fetchValue()
+            await self.api.getTree(owner: owner, repoName: name, treeSha: ref.object.sha)
         }
 
         let branches = await asyncBranches
@@ -140,7 +133,7 @@ class GitHubClient: GitClient {
         object: GitObject,
         commitSha: String
     ) -> AnyDataFetcher<String> {
-        dataFetcherFor(owner: owner, repo: repoName, sha: object.sha) {
+        AnyDataFetcher {
             await self.api.getRawGitHubUserContent(
                 owner: owner,
                 repo: repoName,
@@ -157,7 +150,7 @@ class GitHubClient: GitClient {
         object: GitObject,
         commitSha: String
     ) -> AnyDataFetcher<URL> {
-        dataFetcherFor(owner: owner, repo: repoName, sha: object.sha) {
+        AnyDataFetcher {
             let contents = await self.api.getRepoContents(
                 owner: owner, name: repoName, path: object.path.string, ref: commitSha
             )
@@ -172,22 +165,5 @@ class GitHubClient: GitClient {
                 return .success(submoduleContent.submoduleGitURL)
             }
         }
-    }
-
-    /// Returns a cached data fetcher if the cache data fetcher is defined, otherwise returns an ordinary data fetcher.
-    private func dataFetcherFor<T: Codable>(
-        owner: String,
-        repo: String,
-        sha: String,
-        fetcher: @escaping () async -> Swift.Result<T, Error>
-    ) -> AnyDataFetcher<T> {
-        guard let cachedDataFetcherFactory = cachedDataFetcherFactory else {
-            return AnyDataFetcher(fetcher: fetcher)
-        }
-
-        let key = GitHubCacheKey(owner: owner, repo: repo, sha: sha)
-        return AnyDataFetcher(
-            cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
-        )
     }
  }
