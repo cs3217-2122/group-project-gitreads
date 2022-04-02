@@ -55,9 +55,11 @@ class CachedDataFetcherFactory<Key: Hashable> {
 
                 switch result {
                 case let .value(value):
+                    print("cache hit!")
                     return value
 
                 case let .error(err):
+                    print("cache miss")
                     if let storageErr = err as? StorageError, storageErr == StorageError.notFound {
                         return nil
                     }

@@ -24,7 +24,12 @@ struct ContentView: View {
 
         self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: factory)
 
-        let parser = Parser()
+        let factoryz = FileCachedDataFetcherFactory()
+        if factoryz == nil {
+            print("Failed to initialize cache for parser results")
+        }
+
+        let parser = Parser(cachedDataFetcherFactory: factoryz )
         self.repoService = RepoService(gitClient: gitClient, parser: parser)
     }
 

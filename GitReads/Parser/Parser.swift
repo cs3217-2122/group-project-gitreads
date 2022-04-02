@@ -10,8 +10,33 @@ import SwiftTreeSitter
 import SwiftUI
 
 class Parser {
+    private let cachedDataFetcherFactory: FileCachedDataFetcherFactory?
+
+    /// Initializes the `Parser` with the given`GitHubCachedDataFetcherFactory`.
+    /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
+    init(cachedDataFetcherFactory: FileCachedDataFetcherFactory?) {
+        self.cachedDataFetcherFactory = cachedDataFetcherFactory
+    }
 
     func parse(gitRepo: GitRepo) async -> Result<Repo, Error> {
+        let repoParser = RepoParser(for: gitRepo, cachedDataFetcherFactory: cachedDataFetcherFactory)
+        return await repoParser.parse()
+    }
+}
+
+class RepoParser {
+
+    let gitRepo: GitRepo
+    private let cachedDataFetcherFactory: FileCachedDataFetcherFactory?
+
+    /// Initializes the `RepoParser` with the given `GitRepo` and `GitHubCachedDataFetcherFactory`.
+    /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
+    init(for gitRepo: GitRepo, cachedDataFetcherFactory: FileCachedDataFetcherFactory?) {
+        self.gitRepo = gitRepo
+        self.cachedDataFetcherFactory = cachedDataFetcherFactory
+    }
+
+    func parse() async -> Result<Repo, Error> {
         await parse(gitDir: gitRepo.tree.rootDir, path: .root).map { rootDir in
             Repo(name: gitRepo.name,
                  owner: gitRepo.owner,
@@ -29,9 +54,11 @@ class Parser {
     private func parse(gitDir: GitDirectory, path: Path) async -> Result<Directory, Error> {
         await gitDir.contents.value
             .asyncMap { contents in
-                Directory(files: await parseFilesInDir(contents),
-                          directories: await parseDirectoriesInDir(contents),
-                          path: path)
+                Directory(
+                    files: await parseFilesInDir(contents),
+                    directories: await parseDirectoriesInDir(contents),
+                    path: path
+                )
             }
     }
 
@@ -41,7 +68,7 @@ class Parser {
                 return nil
             }
 
-            return parse(gitFile: file, path: content.path, name: content.name)
+            return parse(gitFile: file, content: content)
         }
     }
 
@@ -71,17 +98,21 @@ class Parser {
         }
     }
 
-    private func parse(gitFile: GitFile, path: Path, name: String) -> File {
-        let language = detectLanguage(name: name)
+    private func parse(gitFile: GitFile, content: GitContent) -> File {
+        let language = detectLanguage(name: content.name)
+
         let parseOutput: LazyDataSource<ParseOutput> = gitFile.contents.flatMap { currentFile in
-            do {
-                let result = try await FileParser.parseFile(fileString: currentFile, language: language)
-                return .success(ParseOutput(fileContents: currentFile, lines: result))
-            } catch {
-                return .failure(error)
+            self.dataFetcherFor(sha: content.sha) {
+                do {
+                    let result = try await FileParser.parseFile(fileString: currentFile, language: language)
+                    return .success(ParseOutput(fileContents: currentFile, lines: result))
+                } catch {
+                    return .failure(error)
+                }
             }
         }
-        return File(path: path, language: language, declarations: [], parseOutput: parseOutput)
+
+        return File(path: content.path, language: language, declarations: [], parseOutput: parseOutput)
     }
 
     private func detectLanguage(name: String) -> Language {
@@ -103,12 +134,23 @@ class Parser {
         }
     }
 
-    func readFile(_ filePath: String) -> String {
-        do {
-            return try String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        } catch {
-            fatalError(error.localizedDescription)
+    private func dataFetcherFor(
+        sha: String,
+        fetcher: @escaping () async -> Swift.Result<ParseOutput, Error>
+    ) -> AnyDataFetcher<ParseOutput> {
+        guard let cachedDataFetcherFactory = cachedDataFetcherFactory else {
+            return AnyDataFetcher(fetcher: fetcher)
         }
-    }
 
+        let key = CacheKey(
+            platform: gitRepo.platform,
+            owner: gitRepo.owner,
+            repo: gitRepo.name,
+            sha: sha
+        )
+
+        return AnyDataFetcher(
+            cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
+        )
+    }
 }

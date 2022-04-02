@@ -139,4 +139,15 @@ class LazyDataSource<T> {
     ) -> LazyDataSource<NewValue> {
         LazyDataSource<NewValue> { await self.value.asyncFlatMap(transform) }
     }
+
+    func flatMap<Fetcher: DataFetcher>(
+        _ transform: @escaping (T) -> Fetcher
+    ) -> LazyDataSource<Fetcher.Value> {
+        LazyDataSource<Fetcher.Value> {
+            await self.value.asyncFlatMap { val in
+                let fetcher = transform(val)
+                return await fetcher.fetchValue()
+            }
+        }
+    }
 }
