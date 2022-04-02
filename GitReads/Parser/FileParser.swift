@@ -12,6 +12,10 @@ struct FileParser {
             return try await GoParser.parse(fileString: fileString)
         case .html:
             return try await HtmlParser.parse(fileString: fileString)
+        case .json:
+            return try await JsonParser.parse(fileString: fileString)
+        case .javascript:
+            return []
         case .others:
             return PseudoParser.parse(fileString: fileString)
         }

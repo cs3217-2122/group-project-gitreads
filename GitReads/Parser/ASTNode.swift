@@ -104,7 +104,7 @@ class ASTNode {
                                end: [Int(stsNode.endPoint.row),
                                      Int(stsNode.endPoint.column)],
                                children: [],
-                               parent: nil
+                               parent: parentNode
             )
 
             node.children = buildChildrenFromSTSTree(stsNodes: stsNode.children(),

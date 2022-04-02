@@ -122,6 +122,8 @@
 		FF73472527F880F5009A8949 /* HtmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472427F880F5009A8949 /* HtmlParser.swift */; };
 		FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472627F88105009A8949 /* HtmlNodeTypeSimplifier.swift */; };
 		FF73472A27F881E9009A8949 /* LocalClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472927F881E9009A8949 /* LocalClient.swift */; };
+		FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472D27F89A0B009A8949 /* JsonParser.swift */; };
+		FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */; };
 		FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471AE27F8403500566ECB /* PseudoParser.swift */; };
 		FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
@@ -259,6 +261,8 @@
 		FF73472427F880F5009A8949 /* HtmlParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlParser.swift; sourceTree = "<group>"; };
 		FF73472627F88105009A8949 /* HtmlNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FF73472927F881E9009A8949 /* LocalClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalClient.swift; sourceTree = "<group>"; };
+		FF73472D27F89A0B009A8949 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
+		FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FF7471AE27F8403500566ECB /* PseudoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoParser.swift; sourceTree = "<group>"; };
 		FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
@@ -659,6 +663,7 @@
 		FF1A42D827F0042000D6F322 /* FileParsers */ = {
 			isa = PBXGroup;
 			children = (
+				FF73472C27F899F2009A8949 /* JsonParser */,
 				FF73472327F880E8009A8949 /* HtmlParser */,
 				FF7471B027F8483E00566ECB /* GoParser */,
 				FF7471AE27F8403500566ECB /* PseudoParser.swift */,
@@ -682,6 +687,15 @@
 				FF73472927F881E9009A8949 /* LocalClient.swift */,
 			);
 			path = TreeSitterClient;
+			sourceTree = "<group>";
+		};
+		FF73472C27F899F2009A8949 /* JsonParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF73472D27F89A0B009A8949 /* JsonParser.swift */,
+				FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */,
+			);
+			path = JsonParser;
 			sourceTree = "<group>";
 		};
 		FF7471B027F8483E00566ECB /* GoParser */ = {
@@ -879,6 +893,7 @@
 				DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */,
 				6E67ED1027E9BB7B00C75F8C /* PaginatedResponse.swift in Sources */,
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
+				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */,
 				6ED322E327E1F71D00F0AD09 /* GitHubRepoContent+Codable.swift in Sources */,
@@ -912,6 +927,7 @@
 				B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */,
 				6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */,
 				6ED322E427E1F71D00F0AD09 /* GitHubTree.swift in Sources */,
+				FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */,
 				DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */,
 				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,
 				FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */,
