@@ -196,7 +196,8 @@ struct FavouritesView: View {
                                  You have no favourited repositories. 😅
 
                                  Add repositories to your favourites to quickly access them. \
-                                 Repositories you favourite can also be viewed offline.
+                                 The default branches of repositories you favourite will be \
+                                 saved so you can view them offline.
                                  """)
                                 .font(.subheadline)
                                 .multilineTextAlignment(.center)
