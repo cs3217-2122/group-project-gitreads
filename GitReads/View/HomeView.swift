@@ -80,17 +80,23 @@ func repoFetcherFor(
 
 struct FavouritesView: View {
 
+    @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.isSearching) var isSearching
 
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)])
     var favouritedRepos: FetchedResults<FavouritedRepo>
 
-    @StateObject private var favouritesViewModel = FavouritesViewModel()
+    @StateObject var viewModel: FavouritesViewModel
 
     @State private var selectedRepo: FavouritedRepo?
     @State private var showRepoPage = false
 
     let repoService: RepoService
+
+    init(repoService: RepoService) {
+        _viewModel = StateObject(wrappedValue: FavouritesViewModel(repoService: repoService))
+        self.repoService = repoService
+    }
 
     var favouritesHeader: some View {
         HStack {
@@ -166,7 +172,7 @@ struct FavouritesView: View {
                         )
 
                         let repoView = RepoHomePageView(repoFetcher: fetcher)
-                            .navigationBarTitle("", displayMode: .inline)
+                            .navigationBarTitle("Repo", displayMode: .inline)
                         // We must use a hidden navigation link with the isActive argument instead
                         // of a more normal method where the navigation link is embedded in
                         // the view of the repository. This is to avoid the case where the user
@@ -237,7 +243,7 @@ struct FavouritesView: View {
             .transition(.move(edge: .bottom))
             .animation(.easeInOut, value: isSearching)
             .onAppear {
-                favouritesViewModel.onFavouriteReposLoaded(favouritedRepos)
+                viewModel.onFavouriteReposLoaded(favouritedRepos, context: managedObjectContext)
             }
         }
     }

@@ -59,35 +59,59 @@ class GitHubClient: GitClient {
         return repo.flatMap { repo in
             branches.flatMap { branches in
                 tree.map { tree in
-                    let currBranch = ref?.name ?? repo.defaultBranch
-                    let tree = GitTree(
-                        commitSha: tree.sha,
-                        gitObjects: tree.objects.map(GitObject.init),
-                        fileContentFetcher: { object, commitSha in
-                            self.getFileContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
-                        },
-                        symlinkContentFetcher: { object, commitSha in
-                            self.getSymlinkContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
-                        },
-                        submoduleContentFetcher: { object, commitSha in
-                            self.getSubmoduleContent(owner: owner, repoName: name, object: object, commitSha: commitSha)
-                        }
-                    )
-
-                    return GitRepo(
-                        name: repo.name,
-                        owner: repo.owner,
-                        htmlURL: repo.htmlURL,
-                        description: repo.description ?? "",
-                        platform: .github,
-                        defaultBranch: repo.defaultBranch,
-                        branches: branches.map { $0.name },
-                        currBranch: currBranch,
-                        tree: tree
-                    )
+                    makeGitRepo(repo: repo, branches: branches, tree: tree, ref: ref)
                 }
             }
         }
+    }
+
+    private func makeGitRepo(
+        repo: GitHubRepo,
+        branches: [GitHubBranch],
+        tree: GitHubTree,
+        ref: GitRef?
+    ) -> GitRepo {
+        let currBranch = ref?.name ?? repo.defaultBranch
+        let tree = GitTree(
+            commitSha: tree.sha,
+            gitObjects: tree.objects.map(GitObject.init),
+            fileContentFetcher: { object, commitSha in
+                self.getFileContent(
+                    owner: repo.owner,
+                    repoName: repo.name,
+                    object: object,
+                    commitSha: commitSha
+                )
+            },
+            symlinkContentFetcher: { object, commitSha in
+                self.getSymlinkContent(
+                    owner: repo.owner,
+                    repoName: repo.name,
+                    object: object,
+                    commitSha: commitSha
+                )
+            },
+            submoduleContentFetcher: { object, commitSha in
+                self.getSubmoduleContent(
+                    owner: repo.owner,
+                    repoName: repo.name,
+                    object: object,
+                    commitSha: commitSha
+                )
+            }
+        )
+
+        return GitRepo(
+            name: repo.name,
+            owner: repo.owner,
+            htmlURL: repo.htmlURL,
+            description: repo.description ?? "",
+            platform: .github,
+            defaultBranch: repo.defaultBranch,
+            branches: branches.map { $0.name },
+            currBranch: currBranch,
+            tree: tree
+        )
     }
 
     private func getFileContent(

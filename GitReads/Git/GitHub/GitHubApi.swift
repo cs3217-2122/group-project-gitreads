@@ -65,6 +65,7 @@ class GitHubApi {
 
         reachability.whenUnreachable = { _ in
             self.offline = true
+            print("offline")
         }
 
         do {

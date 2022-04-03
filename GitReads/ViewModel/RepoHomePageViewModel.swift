@@ -19,6 +19,10 @@ class RepoHomePageViewModel: ObservableObject {
         self.preload()
     }
 
+    deinit {
+        cleanUp()
+    }
+
     func setRepoService(repoService: RepoService) {
         self.repoService = repoService
     }
@@ -55,6 +59,7 @@ class RepoHomePageViewModel: ObservableObject {
         favouritedRepo.name = repo.name
         favouritedRepo.owner = repo.owner
         favouritedRepo.platform = repo.platform
+        favouritedRepo.lastUpdated = .now
 
         try context.save()
 
@@ -68,25 +73,6 @@ class RepoHomePageViewModel: ObservableObject {
             // preload the default branch to ensure all the files are cached
             let preloader = PreloadVisitor(chunkSize: 32)
             repo.accept(visitor: preloader)
-
-            // preload the files in all the other branches too.
-            // this may seem like a scarily expensive operation but since each file
-            // is cached based on their SHA, this is roughly equivalent to doing a
-            // git clone
-            for branch in repo.branches {
-                if branch == repo.defaultBranch {
-                    continue
-                }
-
-                let repo = try await repoService.getRepository(
-                    owner: repo.owner,
-                    name: repo.name,
-                    ref: .branch(branch)
-                ).get()
-
-                repo.accept(visitor: preloader)
-            }
-
             _ = await preloader.preload().result
             print("Saved \(repo.fullName) for offline use")
         }

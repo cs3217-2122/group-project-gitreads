@@ -17,5 +17,4 @@ class RepoService {
             .getRepository(owner: owner, name: name, ref: ref)
             .asyncFlatMap { await parser.parse(gitRepo: $0) }
     }
-
 }

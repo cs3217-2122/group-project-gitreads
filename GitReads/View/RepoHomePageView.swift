@@ -131,9 +131,6 @@ struct RepoLoadedHomePageView: View {
                 }
             }
         }
-        .onDisappear {
-            viewModel.cleanUp()
-        }
     }
 
     var repoInfoHeader: some View {

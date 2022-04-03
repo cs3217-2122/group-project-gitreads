@@ -7,7 +7,7 @@ import Foundation
 private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 24
 
 class PreloadVisitor: RepoVisitor {
-    private var files: [String: File] = [:]
+    private var files: [File] = []
     private var task: Task<(), Error>?
     private let chunkSize: Int
 
@@ -22,14 +22,11 @@ class PreloadVisitor: RepoVisitor {
     func visit(directory: Directory) {}
 
     func visit(file: File) {
-        files[file.sha] = file
+        files.append(file)
     }
 
     func preload() -> Task<(), Error> {
         let preloadTask: Task<(), Error> = Task(priority: .low) {
-            var loaded = 0
-            let files = Array(self.files.values)
-
             for chunk in files.chunked(into: self.chunkSize) {
                 if Task.isCancelled {
                     return
@@ -42,8 +39,6 @@ class PreloadVisitor: RepoVisitor {
                         }
                     }
                 }
-
-                loaded += self.chunkSize
             }
         }
 
