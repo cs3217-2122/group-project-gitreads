@@ -15,6 +15,7 @@ let MOCK_DIRECTORY_A = Directory(
     files: [
         File(
             path: Path(components: "fileAasdfasdfasdfasdf"),
+            sha: "deadbeef",
             language: .others,
             declarations: [], parseOutput: EMPTY_PARSE_OUTPUT)
     ],
@@ -22,6 +23,7 @@ let MOCK_DIRECTORY_A = Directory(
 let MOCK_DIRECTORY_B = Directory(
     files: [File(
         path: Path(components: "fileB"),
+        sha: "deadbeef",
         language: .others,
         declarations: [],
         parseOutput: EMPTY_PARSE_OUTPUT

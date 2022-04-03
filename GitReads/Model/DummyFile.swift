@@ -92,6 +92,7 @@ class DummyFile {
 
         let result = File(
             path: Path(components: "TEST"),
+            sha: "deadbeef",
             language: .others,
             declarations: [], parseOutput: lazyParseOutput
         )

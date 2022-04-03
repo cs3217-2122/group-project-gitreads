@@ -10,11 +10,17 @@ class RepoHomePageViewModel: ObservableObject {
     @Published var readmeContents: String?
 
     let repo: Repo
+    var repoService: RepoService?
+
     private var preloader: PreloadVisitor?
 
     init(repo: Repo) {
         self.repo = repo
         self.preload()
+    }
+
+    func setRepoService(repoService: RepoService) {
+        self.repoService = repoService
     }
 
     func cleanUp() {
@@ -25,7 +31,7 @@ class RepoHomePageViewModel: ObservableObject {
         self.preloader = PreloadVisitor()
         if let preloader = preloader {
             self.repo.accept(visitor: preloader)
-            preloader.preload()
+            _ = preloader.preload()
         }
     }
 
@@ -51,6 +57,39 @@ class RepoHomePageViewModel: ObservableObject {
         favouritedRepo.platform = repo.platform
 
         try context.save()
+
+        guard let repoService = repoService else {
+            return
+        }
+
+        Task(priority: .low) {
+            let repo = try await repoService.getRepository(owner: repo.owner, name: repo.name).get()
+
+            // preload the default branch to ensure all the files are cached
+            let preloader = PreloadVisitor(chunkSize: 32)
+            repo.accept(visitor: preloader)
+
+            // preload the files in all the other branches too.
+            // this may seem like a scarily expensive operation but since each file
+            // is cached based on their SHA, this is roughly equivalent to doing a
+            // git clone
+            for branch in repo.branches {
+                if branch == repo.defaultBranch {
+                    continue
+                }
+
+                let repo = try await repoService.getRepository(
+                    owner: repo.owner,
+                    name: repo.name,
+                    ref: .branch(branch)
+                ).get()
+
+                repo.accept(visitor: preloader)
+            }
+
+            _ = await preloader.preload().result
+            print("Saved \(repo.fullName) for offline use")
+        }
     }
 
     func unfavouriteRepository<T: Sequence>(

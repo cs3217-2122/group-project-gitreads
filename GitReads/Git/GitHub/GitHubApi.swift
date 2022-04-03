@@ -4,6 +4,11 @@
 
 import Get
 import Foundation
+import class Cache.Storage
+import class Cache.TransformerFactory
+import struct Cache.DiskConfig
+import struct Cache.MemoryConfig
+import Reachability
 
 enum GitHubApiError: Error {
     case rateLimited
@@ -23,10 +28,58 @@ class GitHubApi {
         $0.delegate = GitHubErrorHandlingDelegate()
     }
 
+    static let DefaultCacheDiskConfig = DiskConfig(
+        name: "github-cache",
+        expiry: .date(Date().addingTimeInterval(30 * 86_400)), // 30 days
+        maxSize: 64_000_000 // 64MB
+    )
+
+    static let DefaultCacheMemoryConfig = MemoryConfig(
+        expiry: .date(Date().addingTimeInterval(30 * 60)), // 30 minutes
+        countLimit: 30
+    )
+
+    static let DefaultStorage: Storage<String, String>? = try? Storage(
+        diskConfig: GitHubApi.DefaultCacheDiskConfig,
+        memoryConfig: GitHubApi.DefaultCacheMemoryConfig,
+        transformer: TransformerFactory.forCodable(ofType: String.self)
+    )
+
+    private let storage: Storage<String, String>?
     private let client: APIClient
 
-    init(client: APIClient = GitHubApi.DefaultClient) {
+    private var reachability = try? Reachability()
+    private var offline = false
+
+    init(client: APIClient = GitHubApi.DefaultClient, storage: Storage<String, String>? = DefaultStorage) {
         self.client = client
+        self.storage = storage
+
+        guard let reachability = reachability else {
+            return
+        }
+
+        reachability.whenReachable = { _ in
+            self.offline = false
+        }
+
+        reachability.whenUnreachable = { _ in
+            self.offline = true
+        }
+
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start network reachability notifier")
+        }
+
+        self.offline = reachability.connection == .unavailable
+    }
+
+    deinit {
+        if let reachability = reachability {
+            reachability.stopNotifier()
+        }
     }
 
     func searchRepos(query: String) async -> Result<PaginatedResponse<GitHubRepo>, Error> {
@@ -70,8 +123,9 @@ class GitHubApi {
 
     /// Fetches the repository with the given `owner` and repo `name` from the GitHub API.
     func getRepo(owner: String, name repo: String) async -> Result<GitHubRepo, Error> {
-        await doAsyncWithResult {
-            let req: Request<GitHubRepo> = .get(path("repos", owner, repo))
+        let reqPath = path("repos", owner, repo)
+        return await cache(key: reqPath) {
+            let req: Request<GitHubRepo> = .get(reqPath)
 
             let result = try await client.send(req)
             return result.value
@@ -101,9 +155,11 @@ class GitHubApi {
 
     /// Fetches the first 100 branches of the repository with the given `owner` and repo `name`.
     func getRepoBranches(owner: String, name repo: String) async -> Result<[GitHubBranch], Error> {
-        await doAsyncWithResult {
+        let reqPath = path("repos", owner, repo, "branches")
+
+        return await cache(key: reqPath) {
             let req: Request<[GitHubBranch]> = .get(
-                path("repos", owner, repo, "branches"),
+                reqPath,
                 query: [("per_page", "100")]
             )
 
@@ -113,10 +169,10 @@ class GitHubApi {
     }
 
     func getRef(owner: String, repoName: String, ref: GitRef) async -> Result<GitHubRef, Error> {
-        await doAsyncWithResult {
-            let req: Request<GitHubRef> = .get(
-                path("repos", owner, repoName, "git", "ref", pathString(for: ref))
-            )
+        let reqPath = path("repos", owner, repoName, "git", "ref", pathString(for: ref))
+
+        return await cache(key: reqPath) {
+            let req: Request<GitHubRef> = .get(reqPath)
 
             let result = try await client.send(req)
             return result.value
@@ -129,8 +185,10 @@ class GitHubApi {
         treeSha: String,
         recursive: Bool = true
     ) async -> Result<GitHubTree, Error> {
-        await doAsyncWithResult {
-            var req: Request<GitHubTree> = .get(path("repos", owner, repoName, "git", "trees", treeSha))
+        let reqPath = path("repos", owner, repoName, "git", "trees", treeSha)
+
+        return await cache(key: reqPath) {
+            var req: Request<GitHubTree> = .get(reqPath)
             if recursive {
                 req.query = [("recursive", "true")]
             }
@@ -195,6 +253,37 @@ class GitHubApi {
 
     private func path(_ pathComponents: String..., prefix: String = "/github/") -> String {
         prefix + pathComponents.joined(separator: "/")
+    }
+
+    private func cache<T: Codable>(
+        key: String,
+        _ fetcher: () async throws -> T
+    ) async -> Result<T, Error> {
+        // only if offline, do we try using the cache first
+        if offline, let storage = storage {
+            let typedStorage = storage.transformCodable(ofType: T.self)
+
+            let result = Result { try typedStorage.object(forKey: key) }
+            if case .success = result {
+                return result
+            }
+        }
+
+        let result = await doAsyncWithResult {
+            try await fetcher()
+        }
+
+        // cache the value if returned succcesfully
+        if case let .success(value) = result, let storage = storage {
+            let typedStorage = storage.transformCodable(ofType: T.self)
+            do {
+                try typedStorage.setObject(value, forKey: key)
+            } catch {
+                print("Error caching value: \(error)")
+            }
+        }
+
+        return result
     }
 
     /// Performs the given throwable action. If successful, returns `.success` with the returned value from the action.

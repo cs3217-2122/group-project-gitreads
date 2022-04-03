@@ -45,6 +45,10 @@ struct Repo {
         self.htmlURL = htmlURL
     }
 
+    var fullName: String {
+        "\(owner)/\(name)"
+    }
+
     /// Accepts a visitor, calling its method for every directory and file that is present in the current repository.
     func accept<Visitor: RepoVisitor>(visitor: Visitor) -> Visitor.VisitorOutput {
         visitDirectory(directory: root, visitor: visitor)

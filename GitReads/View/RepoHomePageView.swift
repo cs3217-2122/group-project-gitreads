@@ -58,10 +58,11 @@ struct RepoHomePageView: View {
 
 struct RepoLoadedHomePageView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
+    @EnvironmentObject var appDependencies: AppDependencies
+
     @FetchRequest var matchingFavouritedRepos: FetchedResults<FavouritedRepo>
 
     @State private var showCode = false
-
     @StateObject var viewModel: RepoHomePageViewModel
 
     let repo: Repo
@@ -123,6 +124,7 @@ struct RepoLoadedHomePageView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .withErrorHandler(handler)
         .onAppear {
+            viewModel.setRepoService(repoService: appDependencies.repoService)
             Task {
                 await handler.doAsyncWithErrorHandling {
                     try await viewModel.loadReadme()

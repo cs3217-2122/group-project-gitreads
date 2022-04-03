@@ -5,36 +5,36 @@
 import Cache
 import Foundation
 
-struct CacheKey: Hashable {
+struct LinesCacheKey: Hashable {
     let platform: RepoPlatform
     let owner: String
     let repo: String
     let sha: String
 }
 
-typealias FileCachedDataFetcher<T> = CachedDataFetcher<CacheKey, T>
+typealias LinesCachedDataFetcher<T> = CachedDataFetcher<LinesCacheKey, T>
 
-struct FileCachedDataFetcherFactory {
+struct LinesCachedDataFetcherFactory {
 
     static let DefaultCacheDiskConfig = DiskConfig(
-        name: "file-contents",
+        name: "lines-cache",
         expiry: .date(Date().addingTimeInterval(30 * 86_400)), // 30 days
         maxSize: 2_000_000_000 // 2GB
     )
 
     static let DefaultCacheMemoryConfig = MemoryConfig(
         expiry: .date(Date().addingTimeInterval(30 * 60)), // 30 minutes
-        countLimit: 50
+        countLimit: 100
     )
 
-    private let cachedDataFetcherFactory: CachedDataFetcherFactory<CacheKey>
+    private let cachedDataFetcherFactory: CachedDataFetcherFactory<LinesCacheKey>
 
     init?(
         diskConfig: DiskConfig = DefaultCacheDiskConfig,
         memoryConfig: MemoryConfig = DefaultCacheMemoryConfig
     ) {
         do {
-            let storage: Storage<CacheKey, String> = try Storage(
+            let storage: Storage<LinesCacheKey, String> = try Storage(
                 diskConfig: diskConfig,
                 memoryConfig: memoryConfig,
                 transformer: TransformerFactory.forCodable(ofType: String.self)
@@ -46,14 +46,14 @@ struct FileCachedDataFetcherFactory {
         }
     }
 
-    init(storage: Storage<CacheKey, String>) {
+    init(storage: Storage<LinesCacheKey, String>) {
         self.cachedDataFetcherFactory = CachedDataFetcherFactory(storage: storage)
     }
 
     func makeCachedDataFetcher<T> (
-        key: CacheKey,
+        key: LinesCacheKey,
         fetcher:  @escaping () async -> Swift.Result<T, Error>
-    ) -> CachedDataFetcher<CacheKey, T> where T: Codable {
+    ) -> CachedDataFetcher<LinesCacheKey, T> where T: Codable {
         cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
     }
 }

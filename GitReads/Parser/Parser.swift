@@ -10,11 +10,11 @@ import SwiftTreeSitter
 import SwiftUI
 
 class Parser {
-    private let cachedDataFetcherFactory: FileCachedDataFetcherFactory?
+    private let cachedDataFetcherFactory: LinesCachedDataFetcherFactory?
 
-    /// Initializes the `Parser` with the given`GitHubCachedDataFetcherFactory`.
+    /// Initializes the `Parser` with the given `LinesCachedDataFetcherFactory`.
     /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
-    init(cachedDataFetcherFactory: FileCachedDataFetcherFactory?) {
+    init(cachedDataFetcherFactory: LinesCachedDataFetcherFactory?) {
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
@@ -27,11 +27,11 @@ class Parser {
 class RepoParser {
 
     let gitRepo: GitRepo
-    private let cachedDataFetcherFactory: FileCachedDataFetcherFactory?
+    private let cachedDataFetcherFactory: LinesCachedDataFetcherFactory?
 
     /// Initializes the `RepoParser` with the given `GitRepo` and `GitHubCachedDataFetcherFactory`.
     /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
-    init(for gitRepo: GitRepo, cachedDataFetcherFactory: FileCachedDataFetcherFactory?) {
+    init(for gitRepo: GitRepo, cachedDataFetcherFactory: LinesCachedDataFetcherFactory?) {
         self.gitRepo = gitRepo
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
@@ -102,17 +102,25 @@ class RepoParser {
         let language = detectLanguage(name: content.name)
 
         let parseOutput: LazyDataSource<ParseOutput> = gitFile.contents.flatMap { currentFile in
-            self.dataFetcherFor(sha: content.sha) {
+            let lines = await self.dataFetcherFor(sha: content.sha) {
                 do {
-                    let result = try await FileParser.parseFile(fileString: currentFile, language: language)
-                    return .success(ParseOutput(fileContents: currentFile, lines: result))
+                    let lines = try await FileParser.parseFile(fileString: currentFile, language: language)
+                    return .success(lines)
                 } catch {
                     return .failure(error)
                 }
-            }
+            }.fetchValue()
+
+            return lines.map { ParseOutput(fileContents: currentFile, lines: $0) }
         }
 
-        return File(path: content.path, language: language, declarations: [], parseOutput: parseOutput)
+        return File(
+            path: content.path,
+            sha: content.sha,
+            language: language,
+            declarations: [],
+            parseOutput: parseOutput
+        )
     }
 
     private func detectLanguage(name: String) -> Language {
@@ -136,13 +144,13 @@ class RepoParser {
 
     private func dataFetcherFor(
         sha: String,
-        fetcher: @escaping () async -> Swift.Result<ParseOutput, Error>
-    ) -> AnyDataFetcher<ParseOutput> {
+        fetcher: @escaping () async -> Swift.Result<[Line], Error>
+    ) -> AnyDataFetcher<[Line]> {
         guard let cachedDataFetcherFactory = cachedDataFetcherFactory else {
             return AnyDataFetcher(fetcher: fetcher)
         }
 
-        let key = CacheKey(
+        let key = LinesCacheKey(
             platform: gitRepo.platform,
             owner: gitRepo.owner,
             repo: gitRepo.name,

@@ -6,30 +6,32 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @StateObject private var viewModel: RepoSearchViewModel
+    @StateObject private var searchViewModel: RepoSearchViewModel
 
     let repoService: RepoService
 
     init(repoService: RepoService) {
         self.repoService = repoService
-        _viewModel = StateObject(wrappedValue: RepoSearchViewModel(gitClient: repoService.gitClient))
+        _searchViewModel = StateObject(
+            wrappedValue: RepoSearchViewModel(gitClient: repoService.gitClient)
+        )
     }
 
     var body: some View {
         NavigationView {
             VStack {
                 List {
-                    if viewModel.isSearching {
+                    if searchViewModel.isSearching {
                         HStack {
                             Spacer()
                             ProgressView()
                             Spacer()
                         }
                     }
-                    ForEach(viewModel.repos, id: \.fullName) { repo in
+                    ForEach(searchViewModel.repos, id: \.fullName) { repo in
                         repoSummary(repo)
                             .onAppear {
-                                viewModel.scrolledToItem(repo: repo)
+                                searchViewModel.scrolledToItem(repo: repo)
                             }
                     }
                 }
@@ -40,7 +42,7 @@ struct HomeView: View {
                 FavouritesView(repoService: repoService)
             }
         }
-        .searchable(text: $viewModel.searchText, prompt: "Search for a repo")
+        .searchable(text: $searchViewModel.searchText, prompt: "Search for a repo")
         .navigationViewStyle(.stack)
     }
 
@@ -79,8 +81,11 @@ func repoFetcherFor(
 struct FavouritesView: View {
 
     @Environment(\.isSearching) var isSearching
+
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)])
     var favouritedRepos: FetchedResults<FavouritedRepo>
+
+    @StateObject private var favouritesViewModel = FavouritesViewModel()
 
     @State private var selectedRepo: FavouritedRepo?
     @State private var showRepoPage = false
@@ -231,6 +236,9 @@ struct FavouritesView: View {
             }
             .transition(.move(edge: .bottom))
             .animation(.easeInOut, value: isSearching)
+            .onAppear {
+                favouritesViewModel.onFavouriteReposLoaded(favouritedRepos)
+            }
         }
     }
 }
