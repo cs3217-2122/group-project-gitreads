@@ -130,6 +130,8 @@
 		FF73472A27F881E9009A8949 /* LocalClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472927F881E9009A8949 /* LocalClient.swift */; };
 		FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472D27F89A0B009A8949 /* JsonParser.swift */; };
 		FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */; };
+		FF73473327F8A41E009A8949 /* JavascriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73473227F8A41E009A8949 /* JavascriptParser.swift */; };
+		FF73473527F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73473427F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift */; };
 		FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471AE27F8403500566ECB /* PseudoParser.swift */; };
 		FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
@@ -274,6 +276,8 @@
 		FF73472927F881E9009A8949 /* LocalClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalClient.swift; sourceTree = "<group>"; };
 		FF73472D27F89A0B009A8949 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonNodeTypeSimplifier.swift; sourceTree = "<group>"; };
+		FF73473227F8A41E009A8949 /* JavascriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptParser.swift; sourceTree = "<group>"; };
+		FF73473427F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FF7471AE27F8403500566ECB /* PseudoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoParser.swift; sourceTree = "<group>"; };
 		FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
@@ -680,6 +684,7 @@
 		FF1A42D827F0042000D6F322 /* FileParsers */ = {
 			isa = PBXGroup;
 			children = (
+				FF73473127F8A404009A8949 /* JavascriptParser */,
 				FF73472C27F899F2009A8949 /* JsonParser */,
 				FF73472327F880E8009A8949 /* HtmlParser */,
 				FF7471B027F8483E00566ECB /* GoParser */,
@@ -713,6 +718,15 @@
 				FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */,
 			);
 			path = JsonParser;
+			sourceTree = "<group>";
+		};
+		FF73473127F8A404009A8949 /* JavascriptParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF73473227F8A41E009A8949 /* JavascriptParser.swift */,
+				FF73473427F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift */,
+			);
+			path = JavascriptParser;
 			sourceTree = "<group>";
 		};
 		FF7471B027F8483E00566ECB /* GoParser */ = {
@@ -927,6 +941,7 @@
 				DE05002A27F4562200ABEC27 /* AdvancedSearchViewModel.swift in Sources */,
 				6E67ED1A27F5930A00C75F8C /* RepoHomePageView.swift in Sources */,
 				6E67ECF327E6D9C600C75F8C /* Publisher+AsyncMap.swift in Sources */,
+				FF73473527F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift in Sources */,
 				6E67ED0E27E9A91400C75F8C /* GitHubPageInfo.swift in Sources */,
 				DE05002C27F4563500ABEC27 /* AdvancedSearchView.swift in Sources */,
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
@@ -952,6 +967,7 @@
 				FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */,
 				B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */,
 				DE43326C27F449950012FD81 /* SearchBarView.swift in Sources */,
+				FF73473327F8A41E009A8949 /* JavascriptParser.swift in Sources */,
 				DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */,
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,

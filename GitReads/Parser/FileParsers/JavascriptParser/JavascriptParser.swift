@@ -1,11 +1,11 @@
 //
-//  HtmlParser.swift
+//  JavascriptParser.swift
 //  GitReads
 //
 //  Created by Liu Zimu on 2/4/22.
 //
 
-class HtmlParser: FileParser {
+class JavascriptParser: FileParser {
 
     static func parse(fileString: String) async throws -> [Line] {
         let rootNode = try await getAstLocally(fileString: fileString)
@@ -17,14 +17,14 @@ class HtmlParser: FileParser {
     }
 
     static func getAstLocally(fileString: String) async throws -> ASTNode? {
-        let stsTree = try LocalClient.getSTSTree(fileString: fileString, language: Language.html)
+        let stsTree = try LocalClient.getSTSTree(fileString: fileString, language: Language.javascript)
 
         return ASTNode.buildAstFromSTSTree(tree: stsTree)
     }
 
     static func simplifyLeafNodes(nodes: [ASTNode]) {
         for node in nodes {
-            node.type = HtmlNodeTypeSimplifier.simplifyHtmlNodeType(node: node)
+            node.type = JavascriptNodeTypeSimplifier.simplifyJavascriptNodeType(node: node)
         }
     }
 
@@ -38,15 +38,6 @@ class HtmlParser: FileParser {
 
     static func dfs(node: ASTNode) -> [ASTNode] {
         // for leaf node, return the node
-        // exception: doctype is considered leaf node
-        if node.type == "doctype" {
-            return [ASTNode(type: "otherType",
-                            start: node.start,
-                            end: node.end,
-                            children: [],
-                            parent: node.parent)]
-        }
-
         // exception: string literal is considered leaf node
         if node.children.isEmpty || node.children[0].type == "\"" {
             return [ASTNode(type: node.type,

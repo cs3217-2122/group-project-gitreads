@@ -12,9 +12,9 @@ class WebApiClient {
 
     static let client = APIClient(host: Constants.webParserApiUrl)
 
-    static func sendParsingRequest(apiPath: String,
-                                   fileString: String,
-                                   language: Language) async throws -> Any? {
+    static func getAstJson(apiPath: String,
+                           fileString: String,
+                           language: Language) async throws -> Any? {
 
         let req: Request<Data> = .post(apiPath, body: [
             "string": fileString,

@@ -5,7 +5,7 @@
 //  Created by Liu Zimu on 27/3/22.
 //
 
-class GoParser {
+class GoParser: FileParser {
 
     static func parse(fileString: String) async throws -> [Line] {
         let rootNode = try await getAstFromApi(fileString: fileString)
@@ -17,7 +17,7 @@ class GoParser {
     }
 
     static func getAstFromApi(fileString: String) async throws -> ASTNode? {
-        let jsonTree = try await WebApiClient.sendParsingRequest(
+        let jsonTree = try await WebApiClient.getAstJson(
             apiPath: Constants.webParserApiAstPath,
             fileString: fileString,
             language: Language.go
