@@ -7,5 +7,8 @@
 
 enum Language: String {
     case go
+    case html
+    case json
+    case javascript
     case others
 }

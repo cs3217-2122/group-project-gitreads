@@ -75,6 +75,10 @@ class Parser {
         let language = detectLanguage(name: name)
         let lines: LazyDataSource<[Line]> = gitFile.contents.flatMap { currentFile in
             do {
+                /*
+                let currentFile = readFile("/Users/niclausliu/Desktop/CS3217/Project/Code/newline.go")
+                let result = try await FileParser.parseFile(fileString: currentFile, language: .go)
+                 */
                 let result = try await FileParser.parseFile(fileString: currentFile, language: language)
                 return .success(result)
             } catch {
