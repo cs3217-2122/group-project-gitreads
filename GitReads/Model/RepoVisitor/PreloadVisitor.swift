@@ -8,7 +8,6 @@ private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 16
 
 class PreloadVisitor: RepoVisitor {
     private var files: [File] = []
-    private var task: Task<(), Error>?
     private let chunkSize: Int
 
     var count: Int {
@@ -25,9 +24,32 @@ class PreloadVisitor: RepoVisitor {
         files.append(file)
     }
 
+    func afterVisit() -> Preloader {
+        Preloader(files: files, chunkSize: chunkSize)
+    }
+}
+
+class Preloader {
+    let totalFiles: Int
+    private(set) var filesLoaded: Int
+    private let filesToLoad: [File]
+    private let chunkSize: Int
+    private var task: Task<(), Error>?
+
+    init(files: [File], chunkSize: Int) {
+        self.totalFiles = files.count
+        self.filesLoaded = 0
+        self.filesToLoad = files
+        self.chunkSize = chunkSize
+    }
+
     func preload() {
+        if let task = task {
+            task.cancel()
+        }
+
         task = Task {
-            for chunk in self.files.chunked(into: self.chunkSize) {
+            for chunk in self.filesToLoad.chunked(into: self.chunkSize) {
                 if Task.isCancelled {
                     return
                 }
@@ -38,14 +60,15 @@ class PreloadVisitor: RepoVisitor {
                             _ = await file.lines.value
                         }
                     }
-
                 }
+
+                self.filesLoaded += chunk.count
             }
         }
     }
 
-    func stop() {
-        self.task?.cancel()
+    func cancel() {
+        task?.cancel()
     }
 }
 

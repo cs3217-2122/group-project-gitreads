@@ -10,23 +10,16 @@ class RepoHomePageViewModel: ObservableObject {
     @Published var readmeContents: String?
 
     let repo: Repo
-    private var preloader: PreloadVisitor?
+    private var preloader: Preloader
 
     init(repo: Repo) {
         self.repo = repo
-        self.preload()
+        self.preloader = repo.accept(visitor: PreloadVisitor())
+        preloader.preload()
     }
 
     func cleanUp() {
-        self.preloader?.stop()
-    }
-
-    func preload() {
-        self.preloader = PreloadVisitor()
-        if let preloader = preloader {
-            self.repo.accept(visitor: preloader)
-            preloader.preload()
-        }
+        self.preloader.cancel()
     }
 
     @MainActor func loadReadme() async throws {
