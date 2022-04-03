@@ -19,15 +19,9 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testInit() {
-        XCTAssertNil(viewModel.repository)
         XCTAssertFalse(viewModel.showSideBar)
         XCTAssertEqual(viewModel.files, [])
         XCTAssertNil(viewModel.openFile)
-    }
-
-    func testSetRepo() {
-        viewModel.setRepo(MockRepo.repo)
-        XCTAssertNotNil(viewModel.repository)
     }
 
     func testToggleSideBar() {
@@ -49,14 +43,12 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testOpenFile_addsFileToFiles_setsOpenFile() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         XCTAssertEqual(viewModel.files, [MockRepo.file1])
         XCTAssertEqual(viewModel.openFile, MockRepo.file1)
     }
 
     func testOpenFile_multipleFiles_openFileIsMostRecentlyAdded() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file2)
         viewModel.openFile(file: MockRepo.fileA1)
@@ -66,7 +58,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testOpenFile_sameFile_onlyOneAdded() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file1)
@@ -75,7 +66,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testRemoveFile_removesFromFiles_openFileIsNil() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         XCTAssertEqual(viewModel.files, [MockRepo.file1])
         XCTAssertEqual(viewModel.openFile, MockRepo.file1)
@@ -86,7 +76,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testRemoveFile_removeNonExistentFile_doesNothing() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.removeFile(file: MockRepo.file2)
 
@@ -95,7 +84,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testRemoveFile_multipleFiles() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file2)
         viewModel.openFile(file: MockRepo.fileA1)
@@ -114,7 +102,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testRemoveFile_removedOtherFile_openFileUnaffected() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file2)
 
@@ -123,7 +110,6 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testRemoveFile_removedOpenFile_openFileSetToOther() {
-        viewModel.setRepo(MockRepo.repo)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file2)
 

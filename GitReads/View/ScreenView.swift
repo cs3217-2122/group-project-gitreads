@@ -92,7 +92,7 @@ struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
         ScreenView(repo: Repo(
                 name: "test",
-                owner: "djisktra123",
+                owner: "dijkstra123",
                 description: "test repo",
                 platform: .github,
                 defaultBranch: "main",

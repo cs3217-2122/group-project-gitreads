@@ -4,7 +4,7 @@
 
 import Foundation
 
-private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 16
+private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 24
 
 class PreloadVisitor: RepoVisitor {
     private var files: [File] = []
@@ -25,9 +25,9 @@ class PreloadVisitor: RepoVisitor {
         files.append(file)
     }
 
-    func preload() {
-        task = Task {
-            for chunk in self.files.chunked(into: self.chunkSize) {
+    func preload() -> Task<(), Error> {
+        let preloadTask: Task<(), Error> = Task(priority: .low) {
+            for chunk in files.chunked(into: self.chunkSize) {
                 if Task.isCancelled {
                     return
                 }
@@ -35,13 +35,15 @@ class PreloadVisitor: RepoVisitor {
                 await withTaskGroup(of: Void.self) { group in
                     for file in chunk {
                         group.addTask {
-                            _ = await file.lines.value
+                            _ = await file.parseOutput.value
                         }
                     }
-
                 }
             }
         }
+
+        self.task = preloadTask
+        return preloadTask
     }
 
     func stop() {

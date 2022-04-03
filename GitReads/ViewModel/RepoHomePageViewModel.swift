@@ -10,11 +10,21 @@ class RepoHomePageViewModel: ObservableObject {
     @Published var readmeContents: String?
 
     let repo: Repo
+    var repoService: RepoService?
+
     private var preloader: PreloadVisitor?
 
     init(repo: Repo) {
         self.repo = repo
         self.preload()
+    }
+
+    deinit {
+        cleanUp()
+    }
+
+    func setRepoService(repoService: RepoService) {
+        self.repoService = repoService
     }
 
     func cleanUp() {
@@ -25,7 +35,7 @@ class RepoHomePageViewModel: ObservableObject {
         self.preloader = PreloadVisitor()
         if let preloader = preloader {
             self.repo.accept(visitor: preloader)
-            preloader.preload()
+            _ = preloader.preload()
         }
     }
 
@@ -40,7 +50,7 @@ class RepoHomePageViewModel: ObservableObject {
             return
         }
 
-        let readmeLines = try await readme.lines.value.get()
+        let readmeLines = try await readme.parseOutput.value.get().lines
         readmeContents = readmeLines.map { $0.content }.joined(separator: "\n")
     }
 
@@ -49,8 +59,23 @@ class RepoHomePageViewModel: ObservableObject {
         favouritedRepo.name = repo.name
         favouritedRepo.owner = repo.owner
         favouritedRepo.platform = repo.platform
+        favouritedRepo.lastUpdated = .now
 
         try context.save()
+
+        guard let repoService = repoService else {
+            return
+        }
+
+        Task(priority: .low) {
+            let repo = try await repoService.getRepository(owner: repo.owner, name: repo.name).get()
+
+            // preload the default branch to ensure all the files are cached
+            let preloader = PreloadVisitor(chunkSize: 32)
+            repo.accept(visitor: preloader)
+            _ = await preloader.preload().result
+            print("Saved \(repo.fullName) for offline use")
+        }
     }
 
     func unfavouriteRepository<T: Sequence>(

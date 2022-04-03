@@ -19,8 +19,8 @@ class TextSearchVisitor: RepoVisitor {
     func visit(directory: Directory) {}
 
     func visit(file: File) {
-        if let lines = file.lines.fetchedValue {
-            navigationOptions.append(contentsOf: checkFile(file: file, lines: lines))
+        if let parseOutput = file.parseOutput.fetchedValue {
+            navigationOptions.append(contentsOf: checkFile(file: file, lines: parseOutput.map { $0.lines }))
         } else {
             asyncVisit.append(file)
         }
@@ -30,8 +30,8 @@ class TextSearchVisitor: RepoVisitor {
         publisher.send(navigationOptions)
         Task {
             for file in self.asyncVisit {
-                let lines = await file.lines.value
-                let options = self.publisher.value + checkFile(file: file, lines: lines)
+                let parseOutput = await file.parseOutput.value
+                let options = self.publisher.value + checkFile(file: file, lines: parseOutput.map { $0.lines })
                 publisher.send(options)
 
             }

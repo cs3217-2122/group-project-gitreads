@@ -11,6 +11,13 @@
 		6E631E6227F713CD00E13A30 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6127F713CD00E13A30 /* Fuse */; };
 		6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */; };
 		6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */; };
+		6E631E6927F8622000E13A30 /* RepoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6827F8622000E13A30 /* RepoService.swift */; };
+		6E631E6B27F88A2400E13A30 /* ParseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6A27F88A2400E13A30 /* ParseOutput.swift */; };
+		6E631E6D27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6C27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift */; };
+		6E631E7027F8D33600E13A30 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6F27F8D33600E13A30 /* Reachability */; };
+		6E631E7227F8E47800E13A30 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E7127F8E47800E13A30 /* AppDependencies.swift */; };
+		6E631E7427F946AD00E13A30 /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E7327F946AC00E13A30 /* FavouritesViewModel.swift */; };
+		6E631E7627F9604A00E13A30 /* GitHubCachedDataFetcherFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E7527F9604A00E13A30 /* GitHubCachedDataFetcherFactory.swift */; };
 		6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */; };
 		6E67ECEF27E6D45800C75F8C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECEE27E6D45800C75F8C /* HomeView.swift */; };
 		6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */; };
@@ -51,7 +58,6 @@
 		6ED322E527E1F71D00F0AD09 /* GitHubRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322DC27E1F71D00F0AD09 /* GitHubRef.swift */; };
 		6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322DD27E1F71D00F0AD09 /* GitHubRepoContent.swift */; };
 		6ED322E727E1F71D00F0AD09 /* GitHubObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322DE27E1F71D00F0AD09 /* GitHubObject.swift */; };
-		6ED322E827E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED322DF27E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift */; };
 		6ED322E927E1F90800F0AD09 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E20C27D9E6F0008ACEEF /* Token.swift */; };
 		6ED322EA27E1F92000F0AD09 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D727D9DDA8008ACEEF /* PersistenceController.swift */; };
 		6ED322EB27E1F92700F0AD09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B223E1D027D9DDA7008ACEEF /* ContentView.swift */; };
@@ -150,6 +156,12 @@
 /* Begin PBXFileReference section */
 		6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoHomePageViewModel.swift; sourceTree = "<group>"; };
 		6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		6E631E6827F8622000E13A30 /* RepoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoService.swift; sourceTree = "<group>"; };
+		6E631E6A27F88A2400E13A30 /* ParseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseOutput.swift; sourceTree = "<group>"; };
+		6E631E6C27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesCachedDataFetcherFactory.swift; sourceTree = "<group>"; };
+		6E631E7127F8E47800E13A30 /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
+		6E631E7327F946AC00E13A30 /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
+		6E631E7527F9604A00E13A30 /* GitHubCachedDataFetcherFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCachedDataFetcherFactory.swift; sourceTree = "<group>"; };
 		6E67ECEA27E6D24000C75F8C /* GitHubSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchResponse.swift; sourceTree = "<group>"; };
 		6E67ECEE27E6D45800C75F8C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoSearchViewModel.swift; sourceTree = "<group>"; };
@@ -189,7 +201,6 @@
 		6ED322DC27E1F71D00F0AD09 /* GitHubRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubRef.swift; sourceTree = "<group>"; };
 		6ED322DD27E1F71D00F0AD09 /* GitHubRepoContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubRepoContent.swift; sourceTree = "<group>"; };
 		6ED322DE27E1F71D00F0AD09 /* GitHubObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubObject.swift; sourceTree = "<group>"; };
-		6ED322DF27E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitHubCachedDataFetcherFactory.swift; path = GitReads/Git/GitHub/GitHubCachedDataFetcherFactory.swift; sourceTree = SOURCE_ROOT; };
 		B223E1CB27D9DDA7008ACEEF /* GitReads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitReads.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B223E1CE27D9DDA7008ACEEF /* GitReadsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitReadsApp.swift; sourceTree = "<group>"; };
 		B223E1D027D9DDA7008ACEEF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -279,6 +290,7 @@
 				DE43323727E76E970012FD81 /* Cache in Frameworks */,
 				6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */,
 				DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */,
+				6E631E7027F8D33600E13A30 /* Reachability in Frameworks */,
 				DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */,
 				6E631E6227F713CD00E13A30 /* Fuse in Frameworks */,
 			);
@@ -353,7 +365,7 @@
 				6ED322D627E1F71D00F0AD09 /* ResponseModels */,
 				6ED3227327DC894200F0AD09 /* GitHubApi.swift */,
 				6ED3227427DC894300F0AD09 /* GitHubClient.swift */,
-				6ED322DF27E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift */,
+				6E631E7527F9604A00E13A30 /* GitHubCachedDataFetcherFactory.swift */,
 			);
 			name = GitHub;
 			sourceTree = "<group>";
@@ -481,6 +493,8 @@
 				FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */,
 				FF5EAA6927E9FE1400A3825E /* FileParser.swift */,
 				FF1A42DD27F1803D00D6F322 /* ASTNode.swift */,
+				6E631E6A27F88A2400E13A30 /* ParseOutput.swift */,
+				6E631E6C27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -498,6 +512,7 @@
 				B223E20C27D9E6F0008ACEEF /* Token.swift */,
 				B297732C27DF371400E117EE /* DummyFile.swift */,
 				DE43326327F371FA0012FD81 /* FileNavigateOption.swift */,
+				6E631E6827F8622000E13A30 /* RepoService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -510,6 +525,8 @@
 				B2C77B5627E480110072B80A /* SettingViewModel.swift */,
 				6E67ECF027E6D84000C75F8C /* RepoSearchViewModel.swift */,
 				6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */,
+				6E631E7327F946AC00E13A30 /* FavouritesViewModel.swift */,
+				6E631E7127F8E47800E13A30 /* AppDependencies.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -732,6 +749,7 @@
 				6E67ED0527E88BA800C75F8C /* Mocker */,
 				6E631E5E27F701C400E13A30 /* MarkdownUI */,
 				6E631E6127F713CD00E13A30 /* Fuse */,
+				6E631E6F27F8D33600E13A30 /* Reachability */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -813,6 +831,7 @@
 				6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */,
 				6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */,
+				6E631E6E27F8D33600E13A30 /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
@@ -933,7 +952,6 @@
 				FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */,
 				B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */,
 				DE43326C27F449950012FD81 /* SearchBarView.swift in Sources */,
-				6ED322E827E1F71D00F0AD09 /* GitHubCachedDataFetcherFactory.swift in Sources */,
 				DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */,
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
@@ -954,6 +972,7 @@
 				6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */,
 				6ED322CD27E0ADD800F0AD09 /* Result+AsyncMap.swift in Sources */,
 				6ED3227227DC88F400F0AD09 /* GitClient.swift in Sources */,
+				6E631E6927F8622000E13A30 /* RepoService.swift in Sources */,
 				FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */,
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
@@ -962,10 +981,12 @@
 				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
+				6E631E6B27F88A2400E13A30 /* ParseOutput.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */,
 				6ED322D527E15E0A00F0AD09 /* GitRef.swift in Sources */,
 				DE05002627F44FAA00ABEC27 /* TextSearchVisitor.swift in Sources */,
+				6E631E6D27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift in Sources */,
 				6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */,
 				6ED3227627DC894300F0AD09 /* GitHubClient.swift in Sources */,
 				FF73472A27F881E9009A8949 /* LocalClient.swift in Sources */,
@@ -973,8 +994,11 @@
 				6ED322BB27DEA5BA00F0AD09 /* CachedDataFetcher.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
 				DE580D5B27DF6D0F00C37142 /* Mock.swift in Sources */,
+				6E631E7227F8E47800E13A30 /* AppDependencies.swift in Sources */,
+				6E631E7627F9604A00E13A30 /* GitHubCachedDataFetcherFactory.swift in Sources */,
 				FF11943827E0702E001BE497 /* Constants.swift in Sources */,
 				6ED3226F27DC88F400F0AD09 /* GitContentType.swift in Sources */,
+				6E631E7427F946AD00E13A30 /* FavouritesViewModel.swift in Sources */,
 				DE43326827F42E220012FD81 /* FileNameSearchVisitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1334,6 +1358,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		6E631E6E27F8D33600E13A30 /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WeTransfer/Mocker";
@@ -1386,6 +1418,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */;
 			productName = Fuse;
+		};
+		6E631E6F27F8D33600E13A30 /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E631E6E27F8D33600E13A30 /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
 		};
 		6E67ED0527E88BA800C75F8C /* Mocker */ = {
 			isa = XCSwiftPackageProductDependency;

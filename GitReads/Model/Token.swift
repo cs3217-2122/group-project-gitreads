@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Token {
+struct Token: Codable {
     let type: TokenType
     let value: String
 }

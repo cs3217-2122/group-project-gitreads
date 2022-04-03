@@ -101,7 +101,7 @@ class GitHubClientTests: XCTestCase {
         }
 
         let api = GitHubApi(client: httpClient)
-        client = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: nil)
+        client = GitHubClient(gitHubApi: api)
     }
 
     func testGitHubClient_getRepositoryNotFound() async throws {

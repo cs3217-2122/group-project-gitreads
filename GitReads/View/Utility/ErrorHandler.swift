@@ -90,9 +90,9 @@ private class ErrorWrapper: ObservableObject {
     }
 
     func setError(_ error: Error) {
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
             self.error = error as NSError
-            presentAlert = true
+            self.presentAlert = true
         }
 
         if debug {

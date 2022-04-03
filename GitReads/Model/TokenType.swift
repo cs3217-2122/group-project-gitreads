@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TokenType: String {
+enum TokenType: String, Codable {
     case functionCall
     case functionDeclaration
     case type

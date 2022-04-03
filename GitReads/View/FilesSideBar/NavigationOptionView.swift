@@ -28,9 +28,10 @@ struct NavigationOptionView_Previews: PreviewProvider {
             option: FileNavigateOption(
             file: File(
                 path: Path(string: "/dirA/file1.txt"),
+                sha: "deadbeef",
                 language: .go,
                 declarations: [],
-                lines: LazyDataSource(value: [])),
+                parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: []))),
             line: 0,
             preview: "for i := range(5) {"))
     }
