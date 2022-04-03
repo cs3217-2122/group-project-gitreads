@@ -8,8 +8,8 @@ class MockDelegate: FileNavigateDelegate {
     private(set) var count = 0
     private(set) var files = [File]()
 
-    func onSelectFile(_ file: File) {
+    func navigateTo(_ option: FileNavigateOption) {
         count += 1
-        files.append(file)
+        files.append(option.file)
     }
 }

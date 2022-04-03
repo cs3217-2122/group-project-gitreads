@@ -21,7 +21,16 @@
 ///
 
 struct MockRepo {
-    static let repo = Repo(root: root)
+    static let repo = Repo(
+        name: "mock-repo",
+        owner: "GitReads",
+        description: "",
+        platform: .github,
+        defaultBranch: "main",
+        branches: ["main"],
+        currBranch: "main",
+        root: root,
+        htmlURL: nil)
 
     static let file1 = File(path: Path(string: "/file1.txt"),
                             language: .others,
