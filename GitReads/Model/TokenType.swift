@@ -19,8 +19,13 @@ enum TokenType: String, Codable {
     case escape
     case number
     case constant
+    case tag
+    case tagError
+    case bracket
+    case attribute
     case comment
+    case injection
     case space
     case tab
-    case others
+    case otherType
 }

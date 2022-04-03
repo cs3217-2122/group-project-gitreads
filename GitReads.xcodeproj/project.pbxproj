@@ -125,6 +125,13 @@
 		FF1A42DA27F0043800D6F322 /* GoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42D927F0043800D6F322 /* GoParser.swift */; };
 		FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A42DD27F1803D00D6F322 /* ASTNode.swift */; };
 		FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5EAA6927E9FE1400A3825E /* FileParser.swift */; };
+		FF73472527F880F5009A8949 /* HtmlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472427F880F5009A8949 /* HtmlParser.swift */; };
+		FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472627F88105009A8949 /* HtmlNodeTypeSimplifier.swift */; };
+		FF73472A27F881E9009A8949 /* LocalClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472927F881E9009A8949 /* LocalClient.swift */; };
+		FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472D27F89A0B009A8949 /* JsonParser.swift */; };
+		FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */; };
+		FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471AE27F8403500566ECB /* PseudoParser.swift */; };
+		FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
 		FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */; };
 /* End PBXBuildFile section */
@@ -262,6 +269,13 @@
 		FF1A42D927F0043800D6F322 /* GoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoParser.swift; sourceTree = "<group>"; };
 		FF1A42DD27F1803D00D6F322 /* ASTNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTNode.swift; sourceTree = "<group>"; };
 		FF5EAA6927E9FE1400A3825E /* FileParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileParser.swift; sourceTree = "<group>"; };
+		FF73472427F880F5009A8949 /* HtmlParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlParser.swift; sourceTree = "<group>"; };
+		FF73472627F88105009A8949 /* HtmlNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlNodeTypeSimplifier.swift; sourceTree = "<group>"; };
+		FF73472927F881E9009A8949 /* LocalClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalClient.swift; sourceTree = "<group>"; };
+		FF73472D27F89A0B009A8949 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
+		FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonNodeTypeSimplifier.swift; sourceTree = "<group>"; };
+		FF7471AE27F8403500566ECB /* PseudoParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoParser.swift; sourceTree = "<group>"; };
+		FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoNodeTypeSimplifier.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -473,9 +487,9 @@
 		B223E1FD27D9DDC4008ACEEF /* Parser */ = {
 			isa = PBXGroup;
 			children = (
+				FF73472827F881D8009A8949 /* TreeSitterClient */,
 				FF1A42D827F0042000D6F322 /* FileParsers */,
 				FF11943127E04356001BE497 /* Parser.swift */,
-				FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */,
 				FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */,
 				FF5EAA6927E9FE1400A3825E /* FileParser.swift */,
 				FF1A42DD27F1803D00D6F322 /* ASTNode.swift */,
@@ -666,9 +680,48 @@
 		FF1A42D827F0042000D6F322 /* FileParsers */ = {
 			isa = PBXGroup;
 			children = (
-				FF1A42D927F0043800D6F322 /* GoParser.swift */,
+				FF73472C27F899F2009A8949 /* JsonParser */,
+				FF73472327F880E8009A8949 /* HtmlParser */,
+				FF7471B027F8483E00566ECB /* GoParser */,
+				FF7471AE27F8403500566ECB /* PseudoParser.swift */,
 			);
 			path = FileParsers;
+			sourceTree = "<group>";
+		};
+		FF73472327F880E8009A8949 /* HtmlParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF73472427F880F5009A8949 /* HtmlParser.swift */,
+				FF73472627F88105009A8949 /* HtmlNodeTypeSimplifier.swift */,
+			);
+			path = HtmlParser;
+			sourceTree = "<group>";
+		};
+		FF73472827F881D8009A8949 /* TreeSitterClient */ = {
+			isa = PBXGroup;
+			children = (
+				FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */,
+				FF73472927F881E9009A8949 /* LocalClient.swift */,
+			);
+			path = TreeSitterClient;
+			sourceTree = "<group>";
+		};
+		FF73472C27F899F2009A8949 /* JsonParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF73472D27F89A0B009A8949 /* JsonParser.swift */,
+				FF73472F27F89A1C009A8949 /* JsonNodeTypeSimplifier.swift */,
+			);
+			path = JsonParser;
+			sourceTree = "<group>";
+		};
+		FF7471B027F8483E00566ECB /* GoParser */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A42D927F0043800D6F322 /* GoParser.swift */,
+				FF7471B127F8485A00566ECB /* GoNodeTypeSimplifier.swift */,
+			);
+			path = GoParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -859,6 +912,7 @@
 				DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */,
 				6E67ED1027E9BB7B00C75F8C /* PaginatedResponse.swift in Sources */,
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
+				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */,
 				6ED322E327E1F71D00F0AD09 /* GitHubRepoContent+Codable.swift in Sources */,
@@ -878,6 +932,7 @@
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */,
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
+				FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */,
 				B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */,
 				B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */,
 				DE580D4B27DF570200C37142 /* WindowView.swift in Sources */,
@@ -886,12 +941,15 @@
 				DE580D4D27DF570F00C37142 /* ScreenView.swift in Sources */,
 				DE580D5927DF6C9C00C37142 /* FileBarView.swift in Sources */,
 				6ED322E227E1F71D00F0AD09 /* GitHubRepo.swift in Sources */,
+				FF73472527F880F5009A8949 /* HtmlParser.swift in Sources */,
 				B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */,
 				B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */,
 				6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */,
 				6ED322E427E1F71D00F0AD09 /* GitHubTree.swift in Sources */,
+				FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */,
 				DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */,
 				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,
+				FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */,
 				B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */,
 				DE43326C27F449950012FD81 /* SearchBarView.swift in Sources */,
 				DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */,
@@ -919,6 +977,7 @@
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */,
+				FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */,
 				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
@@ -930,6 +989,7 @@
 				6E631E6D27F8927D00E13A30 /* LinesCachedDataFetcherFactory.swift in Sources */,
 				6E67ECF127E6D84100C75F8C /* RepoSearchViewModel.swift in Sources */,
 				6ED3227627DC894300F0AD09 /* GitHubClient.swift in Sources */,
+				FF73472A27F881E9009A8949 /* LocalClient.swift in Sources */,
 				6ED322CF27E0B59000F0AD09 /* GitTree.swift in Sources */,
 				6ED322BB27DEA5BA00F0AD09 /* CachedDataFetcher.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
