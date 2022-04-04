@@ -60,7 +60,8 @@ struct WindowView: View {
             Divider()
             ZStack {
                 ForEach(files, id: \.path) { file in
-                    CodeView(file: file, viewModel: viewModel, fontSize: $fontSize, isScrollView: $isScrollView)
+                    CodeView(file: file, viewModel: viewModel, codeViewModel: CodeViewModel(file: file),
+                             fontSize: $fontSize, isScrollView: $isScrollView)
                         .opacity(file == openFile ? 1 : 0)
                 }
             }

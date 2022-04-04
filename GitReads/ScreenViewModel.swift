@@ -10,7 +10,6 @@ class ScreenViewModel: ObservableObject {
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
 
-    private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
     private var preloader: PreloadVisitor?
 
     func toggleSideBar() {
@@ -39,26 +38,6 @@ class ScreenViewModel: ObservableObject {
         if openFile == file {
             openFile = files.first
         }
-    }
-
-    func getLineOption(lineNum: Int) -> [LineAction] {
-        var result: [LineAction] = []
-        for plugin in plugins {
-            if let action = plugin.getLineAction(file: openFile, lineNum: lineNum) {
-                result.append(action)
-            }
-        }
-        return result
-    }
-
-    func getTokenOption(lineNum: Int, posNum: Int) -> [TokenAction] {
-        var result: [TokenAction] = []
-        for plugin in plugins {
-            if let action = plugin.getTokenAction(file: openFile, lineNum: lineNum, posNum: posNum) {
-                result.append(action)
-            }
-        }
-        return result
     }
 }
 

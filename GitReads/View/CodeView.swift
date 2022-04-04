@@ -10,6 +10,7 @@ import SwiftUI
 struct CodeView: View {
     let file: File
     @StateObject var viewModel: ScreenViewModel
+    @StateObject var codeViewModel: CodeViewModel
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
 
@@ -25,7 +26,7 @@ struct CodeView: View {
                     ForEach(0..<lines.count, id: \.self) { lineNum in
                         HStack(alignment: .center) {
                             Menu(String(lineNum + 1)) {
-                                let options = viewModel.getLineOption(lineNum: lineNum)
+                                let options = codeViewModel.getLineOption(lineNum: lineNum)
                                 ForEach(0..<options.count, id: \.self) { pos in
                                     if let buttonText = options[pos].text {
                                         Button(buttonText, action: options[pos].takeInput
@@ -37,8 +38,8 @@ struct CodeView: View {
 
                             VStack {
                                 if isScrollView {
-                                    ScrollLineView(viewModel: viewModel, line: lines[lineNum],
-                                                   lineNum: lineNum, fontSize: $fontSize)
+                                    ScrollLineView(viewModel: viewModel, codeViewModel: codeViewModel,
+                                                   line: lines[lineNum], lineNum: lineNum, fontSize: $fontSize)
                                 } else {
                                     WrapLineView(viewModel: viewModel, lineNum: lineNum,
                                                  line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
@@ -61,6 +62,11 @@ struct CodeView: View {
         .onAppear {
             Task {
                 self.lines = await file.parseOutput.value.map { $0.lines }
+                if let lines = lines, case let .success(lines) = lines {
+                    for line in lines {
+
+                    }
+                }
             }
         }
 
@@ -77,6 +83,7 @@ struct CodeView_Previews: PreviewProvider {
         CodeView(
             file: DummyFile.getFile(),
             viewModel: ScreenViewModel(),
+            codeViewModel: CodeViewModel(file: DummyFile.getFile()),
             fontSize: $fontSize,
             isScrollView: $bool
         ).previewInterfaceOrientation(.portrait)

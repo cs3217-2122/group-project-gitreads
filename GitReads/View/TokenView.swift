@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TokenView: View {
     @StateObject var viewModel: ScreenViewModel
+    @StateObject var codeViewModel: CodeViewModel
     let token: Token
     let lineNum: Int
     let pos: Int
@@ -17,13 +18,13 @@ struct TokenView: View {
     @State private var currentActiveAction: ((File, Int, Int, String) -> Void)?
 
     var body: some View {
-        let options = viewModel.getTokenOption(lineNum: lineNum, posNum: pos)
+        let options = codeViewModel.getTokenOption(lineNum: lineNum, posNum: pos)
         Menu(token.type == .tab ? String(repeating: " ", count: 4) : token.value) {
             ForEach(0..<options.count, id: \.self) { pos in
                 if let buttonText = options[pos].text {
                     Button(buttonText, action: options[pos].takeInput
                            ? { showingAlert = true; currentActiveAction = options[pos].action }
-                           : { options[pos].action(viewModel.openFile!, lineNum, pos, "") }) // might want to change
+                           : { options[pos].action(codeViewModel.file, lineNum, pos, "") }) // might want to change
                 }
             }
         }
@@ -38,7 +39,8 @@ struct TokenView: View {
 struct TokenView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        TokenView(viewModel: ScreenViewModel(), token: Token(type: .keyword, value: "TEST"),
+        TokenView(viewModel: ScreenViewModel(), codeViewModel: CodeViewModel(file: DummyFile.getFile()),
+                  token: Token(type: .keyword, value: "TEST"),
                   lineNum: 0, pos: 0, fontSize: $fontSize)
     }
 }
