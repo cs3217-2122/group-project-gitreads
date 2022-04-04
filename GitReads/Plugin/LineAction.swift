@@ -7,10 +7,10 @@
 
 struct LineAction {
     var text: String?
-    var action: (File, Int, String) -> Void
+    var action: (ScreenViewModel, CodeViewModel, Int, String) -> Void
     var takeInput: Bool
 
-    init(text: String?, action: @escaping (File, Int, String) -> Void, takeInput: Bool) {
+    init(text: String?, action: @escaping (ScreenViewModel, CodeViewModel, Int, String) -> Void, takeInput: Bool) {
         self.text = text
         self.action = action
         self.takeInput = takeInput

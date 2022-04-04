@@ -15,47 +15,47 @@ struct CodeView: View {
     @Binding var isScrollView: Bool
 
     @State private var lines: Result<[Line], Error>?
-    @State private var currentActiveAction: ((File, Int, String) -> Void)?
+    @State private var currentActiveAction: ((ScreenViewModel, CodeViewModel, Int, String) -> Void)?
     @State private var editingLine: Int?
     @State private var text = ""
 
     var body: some View {
         ScrollView {
             LazyVStack {
-                if let lines = lines, case let .success(lines) = lines {
-                    ForEach(0..<lines.count, id: \.self) { lineNum in
-                        HStack(alignment: .center) {
-                            Menu(String(lineNum + 1)) {
-                                let options = codeViewModel.getLineOption(lineNum: lineNum)
-                                ForEach(0..<options.count, id: \.self) { pos in
-                                    if let buttonText = options[pos].text {
-                                        Button(buttonText, action: options[pos].takeInput
-                                                ? { editingLine = lineNum; currentActiveAction = options[pos].action }
-                                                : { options[pos].action(file, lineNum, "") })
-                                    }
-                                }
-                            }.font(.system(size: CGFloat($fontSize.wrappedValue)))
-
-                            VStack {
-                                if isScrollView {
-                                    ScrollLineView(viewModel: viewModel, codeViewModel: codeViewModel,
-                                                   line: lines[lineNum], lineNum: lineNum, fontSize: $fontSize)
-                                } else {
-                                    WrapLineView(viewModel: viewModel, lineNum: lineNum,
-                                                 line: lines[lineNum], fontSize: $fontSize).padding(.horizontal)
-                                }
-                                if editingLine == lineNum, let action = currentActiveAction {
-                                    TextField("Enter", text: $text, onCommit: {
-                                        action(file, lineNum, text)
-                                        text = ""
-                                        editingLine = nil
-                                        currentActiveAction = nil
-                                    })
+                ForEach(0..<codeViewModel.data.count, id: \.self) { lineNum in
+                    HStack(alignment: .center) {
+                        Menu(String(lineNum + 1)) {
+                            let options = codeViewModel.getLineOption(lineNum: lineNum)
+                            ForEach(0..<options.count, id: \.self) { pos in
+                                if let buttonText = options[pos].text {
+                                    Button(buttonText, action: options[pos].takeInput
+                                           ? { editingLine = lineNum; currentActiveAction = options[pos].action }
+                                            : { options[pos].action(viewModel, codeViewModel, lineNum, "") })
                                 }
                             }
-                            Spacer()
-                        }.padding(.leading, 6)
-                    }
+                        }.font(.system(size: CGFloat($fontSize.wrappedValue)))
+
+                        VStack {
+                            if isScrollView {
+                                ScrollLineView(viewModel: viewModel, codeViewModel: codeViewModel,
+                                               line: codeViewModel.data[lineNum], lineNum: lineNum,
+                                               fontSize: $fontSize)
+                            } else {
+                                WrapLineView(viewModel: viewModel, lineNum: lineNum,
+                                             line: codeViewModel.data[lineNum], fontSize: $fontSize)
+                                .padding(.horizontal)
+                            }
+                            if editingLine == lineNum, let action = currentActiveAction {
+                                TextField("Enter", text: $text, onCommit: {
+                                    action(viewModel, codeViewModel, lineNum, text)
+                                    text = ""
+                                    editingLine = nil
+                                    currentActiveAction = nil
+                                })
+                            }
+                        }
+                        Spacer()
+                    }.padding(.leading, 6)
                 }
             }
         }
@@ -63,9 +63,7 @@ struct CodeView: View {
             Task {
                 self.lines = await file.parseOutput.value.map { $0.lines }
                 if let lines = lines, case let .success(lines) = lines {
-                    for line in lines {
-
-                    }
+                    codeViewModel.data = lines
                 }
             }
         }

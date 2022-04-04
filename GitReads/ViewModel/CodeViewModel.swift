@@ -8,7 +8,7 @@
 import Combine
 
 class CodeViewModel: ObservableObject {
-    @Published var data: [[String]] = []
+    @Published var data: [Line] = []
     private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
     let file: File
 
