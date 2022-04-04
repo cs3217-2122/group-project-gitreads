@@ -6,6 +6,6 @@
 //
 
 protocol Plugin {
-    func getLineAction(file: File?, lineNum: Int) -> LineAction?
-    func getTokenAction(file: File?, lineNum: Int, posNum: Int) -> TokenAction?
+    func getLineAction(file: File, lineNum: Int) -> LineAction?
+    func getTokenAction(file: File, lineNum: Int, posNum: Int) -> TokenAction?
 }

@@ -6,5 +6,5 @@
 //
 
 class CommentData {
-    static var data: [Int: String] = [:] // File name, line number and comment
+    static var data: [Path: [Int: String]] = [:] // File path, line number and comment
 }
