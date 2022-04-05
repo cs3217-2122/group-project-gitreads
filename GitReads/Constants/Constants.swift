@@ -11,7 +11,6 @@ class Constants {
     // Web parser API
     static let webParserApiUrl = "parser-api.fly.dev"
     static let webParserApiAstPath = "/parse"
-    static let webParserApiTokenizePath = "/tokenize"
 
     static let tabWidth = 4
 }

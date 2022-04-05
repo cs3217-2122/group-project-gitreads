@@ -104,7 +104,7 @@ class RepoParser {
         let parseOutput: LazyDataSource<ParseOutput> = gitFile.contents.flatMap { currentFile in
             let lines = await self.dataFetcherFor(sha: content.sha) {
                 do {
-                    let lines = try await FileParser.parseFile(fileString: currentFile, language: language)
+                    let lines = try await self.parseFile(fileString: currentFile, language: language)
                     return .success(lines)
                 } catch {
                     return .failure(error)
@@ -123,23 +123,49 @@ class RepoParser {
         )
     }
 
+    private func parseFile(fileString: String, language: Language) async throws -> [Line] {
+        switch language {
+        case .go:
+            return try await GoParser.parse(fileString: fileString)
+        case .html:
+            return try await HtmlParser.parse(fileString: fileString)
+        case .json:
+            return try await JsonParser.parse(fileString: fileString)
+        case .javascript:
+            return try await JavascriptParser.parse(fileString: fileString)
+        case .python:
+            return try await PythonParser.parse(fileString: fileString)
+        case .c:
+            return try await CParser.parse(fileString: fileString)
+        case .others:
+            return PseudoParser.parse(fileString: fileString)
+        }
+    }
+
     private func detectLanguage(name: String) -> Language {
         let type = getFileType(name)
-        let language = Language(rawValue: type)
-        if let language = language {
-            return language
-        }
+        switch type {
+        case "js":
+            return Language.javascript
+        case "py":
+            return Language.python
+        default:
+            let language = Language(rawValue: type)
+            if let language = language {
+                return language
+            }
 
-        return Language.others
+            return Language.others
+        }
     }
 
     private func getFileType(_ fileName: String) -> String {
         let type = fileName.split(separator: ".").last
-        if type != nil {
-            return String(type!)
-        } else {
+        guard let type = type else {
             return ""
         }
+
+        return String(type)
     }
 
     private func dataFetcherFor(

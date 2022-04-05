@@ -90,7 +90,7 @@ class GoNodeTypeSimplifier {
             "float_literal",
             "imaginary_literal"
         ],
-        "constant": [
+        "builtinConstant": [
             "true",
             "false",
             "nil",
@@ -116,15 +116,25 @@ class GoNodeTypeSimplifier {
             return reverseMap[node.type] ?? "otherType"
         }
 
-        if node.type == "identifier" && parent.type == "call_expression"
-            || (node.type == "field_identifier" && parent.type == "selector_expression"
-                && parent.parent?.type ?? "" == "call_expression") {
+        // Function and method calls
+
+        if node.type == "identifier" && parent.type == "call_expression" {
             return "functionCall"
         }
 
-        if node.type == "identifier" && parent.type == "function_declaration"
-            || (node.type == "field_identifier" && parent.type == "method_declaration") {
+        if node.type == "field_identifier" && parent.type == "selector_expression"
+                && parent.parent?.type ?? "" == "call_expression" {
+            return "methodCall"
+        }
+
+        // Function and method declarations
+
+        if node.type == "identifier" && parent.type == "function_declaration" {
             return "functionDeclaration"
+        }
+
+        if node.type == "field_identifier" && parent.type == "method_declaration" {
+            return "methodDeclaration"
         }
 
         return reverseMap[node.type] ?? "otherType"

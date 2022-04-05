@@ -28,9 +28,7 @@ class TokenConverter {
         var nextStartPosition = 0
 
         for node in nodes {
-            guard let nodeType = TokenType(rawValue: node.type) else {
-                return []
-            }
+            let nodeType = TokenType(rawValue: node.type) ?? .otherType
 
             var lineNumber = node.start[0]
 

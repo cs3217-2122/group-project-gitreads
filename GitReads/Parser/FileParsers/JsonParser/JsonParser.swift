@@ -5,7 +5,7 @@
 //  Created by Liu Zimu on 2/4/22.
 //
 
-class JsonParser {
+class JsonParser: FileParser {
 
     static func parse(fileString: String) async throws -> [Line] {
         let rootNode = try await getAstLocally(fileString: fileString)
