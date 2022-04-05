@@ -133,6 +133,10 @@ class RepoParser {
             return try await JsonParser.parse(fileString: fileString)
         case .javascript:
             return try await JavascriptParser.parse(fileString: fileString)
+        case .python:
+            return try await PythonParser.parse(fileString: fileString)
+        case .c:
+            return try await CParser.parse(fileString: fileString)
         case .others:
             return PseudoParser.parse(fileString: fileString)
         }
@@ -143,6 +147,8 @@ class RepoParser {
         switch type {
         case "js":
             return Language.javascript
+        case "py":
+            return Language.python
         default:
             let language = Language(rawValue: type)
             if let language = language {

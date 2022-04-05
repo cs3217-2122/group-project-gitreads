@@ -10,6 +10,7 @@ import Foundation
 enum TokenType: String, Codable {
     case functionCall
     case functionDeclaration
+    case specialFunctionDeclaration
     case methodCall
     case methodDeclaration
     case type
@@ -28,6 +29,7 @@ enum TokenType: String, Codable {
     case bracket
     case delimiter
     case attribute
+    case label
     case comment
     case injection
     case specialPunctuation
