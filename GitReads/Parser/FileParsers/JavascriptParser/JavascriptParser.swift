@@ -7,13 +7,26 @@
 
 class JavascriptParser: FileParser {
 
-    static func parse(fileString: String) async throws -> [Line] {
+    static func parse(fileString: String, includeDeclarations: Bool = true) async throws -> ParseOutput {
         let rootNode = try await getAstLocally(fileString: fileString)
         let leafNodes = getLeafNodesFromAst(rootNode: rootNode)
         simplifyLeafNodes(nodes: leafNodes)
 
-        return TokenConverter.nodesToLines(fileString: fileString,
-                                           nodes: leafNodes)
+        let lines = TokenConverter.nodesToLines(fileString: fileString,
+                                                nodes: leafNodes)
+
+        var declarations = [Declaration]()
+        if includeDeclarations {
+            declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
+        }
+
+        return ParseOutput(fileContents: fileString,
+                           lines: lines,
+                           declarations: declarations)
+    }
+
+    static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {
+        []
     }
 
     static func getAstLocally(fileString: String) async throws -> ASTNode? {

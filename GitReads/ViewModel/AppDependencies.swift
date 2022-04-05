@@ -18,12 +18,12 @@ class AppDependencies: ObservableObject {
 
         self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: githubFetcherFactory)
 
-        let linesFetcherFactory = LinesCachedDataFetcherFactory()
-        if linesFetcherFactory == nil {
+        let parseOutputFetcherFactory = ParseOutputCachedDataFetcherFactory()
+        if parseOutputFetcherFactory == nil {
             print("Failed to initialize cache for parser results")
         }
 
-        let parser = Parser(cachedDataFetcherFactory: linesFetcherFactory )
+        let parser = Parser(cachedDataFetcherFactory: parseOutputFetcherFactory )
         self.repoService = RepoService(gitClient: gitClient, parser: parser)
     }
 }

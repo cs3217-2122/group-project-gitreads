@@ -11,7 +11,6 @@ struct File {
     let path: Path
     let sha: String
     let language: Language
-    let declarations: [String] // create another type
     var parseOutput: LazyDataSource<ParseOutput>
 
     var name: String {
