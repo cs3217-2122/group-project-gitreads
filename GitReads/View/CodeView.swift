@@ -25,7 +25,7 @@ struct CodeView: View {
                 ForEach(0..<codeViewModel.data.count, id: \.self) { lineNum in
                     HStack(alignment: .center) {
                         Menu(String(lineNum + 1)) {
-                            let options = codeViewModel.getLineOption(lineNum: lineNum)
+                            let options = codeViewModel.getLineOption(repo: viewModel.repo, lineNum: lineNum)
                             ForEach(0..<options.count, id: \.self) { pos in
                                 if let buttonText = options[pos].text {
                                     Button(buttonText, action: options[pos].takeInput

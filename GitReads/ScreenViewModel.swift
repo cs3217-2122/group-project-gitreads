@@ -10,6 +10,7 @@ class ScreenViewModel: ObservableObject {
     @Published private(set) var files: [File] = []
     @Published var openFile: File?
 
+    var repo: Repo?
     private var preloader: PreloadVisitor?
 
     func toggleSideBar() {

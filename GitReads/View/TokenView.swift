@@ -18,7 +18,7 @@ struct TokenView: View {
     @State private var text = ""
 
     var body: some View {
-        let options = codeViewModel.getTokenOption(lineNum: lineNum, posNum: pos)
+        let options = codeViewModel.getTokenOption(repo: viewModel.repo, lineNum: lineNum, posNum: pos)
         HStack {
             Menu(token.type == .tab ? String(repeating: " ", count: 4) : token.value) {
                 ForEach(0..<options.count, id: \.self) { pos in

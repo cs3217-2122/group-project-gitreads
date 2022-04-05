@@ -16,20 +16,20 @@ class CodeViewModel: ObservableObject {
         self.file = file
     }
 
-    func getLineOption(lineNum: Int) -> [LineAction] {
+    func getLineOption(repo: Repo?, lineNum: Int) -> [LineAction] {
         var result: [LineAction] = []
         for plugin in plugins {
-            if let action = plugin.getLineAction(file: file, lineNum: lineNum) {
+            if let action = plugin.getLineAction(repo: repo, file: file, lineNum: lineNum) {
                 result.append(action)
             }
         }
         return result
     }
 
-    func getTokenOption(lineNum: Int, posNum: Int) -> [TokenAction] {
+    func getTokenOption(repo: Repo?, lineNum: Int, posNum: Int) -> [TokenAction] {
         var result: [TokenAction] = []
         for plugin in plugins {
-            if let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum) {
+            if let action = plugin.getTokenAction(repo: repo, file: file, lineNum: lineNum, posNum: posNum) {
                 result.append(action)
             }
         }
