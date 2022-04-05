@@ -9,9 +9,10 @@ import Foundation
 
 struct File {
     let path: Path
+    let sha: String
     let language: Language
     let declarations: [String] // create another type
-    var lines: LazyDataSource<[Line]>
+    var parseOutput: LazyDataSource<ParseOutput>
 
     var name: String {
         path.lastPathComponent ?? ""

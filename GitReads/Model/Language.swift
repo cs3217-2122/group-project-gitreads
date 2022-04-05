@@ -10,5 +10,7 @@ enum Language: String {
     case html
     case json
     case javascript
+    case python
+    case c
     case others
 }

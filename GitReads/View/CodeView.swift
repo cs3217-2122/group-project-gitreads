@@ -12,6 +12,7 @@ struct CodeView: View {
     @StateObject var viewModel: ScreenViewModel
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
+
     @State private var lines: Result<[Line], Error>?
     @State private var currentActiveAction: ((File, Int, String) -> Void)?
     @State private var editingLine: Int?
@@ -33,6 +34,7 @@ struct CodeView: View {
                                     }
                                 }
                             }.font(.system(size: CGFloat($fontSize.wrappedValue)))
+
                             VStack {
                                 if isScrollView {
                                     ScrollLineView(viewModel: viewModel, line: lines[lineNum],
@@ -58,7 +60,7 @@ struct CodeView: View {
         }
         .onAppear {
             Task {
-                self.lines = await file.lines.value
+                self.lines = await file.parseOutput.value.map { $0.lines }
             }
         }
 

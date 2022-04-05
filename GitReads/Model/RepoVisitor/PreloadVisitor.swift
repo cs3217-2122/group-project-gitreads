@@ -4,7 +4,7 @@
 
 import Foundation
 
-private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 16
+private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 24
 
 class PreloadVisitor: RepoVisitor {
     private var files: [File] = []
@@ -43,6 +43,12 @@ class Preloader {
         self.chunkSize = chunkSize
     }
 
+    var result: Result<(), Error>? {
+        get async {
+            await task?.result
+        }
+    }
+
     func preload() {
         if let task = task {
             task.cancel()
@@ -57,7 +63,7 @@ class Preloader {
                 await withTaskGroup(of: Void.self) { group in
                     for file in chunk {
                         group.addTask {
-                            _ = await file.lines.value
+                            _ = await file.parseOutput.value
                         }
                     }
                 }

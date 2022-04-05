@@ -1,39 +1,40 @@
 //
-//  GitHubCachedDataFetcherFactory.swift
+//  FileCachedDataFetcherFactory.swift
 //  GitReads
 
 import Cache
 import Foundation
 
-struct GitHubCacheKey: Hashable {
+struct LinesCacheKey: Hashable {
+    let platform: RepoPlatform
     let owner: String
     let repo: String
     let sha: String
 }
 
-typealias GitHubCachedDataFetcher<T> = CachedDataFetcher<GitHubCacheKey, T>
+typealias LinesCachedDataFetcher<T> = CachedDataFetcher<LinesCacheKey, T>
 
-struct GitHubCachedDataFetcherFactory {
+struct LinesCachedDataFetcherFactory {
 
     static let DefaultCacheDiskConfig = DiskConfig(
-        name: "github",
-        expiry: .date(Date().addingTimeInterval(14 * 86_400)), // 14 days
-        maxSize: 1_000_000_000 // 1GB
+        name: "lines-cache",
+        expiry: .date(Date().addingTimeInterval(30 * 86_400)), // 30 days
+        maxSize: 2_000_000_000 // 2GB
     )
 
     static let DefaultCacheMemoryConfig = MemoryConfig(
         expiry: .date(Date().addingTimeInterval(30 * 60)), // 30 minutes
-        countLimit: 30
+        countLimit: 100
     )
 
-    private let cachedDataFetcherFactory: CachedDataFetcherFactory<GitHubCacheKey>
+    private let cachedDataFetcherFactory: CachedDataFetcherFactory<LinesCacheKey>
 
     init?(
         diskConfig: DiskConfig = DefaultCacheDiskConfig,
         memoryConfig: MemoryConfig = DefaultCacheMemoryConfig
     ) {
         do {
-            let storage: Storage<GitHubCacheKey, String> = try Storage(
+            let storage: Storage<LinesCacheKey, String> = try Storage(
                 diskConfig: diskConfig,
                 memoryConfig: memoryConfig,
                 transformer: TransformerFactory.forCodable(ofType: String.self)
@@ -45,14 +46,14 @@ struct GitHubCachedDataFetcherFactory {
         }
     }
 
-    init(storage: Storage<GitHubCacheKey, String>) {
+    init(storage: Storage<LinesCacheKey, String>) {
         self.cachedDataFetcherFactory = CachedDataFetcherFactory(storage: storage)
     }
 
     func makeCachedDataFetcher<T> (
-        key: GitHubCacheKey,
+        key: LinesCacheKey,
         fetcher:  @escaping () async -> Swift.Result<T, Error>
-    ) -> CachedDataFetcher<GitHubCacheKey, T> where T: Codable {
+    ) -> CachedDataFetcher<LinesCacheKey, T> where T: Codable {
         cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
     }
 }

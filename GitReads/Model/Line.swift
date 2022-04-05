@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Line {
+struct Line: Codable {
     let tokens: [Token]
 
     var content: String {

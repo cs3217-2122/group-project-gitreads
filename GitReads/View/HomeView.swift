@@ -6,30 +6,32 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @StateObject private var viewModel: RepoSearchViewModel
+    @StateObject private var searchViewModel: RepoSearchViewModel
 
-    let gitClient: GitClient
+    let repoService: RepoService
 
-    init(gitClient: GitClient) {
-        self.gitClient = gitClient
-        _viewModel = StateObject(wrappedValue: RepoSearchViewModel(gitClient: gitClient))
+    init(repoService: RepoService) {
+        self.repoService = repoService
+        _searchViewModel = StateObject(
+            wrappedValue: RepoSearchViewModel(gitClient: repoService.gitClient)
+        )
     }
 
     var body: some View {
         NavigationView {
             VStack {
                 List {
-                    if viewModel.isSearching {
+                    if searchViewModel.isSearching {
                         HStack {
                             Spacer()
                             ProgressView()
                             Spacer()
                         }
                     }
-                    ForEach(viewModel.repos, id: \.fullName) { repo in
+                    ForEach(searchViewModel.repos, id: \.fullName) { repo in
                         repoSummary(repo)
                             .onAppear {
-                                viewModel.scrolledToItem(repo: repo)
+                                searchViewModel.scrolledToItem(repo: repo)
                             }
                     }
                 }
@@ -37,16 +39,16 @@ struct HomeView: View {
             }
             .navigationTitle("Home")
             .overlay {
-                FavouritesView(gitClient: gitClient)
+                FavouritesView(repoService: repoService)
             }
         }
-        .searchable(text: $viewModel.searchText, prompt: "Search for a repo")
+        .searchable(text: $searchViewModel.searchText, prompt: "Search for a repo")
         .navigationViewStyle(.stack)
     }
 
     func repoSummary(_ repo: GitRepoSummary) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            let fetcher = repoFetcherFor(gitClient: gitClient, owner: repo.owner, name: repo.name)
+            let fetcher = repoFetcherFor(repoService: repoService, owner: repo.owner, name: repo.name)
             let repoView = RepoHomePageView(repoFetcher: fetcher)
                 .navigationBarTitle("", displayMode: .inline)
 
@@ -66,28 +68,35 @@ struct HomeView: View {
 }
 
 func repoFetcherFor(
-    gitClient: GitClient,
+    repoService: RepoService,
     owner: String,
     name: String
 ) -> ((String?) async -> Result<Repo, Error>) {
     { branch in
         let ref = branch.map { GitRef.branch($0) }
-        return await gitClient
-            .getRepository(owner: owner, name: name, ref: ref)
-            .asyncFlatMap { await Parser.parse(gitRepo: $0) }
+        return await repoService.getRepository(owner: owner, name: name, ref: ref)
     }
 }
 
 struct FavouritesView: View {
 
+    @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.isSearching) var isSearching
+
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)])
     var favouritedRepos: FetchedResults<FavouritedRepo>
+
+    @StateObject var viewModel: FavouritesViewModel
 
     @State private var selectedRepo: FavouritedRepo?
     @State private var showRepoPage = false
 
-    let gitClient: GitClient
+    let repoService: RepoService
+
+    init(repoService: RepoService) {
+        _viewModel = StateObject(wrappedValue: FavouritesViewModel(repoService: repoService))
+        self.repoService = repoService
+    }
 
     var favouritesHeader: some View {
         HStack {
@@ -157,13 +166,13 @@ struct FavouritesView: View {
                 VStack(spacing: 0) {
                     if let selectedRepo = selectedRepo {
                         let fetcher = repoFetcherFor(
-                            gitClient: gitClient,
+                            repoService: repoService,
                             owner: selectedRepo.owner ?? "",
                             name: selectedRepo.name ?? ""
                         )
 
                         let repoView = RepoHomePageView(repoFetcher: fetcher)
-                            .navigationBarTitle("", displayMode: .inline)
+                            .navigationBarTitle("Repo", displayMode: .inline)
                         // We must use a hidden navigation link with the isActive argument instead
                         // of a more normal method where the navigation link is embedded in
                         // the view of the repository. This is to avoid the case where the user
@@ -187,7 +196,8 @@ struct FavouritesView: View {
                                  You have no favourited repositories. 😅
 
                                  Add repositories to your favourites to quickly access them. \
-                                 Repositories you favourite can also be viewed offline.
+                                 The default branches of repositories you favourite will be \
+                                 saved so you can view them offline.
                                  """)
                                 .font(.subheadline)
                                 .multilineTextAlignment(.center)
@@ -233,6 +243,9 @@ struct FavouritesView: View {
             }
             .transition(.move(edge: .bottom))
             .animation(.easeInOut, value: isSearching)
+            .onAppear {
+                viewModel.onFavouriteReposLoaded(favouritedRepos, context: managedObjectContext)
+            }
         }
     }
 }

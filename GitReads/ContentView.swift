@@ -11,23 +11,14 @@ import Cache
 
 struct ContentView: View {
     @State var repo: Repo?
-
-    let gitClient: GitClient
-
-    init() {
-        let api = GitHubApi()
-        let factory = GitHubCachedDataFetcherFactory()
-        if factory == nil {
-            print("Failed to initialize cache for git client")
-        }
-
-        self.gitClient = GitHubClient(gitHubApi: api, cachedDataFetcherFactory: factory)
-    }
+    @StateObject var appDependencies = AppDependencies()
 
     var body: some View {
         ZStack {
-            HomeView(gitClient: gitClient)
+            HomeView(repoService: appDependencies.repoService)
+                .environmentObject(appDependencies)
         }
+
     }
 
 }

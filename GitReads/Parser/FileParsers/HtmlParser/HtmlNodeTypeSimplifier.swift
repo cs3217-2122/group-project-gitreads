@@ -10,7 +10,7 @@ class HtmlNodeTypeSimplifier {
     static let map = [
         "tag": ["tag_name"],
         "tagError": ["erroneous_end_tag_name"],
-        "constant": ["doctype"],
+        "builtinConstant": ["doctype"],
         "attribute": ["attribute_name"],
         "string": ["attribute_value"],
         "comment": ["comment"],

@@ -2,6 +2,6 @@
 //  RepoPlatform.swift
 //  GitReads
 
-enum RepoPlatform: String {
+enum RepoPlatform: String, Hashable {
     case github
 }
