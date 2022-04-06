@@ -7,7 +7,10 @@
 
 let EMPTY_LINES = LazyDataSource(value: [Line]())
 
-let EMPTY_PARSE_OUTPUT = LazyDataSource(value: ParseOutput(fileContents: "", lines: []))
+let EMPTY_PARSE_OUTPUT = LazyDataSource(value: ParseOutput(fileContents: "",
+                                                           lines: [],
+                                                           declarations: []
+                                                          ))
 
 let MOCK_FILE = DummyFile.getFile()
 
@@ -17,7 +20,7 @@ let MOCK_DIRECTORY_A = Directory(
             path: Path(components: "fileAasdfasdfasdfasdf"),
             sha: "deadbeef",
             language: .others,
-            declarations: [], parseOutput: EMPTY_PARSE_OUTPUT)
+            parseOutput: EMPTY_PARSE_OUTPUT)
     ],
     directories: [], path: Path(components: "directoryAasdfasdfasdfasdf"))
 let MOCK_DIRECTORY_B = Directory(
@@ -25,7 +28,6 @@ let MOCK_DIRECTORY_B = Directory(
         path: Path(components: "fileB"),
         sha: "deadbeef",
         language: .others,
-        declarations: [],
         parseOutput: EMPTY_PARSE_OUTPUT
     )],
     directories: [MOCK_DIRECTORY_A],

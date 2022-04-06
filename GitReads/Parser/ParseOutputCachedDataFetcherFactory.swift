@@ -1,23 +1,23 @@
 //
-//  FileCachedDataFetcherFactory.swift
+//  ParseOutputCachedDataFetcherFactory.swift
 //  GitReads
 
 import Cache
 import Foundation
 
-struct LinesCacheKey: Hashable {
+struct ParseOutputCacheKey: Hashable {
     let platform: RepoPlatform
     let owner: String
     let repo: String
     let sha: String
 }
 
-typealias LinesCachedDataFetcher<T> = CachedDataFetcher<LinesCacheKey, T>
+typealias ParseOutputCachedDataFetcher<T> = CachedDataFetcher<ParseOutputCacheKey, T>
 
-struct LinesCachedDataFetcherFactory {
+struct ParseOutputCachedDataFetcherFactory {
 
     static let DefaultCacheDiskConfig = DiskConfig(
-        name: "lines-cache",
+        name: "parse-output-cache",
         expiry: .date(Date().addingTimeInterval(30 * 86_400)), // 30 days
         maxSize: 2_000_000_000 // 2GB
     )
@@ -27,14 +27,14 @@ struct LinesCachedDataFetcherFactory {
         countLimit: 100
     )
 
-    private let cachedDataFetcherFactory: CachedDataFetcherFactory<LinesCacheKey>
+    private let cachedDataFetcherFactory: CachedDataFetcherFactory<ParseOutputCacheKey>
 
     init?(
         diskConfig: DiskConfig = DefaultCacheDiskConfig,
         memoryConfig: MemoryConfig = DefaultCacheMemoryConfig
     ) {
         do {
-            let storage: Storage<LinesCacheKey, String> = try Storage(
+            let storage: Storage<ParseOutputCacheKey, String> = try Storage(
                 diskConfig: diskConfig,
                 memoryConfig: memoryConfig,
                 transformer: TransformerFactory.forCodable(ofType: String.self)
@@ -46,14 +46,14 @@ struct LinesCachedDataFetcherFactory {
         }
     }
 
-    init(storage: Storage<LinesCacheKey, String>) {
+    init(storage: Storage<ParseOutputCacheKey, String>) {
         self.cachedDataFetcherFactory = CachedDataFetcherFactory(storage: storage)
     }
 
     func makeCachedDataFetcher<T> (
-        key: LinesCacheKey,
+        key: ParseOutputCacheKey,
         fetcher:  @escaping () async -> Swift.Result<T, Error>
-    ) -> CachedDataFetcher<LinesCacheKey, T> where T: Codable {
+    ) -> CachedDataFetcher<ParseOutputCacheKey, T> where T: Codable {
         cachedDataFetcherFactory.makeCachedDataFetcher(key: key, fetcher: fetcher)
     }
 }

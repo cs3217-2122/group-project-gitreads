@@ -80,7 +80,6 @@ struct WindowView_Previews: PreviewProvider {
         path: Path(components: "file1.txt"),
         sha: "deadbeef",
         language: .others,
-        declarations: [],
         parseOutput: EMPTY_PARSE_OUTPUT
     )
 
@@ -91,27 +90,22 @@ struct WindowView_Previews: PreviewProvider {
             File(path: Path(components: "file1.txt"),
                  sha: "deadbeef",
                  language: .others,
-                 declarations: [],
                  parseOutput: EMPTY_PARSE_OUTPUT),
             File(path: Path(components: "file2.txt"),
                  sha: "deadbeef",
                  language: .others,
-                 declarations: [],
                  parseOutput: EMPTY_PARSE_OUTPUT),
             File(path: Path(components: "file3.txt"),
                  sha: "deadbeef",
                  language: .others,
-                 declarations: [],
                  parseOutput: EMPTY_PARSE_OUTPUT),
             File(path: Path(components: "file4.txt"),
                  sha: "deadbeef",
                  language: .others,
-                 declarations: [],
                  parseOutput: EMPTY_PARSE_OUTPUT),
             File(path: Path(components: "file5.txt"),
                  sha: "deadbeef",
                  language: .others,
-                 declarations: [],
                  parseOutput: EMPTY_PARSE_OUTPUT)
         ]
         return WindowView(

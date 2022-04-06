@@ -10,11 +10,11 @@ import SwiftTreeSitter
 import SwiftUI
 
 class Parser {
-    private let cachedDataFetcherFactory: LinesCachedDataFetcherFactory?
+    private let cachedDataFetcherFactory: ParseOutputCachedDataFetcherFactory?
 
     /// Initializes the `Parser` with the given `LinesCachedDataFetcherFactory`.
     /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
-    init(cachedDataFetcherFactory: LinesCachedDataFetcherFactory?) {
+    init(cachedDataFetcherFactory: ParseOutputCachedDataFetcherFactory?) {
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
 
@@ -27,11 +27,11 @@ class Parser {
 class RepoParser {
 
     let gitRepo: GitRepo
-    private let cachedDataFetcherFactory: LinesCachedDataFetcherFactory?
+    private let cachedDataFetcherFactory: ParseOutputCachedDataFetcherFactory?
 
     /// Initializes the `RepoParser` with the given `GitRepo` and `GitHubCachedDataFetcherFactory`.
     /// If the factory is nil, the client will still be initialized, but the any fetched will not be cached.
-    init(for gitRepo: GitRepo, cachedDataFetcherFactory: LinesCachedDataFetcherFactory?) {
+    init(for gitRepo: GitRepo, cachedDataFetcherFactory: ParseOutputCachedDataFetcherFactory?) {
         self.gitRepo = gitRepo
         self.cachedDataFetcherFactory = cachedDataFetcherFactory
     }
@@ -102,28 +102,28 @@ class RepoParser {
         let language = detectLanguage(name: content.name)
 
         let parseOutput: LazyDataSource<ParseOutput> = gitFile.contents.flatMap { currentFile in
-            let lines = await self.dataFetcherFor(sha: content.sha) {
+            let parseOutput = await self.dataFetcherFor(sha: content.sha) {
                 do {
-                    let lines = try await self.parseFile(fileString: currentFile, language: language)
-                    return .success(lines)
+                    let parseOutput = try await self.parseFile(fileString: currentFile,
+                                                               language: language)
+                    return .success(parseOutput)
                 } catch {
                     return .failure(error)
                 }
             }.fetchValue()
 
-            return lines.map { ParseOutput(fileContents: currentFile, lines: $0) }
+            return parseOutput
         }
 
         return File(
             path: content.path,
             sha: content.sha,
             language: language,
-            declarations: [],
             parseOutput: parseOutput
         )
     }
 
-    private func parseFile(fileString: String, language: Language) async throws -> [Line] {
+    private func parseFile(fileString: String, language: Language) async throws -> ParseOutput {
         switch language {
         case .go:
             return try await GoParser.parse(fileString: fileString)
@@ -138,7 +138,7 @@ class RepoParser {
         case .c:
             return try await CParser.parse(fileString: fileString)
         case .others:
-            return PseudoParser.parse(fileString: fileString)
+            return try await PseudoParser.parse(fileString: fileString)
         }
     }
 
@@ -149,6 +149,8 @@ class RepoParser {
             return Language.javascript
         case "py":
             return Language.python
+        case "c", "h":
+            return Language.c
         default:
             let language = Language(rawValue: type)
             if let language = language {
@@ -170,13 +172,13 @@ class RepoParser {
 
     private func dataFetcherFor(
         sha: String,
-        fetcher: @escaping () async -> Swift.Result<[Line], Error>
-    ) -> AnyDataFetcher<[Line]> {
+        fetcher: @escaping () async -> Swift.Result<ParseOutput, Error>
+    ) -> AnyDataFetcher<ParseOutput> {
         guard let cachedDataFetcherFactory = cachedDataFetcherFactory else {
             return AnyDataFetcher(fetcher: fetcher)
         }
 
-        let key = LinesCacheKey(
+        let key = ParseOutputCacheKey(
             platform: gitRepo.platform,
             owner: gitRepo.owner,
             repo: gitRepo.name,

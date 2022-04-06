@@ -6,5 +6,5 @@
 //
 
 protocol FileParser {
-    static func parse(fileString: String) async throws -> [Line]
+    static func parse(fileString: String, includeDeclarations: Bool) async throws -> ParseOutput
 }

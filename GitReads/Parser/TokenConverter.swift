@@ -16,7 +16,7 @@ class TokenConverter {
             return []
         }
 
-        let lines = fileString.components(separatedBy: "\n").map { String($0).utf8 }
+        let lines = breakStringByline(fileString)
 
         // Represent an array of lines, where each line is an array of token
         var tokens = [[Token]]()
@@ -95,7 +95,7 @@ class TokenConverter {
 
     // Return string from start position to end position in file,
     // If it is a multiline string, break into multiple strings.
-    private static func getTokenString(lines: [String.UTF8View], start: [Int], end: [Int]) -> [String.UTF8View] {
+    static func getTokenString(lines: [String.UTF8View], start: [Int], end: [Int]) -> [String.UTF8View] {
         if start[0] == end[0] {
             // If the token is on one line, return a single string
             let line = lines[start[0]]
@@ -140,5 +140,9 @@ class TokenConverter {
             lines.append(Line(tokens: lineTokens))
         }
         return lines
+    }
+
+    static func breakStringByline(_ string: String) -> [String.UTF8View] {
+        string.components(separatedBy: "\n").map { String($0).utf8 }
     }
 }

@@ -87,14 +87,16 @@ class DummyFile {
             Line(tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) })
         }
         let lazyParseOutput = LazyDataSource(
-            value: ParseOutput(fileContents: code.joined(separator: "\n"), lines: lines)
+            value: ParseOutput(fileContents: code.joined(separator: "\n"),
+                               lines: lines,
+                               declarations: [])
         )
 
         let result = File(
             path: Path(components: "TEST"),
             sha: "deadbeef",
             language: .others,
-            declarations: [], parseOutput: lazyParseOutput
+            parseOutput: lazyParseOutput
         )
         return result
     }
