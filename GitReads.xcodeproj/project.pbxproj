@@ -84,6 +84,7 @@
 		B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */; };
 		B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */; };
 		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
+		B2CA818127FC0EFD00298887 /* WrappingStack in Frameworks */ = {isa = PBXBuildFile; productRef = B2CA818027FC0EFD00298887 /* WrappingStack */; };
 		B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956D827F1F12000FBA708 /* Plugin.swift */; };
 		B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956DA27F1F2C300FBA708 /* LineAction.swift */; };
 		DE05002627F44FAA00ABEC27 /* TextSearchVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE05002527F44FAA00ABEC27 /* TextSearchVisitor.swift */; };
@@ -288,6 +289,7 @@
 				6E67ED0627E88BA800C75F8C /* Mocker in Frameworks */,
 				DE43322227E1E6D70012FD81 /* Get in Frameworks */,
 				DE43323727E76E970012FD81 /* Cache in Frameworks */,
+				B2CA818127FC0EFD00298887 /* WrappingStack in Frameworks */,
 				6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */,
 				DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */,
 				6E631E7027F8D33600E13A30 /* Reachability in Frameworks */,
@@ -750,6 +752,7 @@
 				6E631E5E27F701C400E13A30 /* MarkdownUI */,
 				6E631E6127F713CD00E13A30 /* Fuse */,
 				6E631E6F27F8D33600E13A30 /* Reachability */,
+				B2CA818027FC0EFD00298887 /* WrappingStack */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -832,6 +835,7 @@
 				6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				6E631E6E27F8D33600E13A30 /* XCRemoteSwiftPackageReference "Reachability" */,
+				B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */,
 			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
@@ -1374,6 +1378,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/diniska/swiftui-wrapping-stack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		DE43322027E1E6D70012FD81 /* XCRemoteSwiftPackageReference "Get" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Get";
@@ -1428,6 +1440,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */;
 			productName = Mocker;
+		};
+		B2CA818027FC0EFD00298887 /* WrappingStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */;
+			productName = WrappingStack;
 		};
 		DE43322127E1E6D70012FD81 /* Get */ = {
 			isa = XCSwiftPackageProductDependency;

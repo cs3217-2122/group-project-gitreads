@@ -26,7 +26,7 @@ struct MakeCommentPlugin: Plugin {
                         defaults.set(data, forKey: url)
                     }
                 }
-            }, takeInput: true) // this will be replaced by the actual comment
+            }, takeInput: true)
         }
         return nil
     }

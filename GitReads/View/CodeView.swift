@@ -41,9 +41,9 @@ struct CodeView: View {
                                                line: codeViewModel.data[lineNum], lineNum: lineNum,
                                                fontSize: $fontSize)
                             } else {
-                                WrapLineView(viewModel: viewModel, lineNum: lineNum,
-                                             line: codeViewModel.data[lineNum], fontSize: $fontSize)
-                                .padding(.horizontal)
+                                WrapLineView(viewModel: viewModel, codeViewModel: codeViewModel,
+                                             line: codeViewModel.data[lineNum], lineNum: lineNum,
+                                             fontSize: $fontSize)
                             }
                             if editingLine == lineNum, let action = currentActiveAction {
                                 TextField("Enter", text: $text, onCommit: {
