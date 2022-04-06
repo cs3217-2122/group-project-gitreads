@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ScrollLineView: View {
     @StateObject var viewModel: ScreenViewModel
+    @StateObject var codeViewModel: CodeViewModel
     let line: Line
     let lineNum: Int
     @Binding var fontSize: Int
@@ -17,7 +18,7 @@ struct ScrollLineView: View {
         ScrollView(.horizontal) {
             HStack(spacing: 0) {
                 ForEach((0..<line.tokens.count), id: \.self) { pos in
-                    TokenView(viewModel: viewModel, token: line.tokens[pos],
+                    TokenView(viewModel: viewModel, codeViewModel: codeViewModel, token: line.tokens[pos],
                               lineNum: lineNum, pos: pos, fontSize: $fontSize)
                 }
             }
@@ -31,6 +32,7 @@ struct ScrollLineView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollLineView(
             viewModel: ScreenViewModel(),
+            codeViewModel: CodeViewModel(file: DummyFile.getFile()),
             line: Line(tokens: [
                 Token(type: .keyword, value: "1TESgfdgdfgsdfgdfsgdfgdsfgdsfgfgT"),
                 Token(type: .keyword, value: "2TfdgdfgdsfgdsfgdfgdfgEST"),

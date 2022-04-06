@@ -76,6 +76,7 @@
 		B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F027DB0F7B00CD5E01 /* CodeView.swift */; };
 		B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F227DB224800CD5E01 /* WrapLineView.swift */; };
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
+		B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242ECAD27FAD37400993012 /* CodeViewModel.swift */; };
 		B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263F0A327E5F98A00CDD569 /* SettingView.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
 		B299CA4D27EB187E00AB4FEC /* Courier.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B299CA4B27EB154600AB4FEC /* Courier.ttf */; };
@@ -83,7 +84,7 @@
 		B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */; };
 		B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */; };
 		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
-		B2C791DF27F68EA2008AEA6B /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C791DE27F68EA2008AEA6B /* CommentData.swift */; };
+		B2CA818127FC0EFD00298887 /* WrappingStack in Frameworks */ = {isa = PBXBuildFile; productRef = B2CA818027FC0EFD00298887 /* WrappingStack */; };
 		B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956D827F1F12000FBA708 /* Plugin.swift */; };
 		B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956DA27F1F2C300FBA708 /* LineAction.swift */; };
 		DE05002627F44FAA00ABEC27 /* TextSearchVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE05002527F44FAA00ABEC27 /* TextSearchVisitor.swift */; };
@@ -229,6 +230,7 @@
 		B22D52F027DB0F7B00CD5E01 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		B22D52F227DB224800CD5E01 /* WrapLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapLineView.swift; sourceTree = "<group>"; };
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
+		B242ECAD27FAD37400993012 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
 		B263F0A327E5F98A00CDD569 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
 		B299CA4B27EB154600AB4FEC /* Courier.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Courier.ttf; sourceTree = "<group>"; };
@@ -237,7 +239,6 @@
 		B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCommentPlugin.swift; sourceTree = "<group>"; };
 		B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentPlugin.swift; sourceTree = "<group>"; };
 		B2C77B5627E480110072B80A /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		B2C791DE27F68EA2008AEA6B /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		B2E956D827F1F12000FBA708 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
 		B2E956DA27F1F2C300FBA708 /* LineAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAction.swift; sourceTree = "<group>"; };
 		DE05002527F44FAA00ABEC27 /* TextSearchVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSearchVisitor.swift; sourceTree = "<group>"; };
@@ -300,6 +301,7 @@
 				6E67ED0627E88BA800C75F8C /* Mocker in Frameworks */,
 				DE43322227E1E6D70012FD81 /* Get in Frameworks */,
 				DE43323727E76E970012FD81 /* Cache in Frameworks */,
+				B2CA818127FC0EFD00298887 /* WrappingStack in Frameworks */,
 				6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */,
 				DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */,
 				6E631E7027F8D33600E13A30 /* Reachability in Frameworks */,
@@ -539,6 +541,7 @@
 				6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */,
 				6E631E7327F946AC00E13A30 /* FavouritesViewModel.swift */,
 				6E631E7127F8E47800E13A30 /* AppDependencies.swift */,
+				B242ECAD27FAD37400993012 /* CodeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -598,7 +601,6 @@
 				B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */,
 				B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */,
 				B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */,
-				B2C791DE27F68EA2008AEA6B /* CommentData.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -792,6 +794,7 @@
 				6E631E5E27F701C400E13A30 /* MarkdownUI */,
 				6E631E6127F713CD00E13A30 /* Fuse */,
 				6E631E6F27F8D33600E13A30 /* Reachability */,
+				B2CA818027FC0EFD00298887 /* WrappingStack */,
 			);
 			productName = GitReads;
 			productReference = B223E1CB27D9DDA7008ACEEF /* GitReads.app */;
@@ -874,6 +877,7 @@
 				6E631E5D27F701C400E13A30 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				6E631E6027F713CD00E13A30 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				6E631E6E27F8D33600E13A30 /* XCRemoteSwiftPackageReference "Reachability" */,
+				B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */,
 			);
 			productRefGroup = B223E1CC27D9DDA7008ACEEF /* Products */;
 			projectDirPath = "";
@@ -948,7 +952,6 @@
 				DE05003027F4666800ABEC27 /* StyledText.swift in Sources */,
 				6ED322EA27E1F92000F0AD09 /* PersistenceController.swift in Sources */,
 				6E67ECEF27E6D45800C75F8C /* HomeView.swift in Sources */,
-				B2C791DF27F68EA2008AEA6B /* CommentData.swift in Sources */,
 				6ED322E927E1F90800F0AD09 /* Token.swift in Sources */,
 				B223E20B27D9DF9B008ACEEF /* TokenType.swift in Sources */,
 				DE580D5D27DF7A9600C37142 /* ScreenViewModel.swift in Sources */,
@@ -1001,6 +1004,7 @@
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
 				B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */,
+				B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */,
 				6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */,
 				DE43323227E1EF4B0012FD81 /* Language.swift in Sources */,
 				DE43326427F371FA0012FD81 /* FileNavigateOption.swift in Sources */,
@@ -1422,6 +1426,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/diniska/swiftui-wrapping-stack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		DE43322027E1E6D70012FD81 /* XCRemoteSwiftPackageReference "Get" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Get";
@@ -1476,6 +1488,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E67ED0427E88BA800C75F8C /* XCRemoteSwiftPackageReference "Mocker" */;
 			productName = Mocker;
+		};
+		B2CA818027FC0EFD00298887 /* WrappingStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2CA817F27FC0EFD00298887 /* XCRemoteSwiftPackageReference "swiftui-wrapping-stack" */;
+			productName = WrappingStack;
 		};
 		DE43322127E1E6D70012FD81 /* Get */ = {
 			isa = XCSwiftPackageProductDependency;

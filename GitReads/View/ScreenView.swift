@@ -16,6 +16,7 @@ struct ScreenView: View {
     }
 
     func initializeWithRepo(_ repo: Repo) {
+        viewModel.repo = repo
         sideBarViewModel = FilesSideBarViewModel(repo: repo)
         sideBarViewModel?.setDelegate(delegate: viewModel)
     }
