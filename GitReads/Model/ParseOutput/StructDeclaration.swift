@@ -5,7 +5,7 @@
 //  Created by Liu Zimu on 5/4/22.
 //
 
-struct StructDeclaration: Codable, Declaration {
+struct StructDeclaration: Declaration {
     var start: [Int]
     var end: [Int]
     var identifier: String

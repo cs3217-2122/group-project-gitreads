@@ -18,80 +18,13 @@ class CParser: FileParser {
 
         var declarations = [Declaration]()
         if includeDeclarations {
-            declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
+            declarations = CDeclarationParser.getDeclarations(rootNode: rootNode,
+                                                              fileString: fileString)
         }
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
                            declarations: declarations)
-    }
-
-    static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {
-        guard let rootNode = rootNode else {
-            return []
-        }
-
-        let lines = TokenConverter.breakStringByline(fileString)
-        return getFunctionDeclarations(node: rootNode, lines: lines)
-        + getStructDeclarations(node: rootNode, lines: lines)
-    }
-
-    static func getFunctionDeclarations(node: ASTNode, lines: [String.UTF8View]) -> [Declaration] {
-        guard !node.children.isEmpty else {
-            return []
-        }
-
-        guard node.type == "function_definition" else {
-            var declarations = [Declaration]()
-            for child in node.children {
-                declarations += getFunctionDeclarations(node: child, lines: lines)
-            }
-
-            return declarations
-        }
-
-        var identifier = ""
-        for child in node.children where child.type == "function_declarator" {
-            for grandChild in child.children where grandChild.type == "identifier" {
-                identifier = String(TokenConverter.getTokenString(lines: lines,
-                                                                  start: grandChild.start,
-                                                                  end: grandChild.end)[0])
-            }
-        }
-
-        return [
-            FunctionDeclaration(start: node.start,
-                                end: node.end,
-                                identifier: identifier)
-        ]
-    }
-
-    static func getStructDeclarations(node: ASTNode, lines: [String.UTF8View]) -> [Declaration] {
-        guard !node.children.isEmpty else {
-            return []
-        }
-
-        guard node.type == "struct_specifier" else {
-            var declarations = [Declaration]()
-            for child in node.children {
-                declarations += getStructDeclarations(node: child, lines: lines)
-            }
-
-            return declarations
-        }
-
-        var identifier = ""
-        for child in node.children where child.type == "type_identifier" {
-            identifier = String(TokenConverter.getTokenString(lines: lines,
-                                                              start: child.start,
-                                                              end: child.end)[0])
-        }
-
-        return [
-            StructDeclaration(start: node.start,
-                              end: node.end,
-                              identifier: identifier)
-        ]
     }
 
     static func getAstFromApi(fileString: String) async throws -> ASTNode? {

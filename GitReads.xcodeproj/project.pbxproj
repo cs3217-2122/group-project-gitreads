@@ -142,6 +142,10 @@
 		FF8106A627FC34D8005F349F /* ClassDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8106A527FC34D8005F349F /* ClassDeclaration.swift */; };
 		FF8106A827FC3FF1005F349F /* StructDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8106A727FC3FF1005F349F /* StructDeclaration.swift */; };
 		FF8106AA27FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8106A927FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift */; };
+		FF8106AE27FDA43C005F349F /* VariableDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8106AD27FDA43B005F349F /* VariableDeclaration.swift */; };
+		FF83C37127FDBFCB0042A58F /* TypeDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C37027FDBFCB0042A58F /* TypeDeclaration.swift */; };
+		FF83C37427FDC10D0042A58F /* PreprocDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C37327FDC10D0042A58F /* PreprocDeclaration.swift */; };
+		FF83C37627FDC1DB0042A58F /* CDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF83C37527FDC1DB0042A58F /* CDeclarationParser.swift */; };
 		FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */; };
 		FFE8F2C027E87EE200D82823 /* TokenConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */; };
 /* End PBXBuildFile section */
@@ -296,6 +300,10 @@
 		FF8106A527FC34D8005F349F /* ClassDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDeclaration.swift; sourceTree = "<group>"; };
 		FF8106A727FC3FF1005F349F /* StructDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructDeclaration.swift; sourceTree = "<group>"; };
 		FF8106A927FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseOutputCachedDataFetcherFactory.swift; sourceTree = "<group>"; };
+		FF8106AD27FDA43B005F349F /* VariableDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableDeclaration.swift; sourceTree = "<group>"; };
+		FF83C37027FDBFCB0042A58F /* TypeDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeDeclaration.swift; sourceTree = "<group>"; };
+		FF83C37327FDC10D0042A58F /* PreprocDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreprocDeclaration.swift; sourceTree = "<group>"; };
+		FF83C37527FDC1DB0042A58F /* CDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDeclarationParser.swift; sourceTree = "<group>"; };
 		FFE8F2BD27E85D4200D82823 /* WebApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		FFE8F2BF27E87EE200D82823 /* TokenConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -521,22 +529,15 @@
 		B223E1FE27D9DDCD008ACEEF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF83C37227FDC0520042A58F /* ParseOutput */,
 				DE43323827EB1A670012FD81 /* RepoVisitor */,
 				DE43323127E1EF4B0012FD81 /* Language.swift */,
 				B223E20227D9DEAD008ACEEF /* Repo.swift */,
 				B223E20427D9DF13008ACEEF /* Directory.swift */,
 				B223E20627D9DF24008ACEEF /* File.swift */,
-				B223E20827D9DF87008ACEEF /* Line.swift */,
-				B223E20A27D9DF9B008ACEEF /* TokenType.swift */,
-				B223E20C27D9E6F0008ACEEF /* Token.swift */,
 				B297732C27DF371400E117EE /* DummyFile.swift */,
 				DE43326327F371FA0012FD81 /* FileNavigateOption.swift */,
 				6E631E6827F8622000E13A30 /* RepoService.swift */,
-				FF8106A027FC33BA005F349F /* Declaration.swift */,
-				FF8106A227FC34C7005F349F /* FunctionDeclaration.swift */,
-				FF8106A527FC34D8005F349F /* ClassDeclaration.swift */,
-				FF8106A727FC3FF1005F349F /* StructDeclaration.swift */,
-				6E631E6A27F88A2400E13A30 /* ParseOutput.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -773,9 +774,28 @@
 			isa = PBXGroup;
 			children = (
 				FF81069B27FC2B21005F349F /* CParser.swift */,
+				FF83C37527FDC1DB0042A58F /* CDeclarationParser.swift */,
 				FF81069E27FC2B3D005F349F /* CNodeTypeSimplifier.swift */,
 			);
 			path = CParser;
+			sourceTree = "<group>";
+		};
+		FF83C37227FDC0520042A58F /* ParseOutput */ = {
+			isa = PBXGroup;
+			children = (
+				6E631E6A27F88A2400E13A30 /* ParseOutput.swift */,
+				FF8106A027FC33BA005F349F /* Declaration.swift */,
+				FF8106AD27FDA43B005F349F /* VariableDeclaration.swift */,
+				FF8106A227FC34C7005F349F /* FunctionDeclaration.swift */,
+				FF8106A527FC34D8005F349F /* ClassDeclaration.swift */,
+				FF8106A727FC3FF1005F349F /* StructDeclaration.swift */,
+				FF83C37027FDBFCB0042A58F /* TypeDeclaration.swift */,
+				FF83C37327FDC10D0042A58F /* PreprocDeclaration.swift */,
+				B223E20827D9DF87008ACEEF /* Line.swift */,
+				B223E20A27D9DF9B008ACEEF /* TokenType.swift */,
+				B223E20C27D9E6F0008ACEEF /* Token.swift */,
+			);
+			path = ParseOutput;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -969,9 +989,11 @@
 				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
 				FF8106A827FC3FF1005F349F /* StructDeclaration.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
+				FF83C37127FDBFCB0042A58F /* TypeDeclaration.swift in Sources */,
 				6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */,
 				6ED322E327E1F71D00F0AD09 /* GitHubRepoContent+Codable.swift in Sources */,
 				FF81069A27FC26A2005F349F /* PythonNodeTypeSimplifier.swift in Sources */,
+				FF83C37627FDC1DB0042A58F /* CDeclarationParser.swift in Sources */,
 				FF1A42DA27F0043800D6F322 /* GoParser.swift in Sources */,
 				DE580D5727DF6C1100C37142 /* DirectoryBarView.swift in Sources */,
 				6E67ED1827F5874000C75F8C /* RepoPlatform.swift in Sources */,
@@ -985,6 +1007,7 @@
 				6E67ECF327E6D9C600C75F8C /* Publisher+AsyncMap.swift in Sources */,
 				FF73473527F8A42A009A8949 /* JavascriptNodeTypeSimplifier.swift in Sources */,
 				6E67ED0E27E9A91400C75F8C /* GitHubPageInfo.swift in Sources */,
+				FF8106AE27FDA43C005F349F /* VariableDeclaration.swift in Sources */,
 				DE05002C27F4563500ABEC27 /* AdvancedSearchView.swift in Sources */,
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */,
@@ -1035,6 +1058,7 @@
 				6E631E6927F8622000E13A30 /* RepoService.swift in Sources */,
 				FF81069827FC2694005F349F /* PythonParser.swift in Sources */,
 				FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */,
+				FF83C37427FDC10D0042A58F /* PreprocDeclaration.swift in Sources */,
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				FF8106A327FC34C7005F349F /* FunctionDeclaration.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
