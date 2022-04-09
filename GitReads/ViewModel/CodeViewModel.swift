@@ -9,30 +9,51 @@ import Combine
 
 class CodeViewModel: ObservableObject {
     @Published var data: [Line] = []
-    private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
+    @Published var activeLineAction: LineAction?
+    @Published var activeTokenAction: TokenAction?
+    private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
     let file: File
 
     init(file: File) {
         self.file = file
     }
 
-    func getLineOption(repo: Repo?, lineNum: Int) -> [LineAction] {
+    func getLineOption(lineNum: Int,
+                       screenViewModel: ScreenViewModel) -> [LineAction] {
         var result: [LineAction] = []
         for plugin in plugins {
-            if let action = plugin.getLineAction(repo: repo, file: file, lineNum: lineNum) {
+            if let action = plugin.getLineAction(file: file, lineNum: lineNum,
+                                                 screemViewModel: screenViewModel, codeViewModel: self) {
                 result.append(action)
             }
         }
         return result
     }
 
-    func getTokenOption(repo: Repo?, lineNum: Int, posNum: Int) -> [TokenAction] {
+    func getTokenOption(lineNum: Int, posNum: Int,
+                        screenViewModel: ScreenViewModel) -> [TokenAction] {
         var result: [TokenAction] = []
         for plugin in plugins {
-            if let action = plugin.getTokenAction(repo: repo, file: file, lineNum: lineNum, posNum: posNum) {
+            if let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
+                                                  screemViewModel: screenViewModel, codeViewModel: self) {
                 result.append(action)
             }
         }
         return result
+    }
+
+    func resetAction() {
+        activeLineAction = nil
+        activeTokenAction = nil
+    }
+
+    func setLineAction(lineAction: LineAction) {
+        resetAction()
+        activeLineAction = lineAction
+    }
+
+    func setTokenAction(tokenAction: TokenAction) {
+        resetAction()
+        activeTokenAction = tokenAction
     }
 }

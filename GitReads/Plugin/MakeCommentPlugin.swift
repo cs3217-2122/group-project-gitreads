@@ -7,32 +7,59 @@
 import SwiftUI
 
 struct MakeCommentPlugin: Plugin {
-    func getLineAction(repo: Repo?, file: File, lineNum: Int) -> LineAction? {
-        if let repo = repo, let url = repo.htmlURL?.absoluteString {
-            let defaults = UserDefaults.standard
+    func getLineAction(file: File, lineNum: Int,
+                       screemViewModel: ScreenViewModel,
+                       codeViewModel: CodeViewModel) -> LineAction? {
+        if let repo = screemViewModel.repo, let url = repo.htmlURL?.absoluteString {
             let text = "Make comment on line \(lineNum + 1)"
 
-            return LineAction(text: text, action: { _, _, lineNum, input in
-                if !input.isEmpty {
-                    if var repoComment = defaults.object(forKey: url) as? [String: [Int: String]] {
-                        if var fileComment = repoComment[file.path.string] {
-                            fileComment[lineNum] = input
-                        } else {
-                            repoComment[file.path.string] = [lineNum: input]
-                        }
-                        defaults.set(repoComment, forKey: url)
-                    } else {
-                        let data: [String: [String: String]] = [file.path.string: [String(lineNum): input]]
-                        defaults.set(data, forKey: url)
-                    }
-                }
-            }, takeInput: true)
+            return LineAction(text: text, action: { _, _, _ in },
+                              view: AnyView(MakeCommentView(lineNum: lineNum, url: url,
+                                                            file: file, codeViewModel: codeViewModel)))
         }
         return nil
     }
 
-    func getTokenAction(repo: Repo?, file: File, lineNum: Int, posNum: Int) -> TokenAction? {
+    func getTokenAction(file: File, lineNum: Int, posNum: Int,
+                        screemViewModel: ScreenViewModel,
+                        codeViewModel: CodeViewModel) -> TokenAction? {
         nil
     }
 
+}
+
+struct MakeCommentView: View {
+    @State var lineNum: Int
+    @State var url: String
+    @State var file: File
+    @State var text = ""
+    @State var codeViewModel: CodeViewModel
+
+    var body: some View {
+        VStack {
+            HStack {
+                Text("You are commenting on line \(lineNum + 1)")
+                Spacer()
+                Button("Cancel", action: { codeViewModel.resetAction() })
+            }
+            TextField("Enter", text: $text, onCommit: {
+                if !text.isEmpty {
+                    let defaults = UserDefaults.standard
+                    if var repoComment = defaults.object(forKey: url) as? [String: [String: String]] {
+                        if var fileComment = repoComment[file.path.string] {
+                            fileComment[String(lineNum)] = text
+                            repoComment[file.path.string] = fileComment
+                        } else {
+                            repoComment[file.path.string] = [String(lineNum): text]
+                        }
+                        defaults.set(repoComment, forKey: url)
+                    } else {
+                        let data: [String: [String: String]] = [file.path.string: [String(lineNum): text]]
+                        defaults.set(data, forKey: url)
+                    }
+                }
+                codeViewModel.resetAction()
+            })
+        }.padding()
+    }
 }
