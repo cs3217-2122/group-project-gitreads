@@ -9,6 +9,7 @@ import Combine
 
 class CodeViewModel: ObservableObject {
     @Published var data: [Line] = []
+    @Published var currentActiveAction: LineAction?
     private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
     let file: File
 
@@ -16,10 +17,11 @@ class CodeViewModel: ObservableObject {
         self.file = file
     }
 
-    func getLineOption(repo: Repo?, lineNum: Int) -> [LineAction] {
+    func getLineOption(repo: Repo?, lineNum: Int, screemViewModel: ScreenViewModel) -> [LineAction] {
         var result: [LineAction] = []
         for plugin in plugins {
-            if let action = plugin.getLineAction(repo: repo, file: file, lineNum: lineNum) {
+            if let action = plugin.getLineAction(repo: repo, file: file, lineNum: lineNum,
+                                                 screemViewModel: screemViewModel, codeViewModel: self) {
                 result.append(action)
             }
         }
@@ -34,5 +36,9 @@ class CodeViewModel: ObservableObject {
             }
         }
         return result
+    }
+
+    func resetAction() {
+        currentActiveAction = nil
     }
 }

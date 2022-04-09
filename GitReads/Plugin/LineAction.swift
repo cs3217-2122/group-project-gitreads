@@ -4,15 +4,17 @@
 //
 //  Created by Zhou Jiahao on 28/3/22.
 //
+import SwiftUI
 
 struct LineAction {
     var text: String?
-    var action: (ScreenViewModel, CodeViewModel, Int, String) -> Void
-    var takeInput: Bool
+    var action: (ScreenViewModel, CodeViewModel, Int) -> Void
+    var pluginView: AnyView
 
-    init(text: String?, action: @escaping (ScreenViewModel, CodeViewModel, Int, String) -> Void, takeInput: Bool) {
+    init(text: String?, action: @escaping (ScreenViewModel, CodeViewModel, Int) -> Void,
+         view: AnyView) {
         self.text = text
         self.action = action
-        self.takeInput = takeInput
+        self.pluginView = view
     }
 }

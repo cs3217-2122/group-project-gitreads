@@ -43,7 +43,8 @@ struct TokenView: View {
 struct TokenView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
-        TokenView(viewModel: ScreenViewModel(), codeViewModel: CodeViewModel(file: DummyFile.getFile()),
+        TokenView(viewModel: ScreenViewModel(),
+                  codeViewModel: CodeViewModel(file: DummyFile.getFile()),
                   token: Token(type: .keyword, value: "TEST"),
                   lineNum: 0, pos: 0, fontSize: $fontSize)
     }
