@@ -18,24 +18,19 @@ struct TokenView: View {
     @State private var text = ""
 
     var body: some View {
-        let options = codeViewModel.getTokenOption(repo: viewModel.repo, lineNum: lineNum, posNum: pos)
+        let options = codeViewModel.getTokenOption(lineNum: lineNum,
+                                                   posNum: pos, screenViewModel: viewModel)
         HStack {
             Menu(token.type == .tab ? String(repeating: " ", count: 4) : token.value) {
                 ForEach(0..<options.count, id: \.self) { pos in
                     if let buttonText = options[pos].text {
-                        Button(buttonText, action: options[pos].takeInput
-                               ? { currentActiveAction = options[pos].action }
-                               : { options[pos].action(viewModel, codeViewModel, lineNum, pos, "") })
+                        Button(buttonText, action: {
+                            options[pos].action(viewModel, codeViewModel, lineNum, pos)
+                            codeViewModel.setTokenAction(tokenAction: options[pos])
+                        })
                     }
                 }
             }.font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
-            if let action = currentActiveAction {
-                TextField("Enter", text: $text, onCommit: {
-                    action(viewModel, codeViewModel, lineNum, pos, text)
-                    text = ""
-                    currentActiveAction = nil
-                })
-            }
         }
     }
 }

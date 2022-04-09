@@ -7,10 +7,10 @@
 import SwiftUI
 
 struct GetCommentPlugin: Plugin {
-    func getLineAction(repo: Repo?, file: File, lineNum: Int,
+    func getLineAction(file: File, lineNum: Int,
                        screemViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> LineAction? {
-        if let repo = repo, let url = repo.htmlURL?.absoluteString {
+        if let repo = screemViewModel.repo, let url = repo.htmlURL?.absoluteString {
             let defaults = UserDefaults.standard
             if let comments = defaults.object(forKey: url) as? [String: [String: String]],
                let fileComment = comments[file.path.string],
@@ -24,7 +24,9 @@ struct GetCommentPlugin: Plugin {
         return nil
     }
 
-    func getTokenAction(repo: Repo?, file: File, lineNum: Int, posNum: Int) -> TokenAction? {
+    func getTokenAction(file: File, lineNum: Int, posNum: Int,
+                        screemViewModel: ScreenViewModel,
+                        codeViewModel: CodeViewModel) -> TokenAction? {
         nil
     }
 }

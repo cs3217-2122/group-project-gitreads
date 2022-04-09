@@ -23,13 +23,13 @@ struct CodeView: View {
                     ForEach(0..<codeViewModel.data.count, id: \.self) { lineNum in
                         HStack(alignment: .center) {
                             Menu(String(lineNum + 1)) {
-                                let options = codeViewModel.getLineOption(repo: viewModel.repo, lineNum: lineNum,
-                                                                          screemViewModel: viewModel)
+                                let options = codeViewModel.getLineOption(lineNum: lineNum,
+                                                                          screenViewModel: viewModel)
                                 ForEach(0..<options.count, id: \.self) { pos in
                                     if let buttonText = options[pos].text {
                                         Button(buttonText, action: {
                                             options[pos].action(viewModel, codeViewModel, lineNum)
-                                            codeViewModel.currentActiveAction = options[pos]
+                                            codeViewModel.setLineAction(lineAction: options[pos])
                                         })
                                     }
                                 }
@@ -60,7 +60,11 @@ struct CodeView: View {
                 }
             }
 
-            if let action = codeViewModel.currentActiveAction {
+            if let action = codeViewModel.activeLineAction {
+                action.pluginView
+            }
+
+            if let action = codeViewModel.activeTokenAction {
                 action.pluginView
             }
         }
