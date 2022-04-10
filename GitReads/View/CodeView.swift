@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CodeView: View {
-    let file: File
     @StateObject var viewModel: ScreenViewModel
     @StateObject var codeViewModel: CodeViewModel
     @Binding var fontSize: Int
@@ -19,41 +18,52 @@ struct CodeView: View {
     var body: some View {
         VStack {
             ScrollView {
-                LazyVStack {
-                    ForEach(0..<codeViewModel.data.count, id: \.self) { lineNum in
-                        HStack(alignment: .center) {
-                            Menu(String(lineNum + 1)) {
-                                let options = codeViewModel.getLineOption(lineNum: lineNum,
-                                                                          screenViewModel: viewModel)
-                                ForEach(0..<options.count, id: \.self) { pos in
-                                    if let buttonText = options[pos].text {
-                                        Button(buttonText, action: {
-                                            options[pos].action(viewModel, codeViewModel, lineNum)
-                                            codeViewModel.setLineAction(lineAction: options[pos])
-                                        })
+                ScrollViewReader { reader in
+                    LazyVStack {
+                        ForEach(0..<codeViewModel.data.count, id: \.self) { lineNum in
+                            HStack(alignment: .center) {
+                                Menu(String(lineNum + 1)) {
+                                    let options = codeViewModel.getLineOption(lineNum: lineNum,
+                                                                              screenViewModel: viewModel)
+                                    ForEach(0..<options.count, id: \.self) { pos in
+                                        if let buttonText = options[pos].text {
+                                            Button(buttonText, action: {
+                                                options[pos].action(viewModel, codeViewModel, lineNum)
+                                                codeViewModel.setLineAction(lineAction: options[pos])
+                                            })
+                                        }
+                                    }
+                                }.font(.system(size: CGFloat($fontSize.wrappedValue)))
+                                VStack {
+                                    if isScrollView {
+                                        ScrollLineView(viewModel: viewModel, codeViewModel: codeViewModel,
+                                                       line: codeViewModel.data[lineNum], lineNum: lineNum,
+                                                       fontSize: $fontSize)
+                                    } else {
+                                        WrapLineView(viewModel: viewModel, codeViewModel: codeViewModel,
+                                                     line: codeViewModel.data[lineNum], lineNum: lineNum,
+                                                     fontSize: $fontSize)
                                     }
                                 }
-                            }.font(.system(size: CGFloat($fontSize.wrappedValue)))
-
-                            VStack {
-                                if isScrollView {
-                                    ScrollLineView(viewModel: viewModel, codeViewModel: codeViewModel,
-                                                   line: codeViewModel.data[lineNum], lineNum: lineNum,
-                                                   fontSize: $fontSize)
-                                } else {
-                                    WrapLineView(viewModel: viewModel, codeViewModel: codeViewModel,
-                                                 line: codeViewModel.data[lineNum], lineNum: lineNum,
-                                                 fontSize: $fontSize)
+                                Spacer()
+                            }
+                            .id(lineNum)
+                            .padding(.leading, 6)
+                            .onAppear {
+                                if let scrollTo = codeViewModel.scrollTo {
+                                    withAnimation {
+                                        reader.scrollTo(scrollTo, anchor: .top)
+                                    }
+                                    codeViewModel.resetScroll()
                                 }
                             }
-                            Spacer()
-                        }.padding(.leading, 6)
+                        }
                     }
                 }
             }
             .onAppear {
                 Task {
-                    self.lines = await file.parseOutput.value.map { $0.lines }
+                    self.lines = await codeViewModel.file.parseOutput.value.map { $0.lines }
                     if let lines = lines, case let .success(lines) = lines {
                         codeViewModel.data = lines
                     }
@@ -80,7 +90,6 @@ struct CodeView_Previews: PreviewProvider {
     @State static var bool = true
     static var previews: some View {
         CodeView(
-            file: DummyFile.getFile(),
             viewModel: ScreenViewModel(),
             codeViewModel: CodeViewModel(file: DummyFile.getFile()),
             fontSize: $fontSize,

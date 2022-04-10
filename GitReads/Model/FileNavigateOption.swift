@@ -7,10 +7,10 @@ import Foundation
 // Models a potential navigation to a file
 struct FileNavigateOption {
     let file: File
-    let line: Int
+    let line: Int?
     let preview: String
 
-    init(file: File, line: Int = 0, preview: String = "") {
+    init(file: File, line: Int? = nil, preview: String = "") {
         self.file = file
         self.line = line
         self.preview = preview

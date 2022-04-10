@@ -11,6 +11,7 @@ class CodeViewModel: ObservableObject {
     @Published var data: [Line] = []
     @Published var activeLineAction: LineAction?
     @Published var activeTokenAction: TokenAction?
+    @Published private(set) var scrollTo: Int?
     private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
     let file: File
 
@@ -55,5 +56,22 @@ class CodeViewModel: ObservableObject {
     func setTokenAction(tokenAction: TokenAction) {
         resetAction()
         activeTokenAction = tokenAction
+    }
+
+    func setScrollTo(scrollTo: Int?) {
+        guard let scrollTo = scrollTo, scrollTo >= 0 else {
+            return
+        }
+        self.scrollTo = scrollTo
+    }
+
+    func resetScroll() {
+        self.scrollTo = nil
+    }
+}
+
+extension CodeViewModel: Equatable {
+    static func == (lhs: CodeViewModel, rhs: CodeViewModel) -> Bool {
+        lhs.file == rhs.file
     }
 }

@@ -6,12 +6,14 @@ import Combine
 import SwiftUI
 
 class ScreenViewModel: ObservableObject {
-    @Published private(set) var showSideBar = false
-    @Published private(set) var files: [File] = []
-    @Published var openFile: File?
+    @Published private(set) var showSideBar = true
+    @Published private(set) var codeViewModels: [CodeViewModel] = []
+    @Published var openFile: CodeViewModel?
+    private(set) var repo: Repo?
 
-    var repo: Repo?
-    private var preloader: PreloadVisitor?
+    func setRepo(_ repo: Repo) {
+        self.repo = repo
+    }
 
     func toggleSideBar() {
         withAnimation {
@@ -25,25 +27,31 @@ class ScreenViewModel: ObservableObject {
         }
     }
 
-    func openFile(file: File) {
-        if !files.contains(file) {
-            files.append(file)
+    func openFile(file: File, atLine: Int?) {
+        let codeViewModel = codeViewModels.first { $0.file == file }
+        if let codeViewModel = codeViewModel {
+            codeViewModel.setScrollTo(scrollTo: atLine)
+            openFile = codeViewModel
+        } else {
+            let newCodeViewModel = CodeViewModel(file: file)
+            codeViewModels.append(newCodeViewModel)
+            openFile = newCodeViewModel
+            newCodeViewModel.setScrollTo(scrollTo: atLine)
         }
-        openFile = file
     }
 
     func removeFile(file: File) {
-        files = files.filter({ f in
-            f != file
+        codeViewModels = codeViewModels.filter({ vm in
+            vm.file != file
         })
-        if openFile == file {
-            openFile = files.first
+        if openFile?.file == file {
+            openFile = codeViewModels.first
         }
     }
 }
 
 extension ScreenViewModel: FileNavigateDelegate {
     func navigateTo(_ option: FileNavigateOption) {
-        openFile(file: option.file)
+        openFile(file: option.file, atLine: option.line)
     }
 }

@@ -1,9 +1,6 @@
 //
 //  WindowView.swift
 //  GitReads
-//
-//  Created by Tan Kang Liang on 14/3/22.
-//
 
 import SwiftUI
 
@@ -37,9 +34,9 @@ struct TabView: View {
 }
 
 struct WindowView: View {
-    let files: [File]
+    let codeViewModels: [CodeViewModel]
     @StateObject var viewModel: ScreenViewModel
-    @Binding var openFile: File?
+    @Binding var openFile: CodeViewModel?
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
     let removeFile: (File) -> Void
@@ -48,10 +45,13 @@ struct WindowView: View {
         VStack(spacing: 0) {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(files, id: \.path) { file in
-                        TabView(file: file, selected: file == openFile, closeFile: { removeFile(file) })
+                    ForEach(codeViewModels, id: \.file) { codeViewModel in
+                        TabView(
+                            file: codeViewModel.file,
+                            selected: codeViewModel == openFile,
+                            closeFile: { removeFile(codeViewModel.file) })
                             .onTapGesture {
-                                openFile = file
+                                openFile = codeViewModel
                             }
                     }
 
@@ -59,10 +59,10 @@ struct WindowView: View {
             }
             Divider()
             ZStack {
-                ForEach(files, id: \.path) { file in
-                    CodeView(file: file, viewModel: viewModel, codeViewModel: CodeViewModel(file: file),
+                ForEach(codeViewModels, id: \.file) { codeViewModel in
+                    CodeView(viewModel: viewModel, codeViewModel: codeViewModel,
                              fontSize: $fontSize, isScrollView: $isScrollView)
-                        .opacity(file == openFile ? 1 : 0)
+                        .opacity(codeViewModel == openFile ? 1 : 0)
                 }
             }
 
@@ -76,12 +76,13 @@ struct WindowView: View {
 }
 
 struct WindowView_Previews: PreviewProvider {
-    @State static var openFile: File? = File(
-        path: Path(components: "file1.txt"),
-        sha: "deadbeef",
-        language: .others,
-        parseOutput: EMPTY_PARSE_OUTPUT
-    )
+    @State static var openFile: CodeViewModel? = CodeViewModel(
+        file: File(
+            path: Path(components: "file1.txt"),
+            sha: "deadbeef",
+            language: .others,
+            parseOutput: EMPTY_PARSE_OUTPUT
+    ))
 
     @State static var fontSize = 25
     @State static var isScrollView = true
@@ -108,15 +109,16 @@ struct WindowView_Previews: PreviewProvider {
                  language: .others,
                  parseOutput: EMPTY_PARSE_OUTPUT)
         ]
+            .map { CodeViewModel(file: $0) }
         return WindowView(
-            files: files,
+            codeViewModels: files,
             viewModel: ScreenViewModel(),
             openFile: $openFile,
             fontSize: $fontSize,
             isScrollView: $isScrollView,
             removeFile: { file in
-                files = files.filter({ f in
-                    f != file
+                files = files.filter({ vm in
+                    vm.file != file
                 })
             })
     }

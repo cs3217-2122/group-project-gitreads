@@ -16,7 +16,7 @@ struct ScreenView: View {
     }
 
     func initializeWithRepo(_ repo: Repo) {
-        viewModel.repo = repo
+        viewModel.setRepo(repo)
         sideBarViewModel = FilesSideBarViewModel(repo: repo)
         sideBarViewModel?.setDelegate(delegate: viewModel)
     }
@@ -57,7 +57,7 @@ struct ScreenView: View {
                         })
                 }
                 WindowView(
-                    files: viewModel.files,
+                    codeViewModels: viewModel.codeViewModels,
                     viewModel: viewModel, // not the ideal case
                     openFile: $viewModel.openFile,
                     fontSize: $settings.fontSize,
