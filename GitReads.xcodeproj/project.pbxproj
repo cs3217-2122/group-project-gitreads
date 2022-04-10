@@ -93,6 +93,8 @@
 		DE05002E27F4642900ABEC27 /* NavigationOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE05002D27F4642900ABEC27 /* NavigationOptionView.swift */; };
 		DE05003027F4666800ABEC27 /* StyledText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE05002F27F4666800ABEC27 /* StyledText.swift */; };
 		DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE05003127F468F500ABEC27 /* String+Ranges.swift */; };
+		DE251EC428030E2B0087ADB2 /* DefinitionLookupVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE251EC328030E2B0087ADB2 /* DefinitionLookupVisitor.swift */; };
+		DE251EC6280322C00087ADB2 /* DefinitionLookupPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */; };
 		DE43322227E1E6D70012FD81 /* Get in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322127E1E6D70012FD81 /* Get */; };
 		DE43322527E1E7080012FD81 /* SwiftTreeSitter in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322427E1E7080012FD81 /* SwiftTreeSitter */; };
 		DE43322827E1E7140012FD81 /* CollectionConcurrencyKit in Frameworks */ = {isa = PBXBuildFile; productRef = DE43322727E1E7140012FD81 /* CollectionConcurrencyKit */; };
@@ -256,6 +258,8 @@
 		DE05002D27F4642900ABEC27 /* NavigationOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationOptionView.swift; sourceTree = "<group>"; };
 		DE05002F27F4666800ABEC27 /* StyledText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledText.swift; sourceTree = "<group>"; };
 		DE05003127F468F500ABEC27 /* String+Ranges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ranges.swift"; sourceTree = "<group>"; };
+		DE251EC328030E2B0087ADB2 /* DefinitionLookupVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionLookupVisitor.swift; sourceTree = "<group>"; };
+		DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionLookupPlugin.swift; sourceTree = "<group>"; };
 		DE43323127E1EF4B0012FD81 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		DE43323927EB1A760012FD81 /* RepoVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoVisitor.swift; sourceTree = "<group>"; };
 		DE43323D27EB333B0012FD81 /* MockRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepo.swift; sourceTree = "<group>"; };
@@ -617,6 +621,7 @@
 				B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */,
 				B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */,
 				B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */,
+				DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -635,6 +640,7 @@
 				DE43325B27EB89CE0012FD81 /* PreloadVisitor.swift */,
 				DE43326727F42E220012FD81 /* FileNameSearchVisitor.swift */,
 				DE05002527F44FAA00ABEC27 /* TextSearchVisitor.swift */,
+				DE251EC328030E2B0087ADB2 /* DefinitionLookupVisitor.swift */,
 			);
 			path = RepoVisitor;
 			sourceTree = "<group>";
@@ -993,6 +999,7 @@
 				6E67ED1027E9BB7B00C75F8C /* PaginatedResponse.swift in Sources */,
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
 				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
+				DE251EC6280322C00087ADB2 /* DefinitionLookupPlugin.swift in Sources */,
 				FF8106A827FC3FF1005F349F /* StructDeclaration.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				FF83C37127FDBFCB0042A58F /* TypeDeclaration.swift in Sources */,
@@ -1034,6 +1041,7 @@
 				6ED322E427E1F71D00F0AD09 /* GitHubTree.swift in Sources */,
 				FF73472E27F89A0B009A8949 /* JsonParser.swift in Sources */,
 				DE580D5327DF64AB00C37142 /* FilesSideBar.swift in Sources */,
+				DE251EC428030E2B0087ADB2 /* DefinitionLookupVisitor.swift in Sources */,
 				B22D52F127DB0F7B00CD5E01 /* CodeView.swift in Sources */,
 				FF73472727F88105009A8949 /* HtmlNodeTypeSimplifier.swift in Sources */,
 				B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */,

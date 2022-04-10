@@ -34,6 +34,9 @@ class ScreenViewModel: ObservableObject {
             openFile = codeViewModel
         } else {
             let newCodeViewModel = CodeViewModel(file: file)
+            if let repo = self.repo {
+                newCodeViewModel.addPlugin(DefinitionLookupPlugin(repo: repo))
+            }
             codeViewModels.append(newCodeViewModel)
             openFile = newCodeViewModel
             newCodeViewModel.setScrollTo(scrollTo: atLine)

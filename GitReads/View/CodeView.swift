@@ -15,6 +15,16 @@ struct CodeView: View {
 
     @State private var lines: Result<[Line], Error>?
 
+    func pluginHeader(_ view: AnyView) -> some View {
+        VStack {
+            Button("Close") {
+                codeViewModel.resetAction()
+            }.frame(alignment: .trailing)
+
+            view
+        }
+    }
+
     var body: some View {
         VStack {
             ScrollView {
@@ -51,9 +61,7 @@ struct CodeView: View {
                             .padding(.leading, 6)
                             .onAppear {
                                 if let scrollTo = codeViewModel.scrollTo {
-                                    withAnimation {
-                                        reader.scrollTo(scrollTo, anchor: .top)
-                                    }
+                                    withAnimation { reader.scrollTo(scrollTo, anchor: .top) }
                                     codeViewModel.resetScroll()
                                 }
                             }
@@ -71,11 +79,10 @@ struct CodeView: View {
             }
 
             if let action = codeViewModel.activeLineAction {
-                action.pluginView
+                pluginHeader(action.pluginView)
             }
-
             if let action = codeViewModel.activeTokenAction {
-                action.pluginView
+                pluginHeader(action.pluginView)
             }
         }
 

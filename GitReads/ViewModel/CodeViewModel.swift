@@ -12,11 +12,15 @@ class CodeViewModel: ObservableObject {
     @Published var activeLineAction: LineAction?
     @Published var activeTokenAction: TokenAction?
     @Published private(set) var scrollTo: Int?
-    private let plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
+    private var plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
     let file: File
 
     init(file: File) {
         self.file = file
+    }
+
+    func addPlugin(_ plugin: Plugin) {
+        plugins.append(plugin)
     }
 
     func getLineOption(lineNum: Int,
