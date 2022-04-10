@@ -10,17 +10,21 @@ class DirectoryBarViewModel: ObservableObject {
     @Published private(set) var files: [FileBarViewModel]
 
     let directory: Directory
-
-    var name: String {
-        directory.name
-    }
+    let name: String
 
     var path: Path {
         directory.path
     }
 
     init(directory: Directory, isOpen: Bool = false) {
+        var directory = directory
+        var name = ""
+        while directory.directories.count == 1 && directory.files.isEmpty {
+            name += directory.name + "/"
+            directory = directory.directories[0]
+        }
         self.directory = directory
+        self.name = name + self.directory.name
         self.isOpen = isOpen
         self.directories = directory.directories.map { DirectoryBarViewModel(directory: $0, isOpen: isOpen) }
         self.files = directory.files.map { FileBarViewModel(file: $0) }

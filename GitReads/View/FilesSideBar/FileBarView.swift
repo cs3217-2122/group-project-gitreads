@@ -8,8 +8,10 @@ struct FileBarView: View {
     @ObservedObject var viewModel: FileBarViewModel
 
     var body: some View {
-        Text(viewModel.file.name)
-            .onTapGesture(perform: viewModel.onSelectFile)
+        ScrollView(.horizontal) {
+            Text(viewModel.file.name)
+                .onTapGesture(perform: viewModel.onSelectFile)
+        }
     }
 }
 

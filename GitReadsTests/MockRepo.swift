@@ -35,14 +35,14 @@ struct MockRepo {
     static let file1 = File(path: Path(string: "/file1.txt"),
                             sha: "deadbeef",
                             language: .others,
-                            declarations: [],
-                            parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                            parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let file2 = File(path: Path(string: "/file2.txt"),
                             sha: "deadbeef",
                             language: .others,
-                            declarations: [],
-                            parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                            parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let root = Directory(
         files: [file1, file2],
@@ -53,14 +53,14 @@ struct MockRepo {
     static let fileA1 = File(path: Path(string: "/dirA/fileA1.go"),
                              sha: "deadbeef",
                              language: .go,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let fileA2 = File(path: Path(string: "/dirA/fileA2.txt"),
                              sha: "deadbeef",
                              language: .others,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
     static let dirA = Directory(
         files: [fileA1, fileA2],
         directories: [],
@@ -69,8 +69,8 @@ struct MockRepo {
     static let fileB1 = File(path: Path(string: "/dirB/fileB1.txt"),
                              sha: "deadbeef",
                              language: .others,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let dirB = Directory(
         files: [fileB1],
@@ -80,20 +80,20 @@ struct MockRepo {
     static let fileC1 = File(path: Path(string: "/dirB/dirC/fileC1.go"),
                              sha: "deadbeef",
                              language: .go,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let fileC2 = File(path: Path(string: "/dirB/dirC/fileC2.txt"),
                              sha: "deadbeef",
                              language: .others,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let fileC3 = File(path: Path(string: "/dirB/dirC/fileC3.txt"),
                              sha: "deadbeef",
                              language: .others,
-                             declarations: [],
-                             parseOutput: LazyDataSource(value: ParseOutput(fileContents: "", lines: [])))
+                             parseOutput: LazyDataSource(
+                                value: ParseOutput(fileContents: "", lines: [], declarations: [])))
 
     static let dirC = Directory(
         files: [fileC1, fileC2, fileC3],

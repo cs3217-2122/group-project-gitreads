@@ -8,9 +8,11 @@ struct DirectoryBarView: View {
     @ObservedObject var viewModel: DirectoryBarViewModel
 
     var body: some View {
-        HStack {
-            Image(systemName: viewModel.isOpen ? "folder" : "folder.fill")
-            Text(viewModel.name)
+        ScrollView(.horizontal) {
+            HStack {
+                Image(systemName: viewModel.isOpen ? "folder" : "folder.fill")
+                Text(viewModel.name)
+            }
         }
         .onTapGesture {
             viewModel.isOpen.toggle()
