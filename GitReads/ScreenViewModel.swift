@@ -27,7 +27,7 @@ class ScreenViewModel: ObservableObject {
         }
     }
 
-    func openFile(file: File, atLine: Int? = 0) {
+    func openFile(file: File, atLine: Int? = nil) {
         let codeViewModel = codeViewModels.first { $0.file == file }
         if let codeViewModel = codeViewModel {
             codeViewModel.setScrollTo(scrollTo: atLine)

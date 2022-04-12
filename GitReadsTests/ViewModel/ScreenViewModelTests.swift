@@ -20,6 +20,7 @@ class ScreenViewModelTests: XCTestCase {
 
     func testInit() {
         XCTAssertTrue(viewModel.showSideBar)
+        XCTAssertEqual(viewModel.codeViewModels, [])
         XCTAssertNil(viewModel.openFile)
     }
 
@@ -32,9 +33,7 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testHideSideBar() {
-        viewModel.toggleSideBar()
-        XCTAssertFalse(viewModel.showSideBar)
-
+        XCTAssertTrue(viewModel.showSideBar)
         viewModel.hideSideBar()
         XCTAssertFalse(viewModel.showSideBar)
         viewModel.hideSideBar()
@@ -52,10 +51,9 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.file2)
         viewModel.openFile(file: MockRepo.fileA1)
         viewModel.openFile(file: MockRepo.fileA2)
-        XCTAssertEqual(
-            viewModel.codeViewModels.map { $0.file },
-            [MockRepo.file1, MockRepo.file2, MockRepo.fileA1, MockRepo.fileA2]
-        )
+
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file },
+                       [MockRepo.file1, MockRepo.file2, MockRepo.fileA1, MockRepo.fileA2])
         XCTAssertEqual(viewModel.openFile?.file, MockRepo.fileA2)
     }
 
@@ -73,8 +71,8 @@ class ScreenViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
 
         viewModel.removeFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [])
-        XCTAssertNil(viewModel.openFile?.file)
+        XCTAssertEqual(viewModel.codeViewModels, [])
+        XCTAssertNil(viewModel.openFile)
     }
 
     func testRemoveFile_removeNonExistentFile_doesNothing() {

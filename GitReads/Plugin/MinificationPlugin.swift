@@ -76,6 +76,6 @@ class MinificationPlugin: Plugin {
         state.addViewModel(tokenViewModel)
         minificationStates[token.value] = state
     }
-    
+
     // TODO: possibly add a top level option to minify/show everything
 }
