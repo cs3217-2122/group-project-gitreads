@@ -3,6 +3,7 @@
 //  GitReads
 
 import Foundation
+import Combine
 
 private let DEFAULT_PRELOAD_CHUNK_SIZE: Int = 24
 
@@ -31,14 +32,16 @@ class PreloadVisitor: RepoVisitor {
 
 class Preloader {
     let totalFiles: Int
-    private(set) var filesLoaded: Int
+    private(set) var filesLoaded: CurrentValueSubject<Int, Never>
+
     private let filesToLoad: [File]
     private let chunkSize: Int
     private var task: Task<(), Error>?
 
     init(files: [File], chunkSize: Int) {
         self.totalFiles = files.count
-        self.filesLoaded = 0
+        self.filesLoaded = CurrentValueSubject(0)
+
         self.filesToLoad = files
         self.chunkSize = chunkSize
     }
@@ -68,7 +71,7 @@ class Preloader {
                     }
                 }
 
-                self.filesLoaded += chunk.count
+                self.filesLoaded.send(self.filesLoaded.value + chunk.count)
             }
         }
     }

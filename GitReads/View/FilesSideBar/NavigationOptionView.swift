@@ -32,7 +32,9 @@ struct NavigationOptionView_Previews: PreviewProvider {
                 language: .go,
                 parseOutput: LazyDataSource(value: ParseOutput(fileContents: "",
                                                                lines: [],
-                                                               declarations: []))),
+                                                               declarations: [],
+                                                               scopes: []
+                                                              ))),
             line: 0,
             preview: "for i := range(5) {"))
     }

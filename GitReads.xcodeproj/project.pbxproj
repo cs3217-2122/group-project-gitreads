@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E5DA58328036BF4009D0D03 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA58228036BF4009D0D03 /* Scope.swift */; };
+		6E5DA5872805C8EC009D0D03 /* MinificationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA5862805C8EC009D0D03 /* MinificationPlugin.swift */; };
+		6E5DA5892805CE22009D0D03 /* LineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA5882805CE22009D0D03 /* LineViewModel.swift */; };
+		6E5DA58B2805CEF7009D0D03 /* TokenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA58A2805CEF7009D0D03 /* TokenViewModel.swift */; };
 		6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E5E27F701C400E13A30 /* MarkdownUI */; };
 		6E631E6227F713CD00E13A30 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6127F713CD00E13A30 /* Fuse */; };
 		6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */; };
@@ -172,6 +176,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E5DA58228036BF4009D0D03 /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
+		6E5DA5862805C8EC009D0D03 /* MinificationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinificationPlugin.swift; sourceTree = "<group>"; };
+		6E5DA5882805CE22009D0D03 /* LineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineViewModel.swift; sourceTree = "<group>"; };
+		6E5DA58A2805CEF7009D0D03 /* TokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenViewModel.swift; sourceTree = "<group>"; };
 		6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoHomePageViewModel.swift; sourceTree = "<group>"; };
 		6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		6E631E6827F8622000E13A30 /* RepoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoService.swift; sourceTree = "<group>"; };
@@ -561,6 +569,8 @@
 				6E631E7327F946AC00E13A30 /* FavouritesViewModel.swift */,
 				6E631E7127F8E47800E13A30 /* AppDependencies.swift */,
 				B242ECAD27FAD37400993012 /* CodeViewModel.swift */,
+				6E5DA5882805CE22009D0D03 /* LineViewModel.swift */,
+				6E5DA58A2805CEF7009D0D03 /* TokenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -622,6 +632,7 @@
 				B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */,
 				B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */,
 				DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */,
+				6E5DA5862805C8EC009D0D03 /* MinificationPlugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -802,6 +813,7 @@
 				FF8106A727FC3FF1005F349F /* StructDeclaration.swift */,
 				FF83C37027FDBFCB0042A58F /* TypeDeclaration.swift */,
 				FF83C37327FDC10D0042A58F /* PreprocDeclaration.swift */,
+				6E5DA58228036BF4009D0D03 /* Scope.swift */,
 				B223E20827D9DF87008ACEEF /* Line.swift */,
 				B223E20A27D9DF9B008ACEEF /* TokenType.swift */,
 				B223E20C27D9E6F0008ACEEF /* Token.swift */,
@@ -1036,6 +1048,7 @@
 				6ED322E227E1F71D00F0AD09 /* GitHubRepo.swift in Sources */,
 				FF73472527F880F5009A8949 /* HtmlParser.swift in Sources */,
 				B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */,
+				6E5DA58328036BF4009D0D03 /* Scope.swift in Sources */,
 				B2E956DB27F1F2C300FBA708 /* LineAction.swift in Sources */,
 				6E67ECEB27E6D24000C75F8C /* GitHubSearchResponse.swift in Sources */,
 				6ED322E427E1F71D00F0AD09 /* GitHubTree.swift in Sources */,
@@ -1061,6 +1074,7 @@
 				FF8106A627FC34D8005F349F /* ClassDeclaration.swift in Sources */,
 				DE43324527EB3E7D0012FD81 /* DirectoryBarViewModel.swift in Sources */,
 				FF8106A127FC33BA005F349F /* Declaration.swift in Sources */,
+				6E5DA58B2805CEF7009D0D03 /* TokenViewModel.swift in Sources */,
 				6ED322D327E1537000F0AD09 /* DirectoryStucture.swift in Sources */,
 				6ED3227027DC88F400F0AD09 /* GitRepo.swift in Sources */,
 				6E67ED0C27E97BE900C75F8C /* RoundedCorner.swift in Sources */,
@@ -1077,6 +1091,7 @@
 				FF83C37427FDC10D0042A58F /* PreprocDeclaration.swift in Sources */,
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
 				FF8106A327FC34C7005F349F /* FunctionDeclaration.swift in Sources */,
+				6E5DA5872805C8EC009D0D03 /* MinificationPlugin.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
 				B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */,
 				FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */,
@@ -1096,6 +1111,7 @@
 				FF81069F27FC2B3D005F349F /* CNodeTypeSimplifier.swift in Sources */,
 				6ED322CF27E0B59000F0AD09 /* GitTree.swift in Sources */,
 				6ED322BB27DEA5BA00F0AD09 /* CachedDataFetcher.swift in Sources */,
+				6E5DA5892805CE22009D0D03 /* LineViewModel.swift in Sources */,
 				B223E20527D9DF13008ACEEF /* Directory.swift in Sources */,
 				DE580D5B27DF6D0F00C37142 /* Mock.swift in Sources */,
 				6E631E7227F8E47800E13A30 /* AppDependencies.swift in Sources */,

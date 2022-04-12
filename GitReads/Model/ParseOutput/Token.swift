@@ -10,4 +10,9 @@ import Foundation
 struct Token: Codable {
     let type: TokenType
     let value: String
+
+    // Start index is inclusive
+    let startIdx: Int
+    // End index is exclusive
+    let endIdx: Int
 }

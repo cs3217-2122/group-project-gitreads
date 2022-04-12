@@ -7,9 +7,10 @@
 
 protocol Plugin {
     func getLineAction(file: File, lineNum: Int,
-                       screemViewModel: ScreenViewModel,
+                       screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> LineAction?
+
     func getTokenAction(file: File, lineNum: Int, posNum: Int,
-                        screemViewModel: ScreenViewModel,
+                        screenViewModel: ScreenViewModel,
                         codeViewModel: CodeViewModel) -> TokenAction?
 }

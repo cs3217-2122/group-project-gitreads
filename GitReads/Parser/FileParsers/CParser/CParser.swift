@@ -24,7 +24,9 @@ class CParser: FileParser {
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: declarations)
+                           declarations: declarations,
+                           scopes: []
+        )
     }
 
     static func getAstFromApi(fileString: String) async throws -> ASTNode? {

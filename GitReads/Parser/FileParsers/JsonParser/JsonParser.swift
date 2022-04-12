@@ -19,7 +19,9 @@ class JsonParser: FileParser {
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: declarations)
+                           declarations: declarations,
+                           scopes: []
+        )
     }
 
     static func getAstLocally(fileString: String) async throws -> ASTNode? {

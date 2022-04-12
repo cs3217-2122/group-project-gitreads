@@ -6,16 +6,36 @@ struct ParseOutput: Codable {
     let fileContents: String
     let lines: [Line]
     var declarations: [Declaration]
+    let scopes: [Scope]
 
-    init(fileContents: String, lines: [Line], declarations: [Declaration]) {
+    var declarationsInScope: [Scope: [Declaration]] = [:]
+    var tokensInScope: [Scope: [Token]] = [:]
+
+    init(fileContents: String, lines: [Line], declarations: [Declaration], scopes: [Scope]) {
         self.fileContents = fileContents
         self.lines = lines
         self.declarations = declarations
+        self.scopes = scopes
+
+        for scope in scopes {
+            let containedDeclarations = declarations.filter { scope.contains(declaration: $0) }
+            declarationsInScope[scope] = containedDeclarations
+
+            let containedTokens = lines.flatMap { line -> [Token] in
+                if !scope.contains(line: line) {
+                    return []
+                }
+
+                return line.tokens.filter { scope.contains(token: $0, onLineNumber: line.lineNumber) }
+            }
+            tokensInScope[scope] = containedTokens
+        }
     }
 
     private enum CodingKeys: CodingKey {
         case fileContents
         case lines
+        case scopes
         case variableDeclaration
         case functionDeclaration
         case classDeclaration
@@ -28,6 +48,7 @@ struct ParseOutput: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         fileContents = try container.decode(String.self, forKey: .fileContents)
         lines = try container.decode([Line].self, forKey: .lines)
+        scopes = try container.decode([Scope].self, forKey: .scopes)
 
         declarations = []
         declarations += try container.decode([VariableDeclaration].self,
@@ -42,12 +63,14 @@ struct ParseOutput: Codable {
                                              forKey: .typeDeclaration)
         declarations += try container.decode([PreprocDeclaration].self,
                                              forKey: .preprocDeclaration)
+
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(fileContents, forKey: .fileContents)
         try container.encode(lines, forKey: .lines)
+        try container.encode(scopes, forKey: .scopes)
 
         let variableDeclarations = declarations.compactMap { $0 as? VariableDeclaration }
         let functionDeclarations = declarations.compactMap { $0 as? FunctionDeclaration }

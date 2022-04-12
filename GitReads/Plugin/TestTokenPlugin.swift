@@ -8,15 +8,15 @@ import SwiftUI
 
 struct TestTokenPlugin: Plugin {
     func getLineAction(file: File, lineNum: Int,
-                       screemViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> LineAction? {
+                       screenViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> LineAction? {
         nil
     }
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int,
-                        screemViewModel: ScreenViewModel,
+                        screenViewModel: ScreenViewModel,
                         codeViewModel: CodeViewModel) -> TokenAction? {
         TokenAction(text: "Test Token Plugin", action: { _, _, _, _ in },
-                    view: AnyView(TestView(screenViewModel: screemViewModel, codeViewModel: codeViewModel,
+                    view: AnyView(TestView(screenViewModel: screenViewModel, codeViewModel: codeViewModel,
                                            lineNum: lineNum, tokenPos: posNum)))
     }
 }

@@ -10,16 +10,23 @@ import SwiftUI
 struct ScrollLineView: View {
     @StateObject var viewModel: ScreenViewModel
     @StateObject var codeViewModel: CodeViewModel
-    let line: Line
+    @ObservedObject var lineViewModel: LineViewModel
+
     let lineNum: Int
     @Binding var fontSize: Int
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 0) {
-                ForEach((0..<line.tokens.count), id: \.self) { pos in
-                    TokenView(viewModel: viewModel, codeViewModel: codeViewModel, token: line.tokens[pos],
-                              lineNum: lineNum, pos: pos, fontSize: $fontSize)
+                ForEach((0..<lineViewModel.tokenViewModels.count), id: \.self) { pos in
+                    TokenView(
+                        viewModel: viewModel,
+                        codeViewModel: codeViewModel,
+                        tokenViewModel: lineViewModel.tokenViewModels[pos],
+                        lineNum: lineNum,
+                        pos: pos,
+                        fontSize: $fontSize
+                    )
                 }
             }
         }
@@ -33,22 +40,22 @@ struct ScrollLineView_Previews: PreviewProvider {
         ScrollLineView(
             viewModel: ScreenViewModel(),
             codeViewModel: CodeViewModel(file: DummyFile.getFile()),
-            line: Line(tokens: [
-                Token(type: .keyword, value: "1TESgfdgdfgsdfgdfsgdfgdsfgdsfgfgT"),
-                Token(type: .keyword, value: "2TfdgdfgdsfgdsfgdfgdfgEST"),
-                Token(type: .keyword, value: "3TEST"),
-                Token(type: .keyword, value: "4TEST"),
-                Token(type: .keyword, value: "5TEST"),
-                Token(type: .keyword, value: "6TEST"),
-                Token(type: .keyword, value: "7TEST"),
-                Token(type: .keyword, value: "8TEST"),
-                Token(type: .keyword, value: "9TEST"),
-                Token(type: .keyword, value: "10TEST"),
-                Token(type: .keyword, value: "11TEST"),
-                Token(type: .keyword, value: "12TEST"),
-                Token(type: .keyword, value: "13TEST"),
-                Token(type: .keyword, value: "14TEST")
-            ]),
+            lineViewModel: LineViewModel(line: Line(lineNumber: 0, tokens: [
+                Token(type: .keyword, value: "1TESgfdgdfgsdfgdfsgdfgdsfgdsfgfgT", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "2TfdgdfgdsfgdsfgdfgdfgEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "3TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "4TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "5TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "6TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "7TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "8TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "9TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "10TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "11TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "12TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "13TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "14TEST", startIdx: 0, endIdx: 1)
+            ])),
             lineNum: 1,
             fontSize: $fontSize
         )

@@ -9,12 +9,18 @@ class PseudoParser: FileParser {
 
     static func parse(fileString: String, includeDeclarations: Bool = true) async throws -> ParseOutput {
         let lines = fileString.split(separator: "\n", omittingEmptySubsequences: false)
-            .map { line in
-                Line(tokens: [Token(type: .otherType, value: String(line))])
+            .enumerated()
+            .map { idx, line in
+                Line(
+                    lineNumber: idx,
+                    tokens: [Token(type: .otherType, value: String(line), startIdx: 0, endIdx: line.count)]
+                )
             }
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: [])
+                           declarations: [],
+                           scopes: []
+        )
     }
 }

@@ -11,15 +11,22 @@ import WrappingStack
 struct WrapLineView: View {
     @StateObject var viewModel: ScreenViewModel
     @StateObject var codeViewModel: CodeViewModel
-    let line: Line
+    @ObservedObject var lineViewModel: LineViewModel
+
     let lineNum: Int
     @Binding var fontSize: Int
 
     var body: some View {
         WrappingHStack(id: \.self, alignment: .leading) {
-            ForEach((0..<line.tokens.count), id: \.self) { pos in
-                TokenView(viewModel: viewModel, codeViewModel: codeViewModel, token: line.tokens[pos],
-                          lineNum: lineNum, pos: pos, fontSize: $fontSize)
+            ForEach((0..<lineViewModel.tokenViewModels.count), id: \.self) { pos in
+                TokenView(
+                    viewModel: viewModel,
+                    codeViewModel: codeViewModel,
+                    tokenViewModel: lineViewModel.tokenViewModels[pos],
+                    lineNum: lineNum,
+                    pos: pos,
+                    fontSize: $fontSize
+                )
             }
         }
     }
@@ -31,17 +38,17 @@ struct WrapLineView_Previews: PreviewProvider {
         WrapLineView(
             viewModel: ScreenViewModel(),
             codeViewModel: CodeViewModel(file: DummyFile.getFile()),
-            line: Line(tokens: [
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: " "),
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: " "),
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: "TEST"),
-                Token(type: .keyword, value: "TEST")
-            ]),
+            lineViewModel: LineViewModel(line: Line(lineNumber: 0, tokens: [
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: " ", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: " ", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1),
+                Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1)
+            ])),
             lineNum: 0,
             fontSize: $fontSize)
     }

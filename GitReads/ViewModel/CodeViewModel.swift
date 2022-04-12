@@ -8,10 +8,13 @@
 import Combine
 
 class CodeViewModel: ObservableObject {
-    @Published var data: [Line] = []
+    @Published private(set) var parseOutput: ParseOutput?
     @Published var activeLineAction: LineAction?
     @Published var activeTokenAction: TokenAction?
     @Published private(set) var scrollTo: Int?
+
+    @Published var lineViewModels: [LineViewModel] = []
+
     private var plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
     let file: File
 
@@ -19,8 +22,36 @@ class CodeViewModel: ObservableObject {
         self.file = file
     }
 
+    var declarations: [Declaration] {
+        parseOutput?.declarations ?? []
+    }
+
+    var scopes: [Scope] {
+        parseOutput?.scopes ?? []
+    }
+
     func addPlugin(_ plugin: Plugin) {
         plugins.append(plugin)
+    }
+
+    func setParseOutput(_ parseOutput: ParseOutput) {
+        guard self.parseOutput == nil else {
+            return
+        }
+
+        self.parseOutput = parseOutput
+
+        let minificationPlugin = MinificationPlugin(parseOutput: parseOutput)
+
+        let lineViewModels = parseOutput.lines.map { LineViewModel(line: $0) }
+        for lineViewModel in lineViewModels {
+            for tokenViewModel in lineViewModel.tokenViewModels {
+                minificationPlugin.registerTokenViewModel(tokenViewModel)
+            }
+        }
+
+        self.lineViewModels = lineViewModels
+        self.plugins.append(minificationPlugin)
     }
 
     func getLineOption(lineNum: Int,
@@ -28,7 +59,7 @@ class CodeViewModel: ObservableObject {
         var result: [LineAction] = []
         for plugin in plugins {
             if let action = plugin.getLineAction(file: file, lineNum: lineNum,
-                                                 screemViewModel: screenViewModel, codeViewModel: self) {
+                                                 screenViewModel: screenViewModel, codeViewModel: self) {
                 result.append(action)
             }
         }
@@ -40,7 +71,7 @@ class CodeViewModel: ObservableObject {
         var result: [TokenAction] = []
         for plugin in plugins {
             if let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
-                                                  screemViewModel: screenViewModel, codeViewModel: self) {
+                                                  screenViewModel: screenViewModel, codeViewModel: self) {
                 result.append(action)
             }
         }
