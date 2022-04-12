@@ -22,12 +22,12 @@ struct DefinitionLookupPlugin: Plugin {
                 return nil
             }
 
-            let state = repo.accept(visitor: DefinitionLookupVisitor(token: token, language: file.language))
             return TokenAction(
                 text: "Definition Lookup",
                 action: { _, _, _, _ in },
                 view: AnyView(DefinitionLookupView(
-                    definitionLookupState: state,
+                    repo: repo,
+                    language: file.language,
                     token: token,
                     onSelect: screemViewModel.navigateTo(_:)))
             )
@@ -41,6 +41,13 @@ struct DefinitionLookupView: View {
     let token: Token
     let onSelect: (FileNavigateOption) -> Void
 
+    init(repo: Repo, language: Language, token: Token, onSelect: @escaping (FileNavigateOption) -> Void) {
+        self._definitionLookupState = StateObject(
+            wrappedValue: repo.accept(visitor: DefinitionLookupVisitor(token: token, language: language)))
+        self.token = token
+        self.onSelect = onSelect
+    }
+
     var body: some View {
         VStack {
             List {
@@ -53,6 +60,10 @@ struct DefinitionLookupView: View {
 
                 if definitionLookupState.loading {
                     ProgressView()
+                }
+
+                if !definitionLookupState.loading && definitionLookupState.options.isEmpty {
+                    Text("Could not find where this term was defined")
                 }
             }
         }
