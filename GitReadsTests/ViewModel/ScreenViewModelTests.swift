@@ -19,22 +19,21 @@ class ScreenViewModelTests: XCTestCase {
     }
 
     func testInit() {
-        XCTAssertFalse(viewModel.showSideBar)
-        XCTAssertEqual(viewModel.files, [])
+        XCTAssertTrue(viewModel.showSideBar)
         XCTAssertNil(viewModel.openFile)
     }
 
     func testToggleSideBar() {
-        XCTAssertFalse(viewModel.showSideBar)
-        viewModel.toggleSideBar()
         XCTAssertTrue(viewModel.showSideBar)
         viewModel.toggleSideBar()
         XCTAssertFalse(viewModel.showSideBar)
+        viewModel.toggleSideBar()
+        XCTAssertTrue(viewModel.showSideBar)
     }
 
     func testHideSideBar() {
         viewModel.toggleSideBar()
-        XCTAssertTrue(viewModel.showSideBar)
+        XCTAssertFalse(viewModel.showSideBar)
 
         viewModel.hideSideBar()
         XCTAssertFalse(viewModel.showSideBar)
@@ -44,8 +43,8 @@ class ScreenViewModelTests: XCTestCase {
 
     func testOpenFile_addsFileToFiles_setsOpenFile() {
         viewModel.openFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.files, [MockRepo.file1])
-        XCTAssertEqual(viewModel.openFile, MockRepo.file1)
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [MockRepo.file1])
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
     }
 
     func testOpenFile_multipleFiles_openFileIsMostRecentlyAdded() {
@@ -53,34 +52,37 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.file2)
         viewModel.openFile(file: MockRepo.fileA1)
         viewModel.openFile(file: MockRepo.fileA2)
-        XCTAssertEqual(viewModel.files, [MockRepo.file1, MockRepo.file2, MockRepo.fileA1, MockRepo.fileA2])
-        XCTAssertEqual(viewModel.openFile, MockRepo.fileA2)
+        XCTAssertEqual(
+            viewModel.codeViewModels.map { $0.file },
+            [MockRepo.file1, MockRepo.file2, MockRepo.fileA1, MockRepo.fileA2]
+        )
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.fileA2)
     }
 
     func testOpenFile_sameFile_onlyOneAdded() {
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file1)
         viewModel.openFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.files, [MockRepo.file1])
-        XCTAssertEqual(viewModel.openFile, MockRepo.file1)
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [MockRepo.file1])
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
     }
 
     func testRemoveFile_removesFromFiles_openFileIsNil() {
         viewModel.openFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.files, [MockRepo.file1])
-        XCTAssertEqual(viewModel.openFile, MockRepo.file1)
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [MockRepo.file1])
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
 
         viewModel.removeFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.files, [])
-        XCTAssertNil(viewModel.openFile)
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [])
+        XCTAssertNil(viewModel.openFile?.file)
     }
 
     func testRemoveFile_removeNonExistentFile_doesNothing() {
         viewModel.openFile(file: MockRepo.file1)
         viewModel.removeFile(file: MockRepo.file2)
 
-        XCTAssertEqual(viewModel.files, [MockRepo.file1])
-        XCTAssertEqual(viewModel.openFile, MockRepo.file1)
+        XCTAssertEqual(viewModel.codeViewModels.map { $0.file }, [MockRepo.file1])
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
     }
 
     func testRemoveFile_multipleFiles() {
@@ -89,15 +91,15 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.fileA1)
         viewModel.openFile(file: MockRepo.fileA2)
 
-        XCTAssertEqual(viewModel.files.count, 4)
+        XCTAssertEqual(viewModel.codeViewModels.count, 4)
         viewModel.removeFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.files.count, 3)
+        XCTAssertEqual(viewModel.codeViewModels.count, 3)
         viewModel.removeFile(file: MockRepo.file2)
-        XCTAssertEqual(viewModel.files.count, 2)
+        XCTAssertEqual(viewModel.codeViewModels.count, 2)
         viewModel.removeFile(file: MockRepo.fileA1)
-        XCTAssertEqual(viewModel.files.count, 1)
+        XCTAssertEqual(viewModel.codeViewModels.count, 1)
         viewModel.removeFile(file: MockRepo.fileA2)
-        XCTAssertEqual(viewModel.files.count, 0)
+        XCTAssertEqual(viewModel.codeViewModels.count, 0)
         XCTAssertNil(viewModel.openFile)
     }
 
@@ -106,7 +108,7 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.file2)
 
         viewModel.removeFile(file: MockRepo.file1)
-        XCTAssertEqual(viewModel.openFile, MockRepo.file2)
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file2)
     }
 
     func testRemoveFile_removedOpenFile_openFileSetToOther() {
@@ -114,6 +116,6 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.file2)
 
         viewModel.removeFile(file: MockRepo.file2)
-        XCTAssertEqual(viewModel.openFile, MockRepo.file1)
+        XCTAssertEqual(viewModel.openFile?.file, MockRepo.file1)
     }
 }
