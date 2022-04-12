@@ -8,9 +8,9 @@ import SwiftUI
 
 struct GetCommentPlugin: Plugin {
     func getLineAction(file: File, lineNum: Int,
-                       screemViewModel: ScreenViewModel,
+                       screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> LineAction? {
-        if let repo = screemViewModel.repo, let url = repo.htmlURL?.absoluteString {
+        if let repo = screenViewModel.repo, let url = repo.htmlURL?.absoluteString {
             let defaults = UserDefaults.standard
             if let comments = defaults.object(forKey: url) as? [String: [String: String]],
                let fileComment = comments[file.path.string],
@@ -25,7 +25,7 @@ struct GetCommentPlugin: Plugin {
     }
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int,
-                        screemViewModel: ScreenViewModel,
+                        screenViewModel: ScreenViewModel,
                         codeViewModel: CodeViewModel) -> TokenAction? {
         nil
     }

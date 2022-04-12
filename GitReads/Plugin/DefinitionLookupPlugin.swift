@@ -8,12 +8,12 @@ import SwiftUI
 struct DefinitionLookupPlugin: Plugin {
     let repo: Repo
 
-    func getLineAction(file: File, lineNum: Int, screemViewModel: ScreenViewModel,
+    func getLineAction(file: File, lineNum: Int, screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> LineAction? {
         nil
     }
 
-    func getTokenAction(file: File, lineNum: Int, posNum: Int, screemViewModel: ScreenViewModel,
+    func getTokenAction(file: File, lineNum: Int, posNum: Int, screenViewModel: ScreenViewModel,
                         codeViewModel: CodeViewModel) -> TokenAction? {
         if let parserOutput = file.parseOutput.fetchedValue, case let .success(parserOutput) = parserOutput {
             let token = parserOutput.lines[lineNum].tokens[posNum]
@@ -29,7 +29,7 @@ struct DefinitionLookupPlugin: Plugin {
                     repo: repo,
                     language: file.language,
                     token: token,
-                    onSelect: screemViewModel.navigateTo(_:)))
+                    onSelect: screenViewModel.navigateTo(_:)))
             )
         }
         return nil

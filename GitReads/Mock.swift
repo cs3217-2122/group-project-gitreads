@@ -9,7 +9,8 @@ let EMPTY_LINES = LazyDataSource(value: [Line]())
 
 let EMPTY_PARSE_OUTPUT = LazyDataSource(value: ParseOutput(fileContents: "",
                                                            lines: [],
-                                                           declarations: []
+                                                           declarations: [],
+                                                           scopes: []
                                                           ))
 
 let MOCK_FILE = DummyFile.getFile()

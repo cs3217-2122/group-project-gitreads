@@ -83,13 +83,20 @@ class DummyFile {
                     "}",
                     "" ]
 
-        let lines = code.map {
-            Line(tokens: $0.split(separator: " ").map { Token(type: .keyword, value: String($0)) })
+        let lines = code.enumerated().map { idx, line in
+            Line(
+                lineNumber: idx,
+                tokens: line.split(separator: " ").map { val in
+                    Token(type: .keyword, value: String(val), startIdx: 0, endIdx: val.count)
+                }
+            )
         }
         let lazyParseOutput = LazyDataSource(
             value: ParseOutput(fileContents: code.joined(separator: "\n"),
                                lines: lines,
-                               declarations: [])
+                               declarations: [],
+                               scopes: []
+            )
         )
 
         let result = File(

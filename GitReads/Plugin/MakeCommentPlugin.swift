@@ -8,9 +8,9 @@ import SwiftUI
 
 struct MakeCommentPlugin: Plugin {
     func getLineAction(file: File, lineNum: Int,
-                       screemViewModel: ScreenViewModel,
+                       screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> LineAction? {
-        if let repo = screemViewModel.repo, let url = repo.htmlURL?.absoluteString {
+        if let repo = screenViewModel.repo, let url = repo.htmlURL?.absoluteString {
             let text = "Make comment on line \(lineNum + 1)"
 
             return LineAction(text: text, action: { _, _, _ in },
@@ -21,7 +21,7 @@ struct MakeCommentPlugin: Plugin {
     }
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int,
-                        screemViewModel: ScreenViewModel,
+                        screenViewModel: ScreenViewModel,
                         codeViewModel: CodeViewModel) -> TokenAction? {
         nil
     }

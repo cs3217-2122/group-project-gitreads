@@ -41,10 +41,29 @@ class TokenConverter {
             // Get strings from token positions
             let strings = getTokenString(lines: lines, start: node.start, end: node.end)
 
-            // If the token spans multiple lines, split into multiple tokens
-            for string in strings {
-                tokens[lineNumber].append(Token(type: nodeType, value: String(string)))
+            if strings.count == 1 {
+                let token = Token(
+                    type: nodeType,
+                    value: String(strings[0]),
+                    startIdx: node.start[1],
+                    endIdx: node.end[1]
+                )
+                tokens[lineNumber].append(token)
                 lineNumber += 1
+            } else {
+                // If the token spans multiple lines, split into multiple tokens
+                for (idx, string) in strings.enumerated() {
+                    let start = idx == 0 ? node.start[1] : 0
+                    let end = idx == strings.count - 1 ? node.end[1] : string.count
+                    let token = Token(
+                        type: nodeType,
+                        value: String(string),
+                        startIdx: start,
+                        endIdx: end
+                    )
+                    tokens[lineNumber].append(token)
+                    lineNumber += 1
+                }
             }
         }
 
@@ -63,7 +82,7 @@ class TokenConverter {
                 var start = 0
                 while String(getSubstring(line: line, start: start, end: start + 1)) == "\t" {
                     // If the indent is tab, insert tab token(s)
-                    lineTokens.append(getTabToken())
+                    lineTokens.append(getTabToken(start: start))
                     start += 1
                 }
 
@@ -71,26 +90,30 @@ class TokenConverter {
                 // Add spaces before first token in each line
                 // based on indent size - number of tabs
                 if numSpaces > 0 {
-                    lineTokens.append(getSpaceToken(numSpaces))
+                    lineTokens.append(getSpaceToken(numSpaces, start: start))
                 }
             }
         } else if nextStartPosition < rawTokenStart[1] {
             // If space detected, add a space token
             let count = rawTokenStart[1] - nextStartPosition
-            lineTokens.append(getSpaceToken(count))
+            lineTokens.append(getSpaceToken(count, start: nextStartPosition))
         }
         nextStartPosition = rawTokenEnd[1]
     }
 
     // Return a space token with given number of spaces
-    private static func getSpaceToken(_ spaceCount: Int) -> Token {
-        Token(type: .space,
-              value: String(repeating: " ", count: spaceCount))
+    private static func getSpaceToken(_ spaceCount: Int, start: Int) -> Token {
+        Token(
+            type: .space,
+            value: String(repeating: " ", count: spaceCount),
+            startIdx: start,
+            endIdx: start + spaceCount
+        )
     }
 
     // Return a tab token
-    private static func getTabToken() -> Token {
-        Token(type: .tab, value: "\t")
+    private static func getTabToken(start: Int) -> Token {
+        Token(type: .tab, value: "\t", startIdx: start, endIdx: start + 1)
     }
 
     // Return string from start position to end position in file,
@@ -136,8 +159,8 @@ class TokenConverter {
     // Convert a 2D token array to an array of lines
     private static func tokensToLines(_ tokens: [[Token]]) -> [Line] {
         var lines = [Line]()
-        for lineTokens in tokens {
-            lines.append(Line(tokens: lineTokens))
+        for (idx, lineTokens) in tokens.enumerated() {
+            lines.append(Line(lineNumber: idx, tokens: lineTokens))
         }
         return lines
     }

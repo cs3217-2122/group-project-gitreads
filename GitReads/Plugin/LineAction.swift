@@ -9,10 +9,11 @@ import SwiftUI
 struct LineAction {
     var text: String?
     var action: (ScreenViewModel, CodeViewModel, Int) -> Void
-    var pluginView: AnyView
+    var pluginView: AnyView?
 
-    init(text: String?, action: @escaping (ScreenViewModel, CodeViewModel, Int) -> Void,
-         view: AnyView) {
+    init(text: String?,
+         action: @escaping (ScreenViewModel, CodeViewModel, Int) -> Void,
+         view: AnyView?) {
         self.text = text
         self.action = action
         self.pluginView = view

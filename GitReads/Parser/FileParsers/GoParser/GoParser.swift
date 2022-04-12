@@ -23,7 +23,9 @@ class GoParser: FileParser {
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: declarations)
+                           declarations: declarations,
+                           scopes: []
+        )
     }
 
     static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {

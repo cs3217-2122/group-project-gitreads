@@ -51,6 +51,7 @@ class ScreenViewModelTests: XCTestCase {
         viewModel.openFile(file: MockRepo.file2)
         viewModel.openFile(file: MockRepo.fileA1)
         viewModel.openFile(file: MockRepo.fileA2)
+
         XCTAssertEqual(viewModel.codeViewModels.map { $0.file },
                        [MockRepo.file1, MockRepo.file2, MockRepo.fileA1, MockRepo.fileA2])
         XCTAssertEqual(viewModel.openFile?.file, MockRepo.fileA2)
