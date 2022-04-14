@@ -1,5 +1,5 @@
 //
-//  ParserTests.swift
+//  MatcherTests.swift
 //  GitReadsTests
 //
 //  Created by Wong Lok Cheng on 14/4/22.
@@ -8,7 +8,109 @@
 import XCTest
 @testable import GitReads
 
-class ParserTests: XCTestCase {
+// swiftlint:disable function_body_length
+class MatcherTests: XCTestCase {
+
+    func testJSON() async throws {
+        let json = """
+                   {
+                       "hello": "world",
+                       "id": 123,
+                       "arr": [
+                           {
+                               "test": null
+                           },
+                           {
+                               "ok": []
+                           }
+                       ]
+                   }
+                   """
+
+        let rootNode = try await JsonParser.getAstLocally(fileString: json)
+        let scopes = Set(JsonParser.getScopes(root: rootNode))
+
+        let expected = Set([
+            Scope(
+                prefixStart: Scope.Index(line: 0, char: 0),
+                prefixEnd: Scope.Index(line: 0, char: 1),
+                end: Scope.Index(line: 11, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 3, char: 11),
+                prefixEnd: Scope.Index(line: 3, char: 12),
+                end: Scope.Index(line: 10, char: 5)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 4, char: 8),
+                prefixEnd: Scope.Index(line: 4, char: 9),
+                end: Scope.Index(line: 6, char: 9)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 7, char: 8),
+                prefixEnd: Scope.Index(line: 7, char: 9),
+                end: Scope.Index(line: 9, char: 9)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 8, char: 18),
+                prefixEnd: Scope.Index(line: 8, char: 19),
+                end: Scope.Index(line: 8, char: 20)
+            )
+        ])
+
+        XCTAssertEqual(expected, scopes, """
+
+                                         Missing elements: \(expected.subtracting(scopes))
+                                         Extra elements: \(scopes.subtracting(expected))
+                                         """
+        )    }
+
+    func testHTML() async throws {
+        let html = """
+                   <form role="form">
+                     <div class="form-group">
+                       <label for="email">
+                           Email address: <br>
+                       </label>
+                       <input type="email" class="form-control" id="email">
+                     </div>
+                     <button type="submit" class="btn btn-default">Submit</button>
+                   </form>
+                   """
+
+        let rootNode = try await HtmlParser.getAstLocally(fileString: html)
+        let scopes = Set(HtmlParser.getScopes(root: rootNode))
+
+        let expected = Set([
+            Scope(
+                prefixStart: Scope.Index(line: 0, char: 0),
+                prefixEnd: Scope.Index(line: 0, char: 18),
+                end: Scope.Index(line: 8, char: 7)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 1, char: 2),
+                prefixEnd: Scope.Index(line: 1, char: 26),
+                end: Scope.Index(line: 6, char: 8)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 2, char: 4),
+                prefixEnd: Scope.Index(line: 2, char: 23),
+                end: Scope.Index(line: 4, char: 12)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 7, char: 2),
+                prefixEnd: Scope.Index(line: 7, char: 48),
+                end: Scope.Index(line: 7, char: 63)
+            )
+        ])
+
+        XCTAssertEqual(expected, scopes, """
+
+                                         Missing elements: \(expected.subtracting(scopes))
+                                         Extra elements: \(scopes.subtracting(expected))
+                                         """
+        )
+    }
 
     func testExample() async throws {
         let file = """

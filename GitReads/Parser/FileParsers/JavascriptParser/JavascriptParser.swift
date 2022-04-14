@@ -70,5 +70,4 @@ class JavascriptParser: FileParser {
 
         return nodes
     }
-
 }

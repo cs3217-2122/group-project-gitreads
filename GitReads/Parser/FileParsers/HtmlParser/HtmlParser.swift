@@ -44,26 +44,6 @@ class HtmlParser: FileParser {
         return dfs(node: rootNode)
     }
 
-    static let scopeMatcher = Match(type: .exact("element"), key: "element") {
-        Match(type: .exact("start_tag"), key: "start")
-    }
-
-    static func getScopes(root: ASTNode) -> [Scope] {
-        let astQuerier = ASTQuerier(root: root)
-
-        let query = Query(matcher: scopeMatcher) { result -> Scope in
-            let elementNode = result["element"]!
-            let startNode = result["start"]!
-            return Scope(
-                prefixStart: Scope.Index(line: elementNode.start.line, char: elementNode.start.char),
-                prefixEnd: Scope.Index(line: startNode.end.line, char: startNode.end.char),
-                end: Scope.Index(line: elementNode.end.line, char: elementNode.end.char)
-            )
-        }
-
-        return astQuerier.doQuery(query)
-    }
-
     static func dfs(node: ASTNode) -> [ASTNode] {
         // for leaf node, return the node
         // exception: doctype is considered leaf node
@@ -93,4 +73,24 @@ class HtmlParser: FileParser {
         return nodes
     }
 
+    static let scopeMatcher = Match(type: .exact("element"), key: "element") {
+        Match(type: .exact("start_tag"), key: "start")
+        Match(type: .exact("end_tag"))
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let elementNode = result["element"]!
+            let startNode = result["start"]!
+            return Scope(
+                prefixStart: Scope.Index(line: elementNode.start.line, char: elementNode.start.char),
+                prefixEnd: Scope.Index(line: startNode.end.line, char: startNode.end.char),
+                end: Scope.Index(line: elementNode.end.line, char: elementNode.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
+    }
 }

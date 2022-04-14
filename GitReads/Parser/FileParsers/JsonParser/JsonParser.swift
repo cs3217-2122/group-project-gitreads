@@ -15,16 +15,16 @@ class JsonParser: FileParser {
         let lines = TokenConverter.nodesToLines(fileString: fileString,
                                                 nodes: leafNodes)
 
-        let declarations = [Declaration]()
+        let scopes = getScopes(root: rootNode)
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: declarations,
-                           scopes: []
+                           declarations: [], // no declarations in JSON
+                           scopes: scopes
         )
     }
 
-    static func getAstLocally(fileString: String) async throws -> ASTNode? {
+    static func getAstLocally(fileString: String) async throws -> ASTNode {
         let stsTree = try LocalClient.getSTSTree(fileString: fileString, language: Language.json)
 
         return ASTNode.buildAstFromSTSTree(tree: stsTree)
@@ -86,4 +86,23 @@ class JsonParser: FileParser {
         return nodes
     }
 
+    static let scopeMatcher = MatchAnyOf {
+        Match(type: .exact("object"), key: "scope")
+        Match(type: .exact("array"), key: "scope")
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let node = result["scope"]!
+            return Scope(
+                prefixStart: Scope.Index(line: node.start.line, char: node.start.char),
+                prefixEnd: Scope.Index(line: node.start.line, char: node.start.char + 1),
+                end: Scope.Index(line: node.end.line, char: node.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
+    }
 }
