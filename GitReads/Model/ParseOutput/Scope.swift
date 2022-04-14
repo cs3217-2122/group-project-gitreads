@@ -6,11 +6,22 @@ struct Scope: Codable, Hashable {
     struct Index: Codable, Hashable {
         let line: Int
         let char: Int
+
+        init(line: Int, char: Int) {
+            self.line = line
+            self.char = char
+        }
     }
 
     let prefixStart: Index
     let prefixEnd: Index
     let end: Index
+
+    init(prefixStart: Scope.Index, prefixEnd: Scope.Index, end: Scope.Index) {
+        self.prefixStart = prefixStart
+        self.prefixEnd = prefixEnd
+        self.end = end
+    }
 
     func contains(line: Line) -> Bool {
         contains(lineNumber: line.lineNumber)

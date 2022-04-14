@@ -93,6 +93,7 @@ struct CodeView: View {
             if let action = codeViewModel.activeLineAction, let pluginView = action.pluginView {
                 pluginHeader(pluginView)
             }
+
             if let action = codeViewModel.activeTokenAction, let pluginView = action.pluginView {
                 pluginHeader(pluginView)
             }

@@ -79,7 +79,7 @@ class ASTNode {
         return children
     }
 
-    static func buildAstFromSTSTree(tree: STSTree) -> ASTNode? {
+    static func buildAstFromSTSTree(tree: STSTree) -> ASTNode {
         let rootSTSNode = tree.rootNode
         let rootNode = ASTNode(type: rootSTSNode.type,
                                start: [Int(rootSTSNode.startPoint.row),

@@ -15,7 +15,7 @@ class CodeViewModel: ObservableObject {
 
     @Published var lineViewModels: [LineViewModel] = []
 
-    private var plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin(), TestTokenPlugin()]
+    private var plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
     let file: File
 
     init(file: File) {

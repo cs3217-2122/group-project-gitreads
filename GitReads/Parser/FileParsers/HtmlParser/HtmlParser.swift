@@ -15,16 +15,16 @@ class HtmlParser: FileParser {
         let lines = TokenConverter.nodesToLines(fileString: fileString,
                                                 nodes: leafNodes)
 
-        let declarations = [Declaration]()
+        let scopes = getScopes(root: rootNode)
 
         return ParseOutput(fileContents: fileString,
                            lines: lines,
-                           declarations: declarations,
-                           scopes: []
+                           declarations: [], // no declarations in HTML
+                           scopes: scopes
         )
     }
 
-    static func getAstLocally(fileString: String) async throws -> ASTNode? {
+    static func getAstLocally(fileString: String) async throws -> ASTNode {
         let stsTree = try LocalClient.getSTSTree(fileString: fileString, language: Language.html)
 
         return ASTNode.buildAstFromSTSTree(tree: stsTree)
@@ -42,6 +42,26 @@ class HtmlParser: FileParser {
         }
 
         return dfs(node: rootNode)
+    }
+
+    static let scopeMatcher = Match(type: .exact("element"), key: "element") {
+        Match(type: .exact("start_tag"), key: "start")
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let elementNode = result["element"]!
+            let startNode = result["start"]!
+            return Scope(
+                prefixStart: Scope.Index(line: elementNode.start.line, char: elementNode.start.char),
+                prefixEnd: Scope.Index(line: startNode.end.line, char: startNode.end.char),
+                end: Scope.Index(line: elementNode.end.line, char: elementNode.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
     }
 
     static func dfs(node: ASTNode) -> [ASTNode] {
