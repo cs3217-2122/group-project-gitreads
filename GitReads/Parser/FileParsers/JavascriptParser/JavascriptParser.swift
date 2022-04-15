@@ -17,7 +17,10 @@ class JavascriptParser: FileParser {
 
         var declarations = [Declaration]()
         if includeDeclarations {
-            declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
+            declarations = JavascriptDeclarationParser.getDeclarations(
+                rootNode: rootNode,
+                fileString: fileString
+            )
         }
 
         let scopes = getScopes(root: rootNode)
@@ -27,10 +30,6 @@ class JavascriptParser: FileParser {
                            declarations: declarations,
                            scopes: scopes
         )
-    }
-
-    static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {
-        []
     }
 
     static func getAstLocally(fileString: String) async throws -> ASTNode {

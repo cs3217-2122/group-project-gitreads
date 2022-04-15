@@ -17,4 +17,16 @@ struct MatcherBuilder {
     static func buildArray(_ matchers: [[Matcher]]) -> [Matcher] {
         matchers.flatMap { $0 }
     }
+
+    static func buildOptional(_ matchers: [Matcher]?) -> [Matcher] {
+        matchers ?? []
+    }
+
+    static func buildEither(first matchers: [Matcher]) -> [Matcher] {
+        matchers
+    }
+
+    static func buildEither(second matchers: [Matcher]) -> [Matcher] {
+        matchers
+    }
 }

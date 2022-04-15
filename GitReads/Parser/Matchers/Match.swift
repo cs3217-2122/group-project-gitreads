@@ -111,6 +111,11 @@ struct Match: Matcher {
 
     func match(node: ASTNode) -> MatchResult {
         let matched = matchFunc(node)
+        if node.type == "public_field_definition" {
+            print(node)
+            print("matched: \(matched)")
+        }
+
         if !matched {
             return .noMatch
         }

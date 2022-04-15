@@ -8,6 +8,40 @@ import XCTest
 // swiftlint:disable function_body_length type_body_length file_length
 class MatcherTests: XCTestCase {
 
+    func testJavascriptDeclarations() async throws {
+        let js = #"""
+                let a = 2
+                const b = 3
+                var c = "aff"
+
+                function helloooooo(ab = 5, bc, ...cd) {}
+
+                class Hello extends World {
+                    iShouldBeInTheResults = "world"
+                    sayHello() {
+                        console.log(this.hello)
+                    }
+                }
+
+                let hi = {
+                    hey: "world",
+                    sayHey() {
+                        console.log(this.hey)
+                    }
+                }
+
+                let { hey, qwerqwer = undefined, ...rest } = hi
+                const [beef, chicken = 5, , ...fish] = something
+                const {abcde = 5} = hi;
+                """#
+
+        let rootNode = try await JavascriptParser.getAstLocally(fileString: js)
+        let declarations = JavascriptDeclarationParser.getDeclarations(rootNode: rootNode, fileString: js)
+        for declaration in declarations {
+            print(declaration)
+        }
+    }
+
     func testC() async throws {
         let c = #"""
                 typedef struct {
