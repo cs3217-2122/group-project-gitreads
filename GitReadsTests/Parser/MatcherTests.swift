@@ -1,15 +1,90 @@
 //
 //  MatcherTests.swift
 //  GitReadsTests
-//
-//  Created by Wong Lok Cheng on 14/4/22.
-//
 
 import XCTest
 @testable import GitReads
 
 // swiftlint:disable function_body_length type_body_length file_length
 class MatcherTests: XCTestCase {
+
+    func testPython() async throws {
+        let python = #"""
+                     x = lambda a,b: \
+                         b - a if a <= b else \
+                         a*b
+
+                     class Dog:
+                         def __init__(self, name):
+                             self.name = name
+                             self.tricks = []    # creates a new empty list for each dog
+
+                         def add_trick(self, trick):
+                             self.tricks.append(trick)
+
+                         @abstractmethod
+                         def hello():
+                             pass
+
+                     def add(a, b):
+                         def help():
+                             return 1
+                         return a + b + help()
+                     """#
+
+        let rootNode = try await PythonParser.getAstFromApi(fileString: python)
+        guard let rootNode = rootNode else {
+            XCTFail("root node is nil")
+            return
+        }
+
+        let scopes = Set(PythonParser.getScopes(root: rootNode))
+
+        let expected = Set([
+            Scope(
+                prefixStart: Scope.Index(line: 0, char: 4),
+                prefixEnd: Scope.Index(line: 0, char: 15),
+                end: Scope.Index(line: 2, char: 7)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 4, char: 0),
+                prefixEnd: Scope.Index(line: 4, char: 10),
+                end: Scope.Index(line: 14, char: 12)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 5, char: 4),
+                prefixEnd: Scope.Index(line: 5, char: 29),
+                end: Scope.Index(line: 7, char: 24)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 9, char: 4),
+                prefixEnd: Scope.Index(line: 9, char: 31),
+                end: Scope.Index(line: 10, char: 33)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 13, char: 4),
+                prefixEnd: Scope.Index(line: 13, char: 16),
+                end: Scope.Index(line: 14, char: 12)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 16, char: 0),
+                prefixEnd: Scope.Index(line: 16, char: 14),
+                end: Scope.Index(line: 19, char: 25)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 17, char: 4),
+                prefixEnd: Scope.Index(line: 17, char: 15),
+                end: Scope.Index(line: 18, char: 16)
+            )
+        ])
+
+        XCTAssertEqual(expected, scopes, """
+
+                                         Missing elements: \(expected.subtracting(scopes))
+                                         Extra elements: \(scopes.subtracting(expected))
+                                         """
+        )
+    }
 
     func testGolang() async throws {
         let golang = """

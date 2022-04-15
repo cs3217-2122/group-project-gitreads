@@ -21,10 +21,15 @@ class PythonParser: FileParser {
             declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
         }
 
+        var scopes: [Scope] = []
+        if let rootNode = rootNode {
+            scopes = getScopes(root: rootNode)
+        }
+
         return ParseOutput(fileContents: fileString,
                            lines: lines,
                            declarations: declarations,
-                           scopes: []
+                           scopes: scopes
         )
     }
 
@@ -76,4 +81,31 @@ class PythonParser: FileParser {
         return nodes
     }
 
+    static let scopeMatcher = Match(
+        type: .oneOf([
+            "class_definition",
+            "function_definition",
+            "lambda"
+        ]),
+        key: "scope"
+    ) {
+        Match(type: .exact(":"), key: "prefix")
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let scopeNode = result["scope"]!
+            let prefixNode = result["prefix"]!
+
+            return Scope(
+                prefixStart: Scope.Index(line: scopeNode.start.line, char: scopeNode.start.char),
+                prefixEnd: Scope.Index(line: prefixNode.start.line, char: prefixNode.start.char + 1),
+                end: Scope.Index(line: scopeNode.end.line, char: scopeNode.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
+    }
 }
