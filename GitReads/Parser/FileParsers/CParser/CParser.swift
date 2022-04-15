@@ -22,10 +22,15 @@ class CParser: FileParser {
                                                               fileString: fileString)
         }
 
+        var scopes: [Scope] = []
+        if let rootNode = rootNode {
+            scopes = getScopes(root: rootNode)
+        }
+
         return ParseOutput(fileContents: fileString,
                            lines: lines,
                            declarations: declarations,
-                           scopes: []
+                           scopes: scopes
         )
     }
 
@@ -73,4 +78,31 @@ class CParser: FileParser {
         return nodes
     }
 
+    static let scopeMatcher = MatchAnyOf {
+        // struct definitions
+        Match(type: .exact("struct_specifier"), key: "scope") {
+            Match(type: .exact("field_declaration_list"), key: "body")
+        }
+        // function definitions
+        Match(type: .exact("function_definition"), key: "scope") {
+            Match(type: .exact("compound_statement"), key: "body")
+        }
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let scopeNode = result["scope"]!
+            let bodyNode = result["body"]!
+
+            return Scope(
+                prefixStart: Scope.Index(line: scopeNode.start.line, char: scopeNode.start.char),
+                prefixEnd: Scope.Index(line: bodyNode.start.line, char: bodyNode.start.char + 1),
+                end: Scope.Index(line: scopeNode.end.line, char: scopeNode.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
+    }
 }
