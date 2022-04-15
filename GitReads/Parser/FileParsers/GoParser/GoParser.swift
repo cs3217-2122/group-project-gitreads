@@ -21,10 +21,15 @@ class GoParser: FileParser {
             declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
         }
 
+        var scopes: [Scope] = []
+        if let rootNode = rootNode {
+            scopes = getScopes(root: rootNode)
+        }
+
         return ParseOutput(fileContents: fileString,
                            lines: lines,
                            declarations: declarations,
-                           scopes: []
+                           scopes: scopes
         )
     }
 
@@ -76,4 +81,51 @@ class GoParser: FileParser {
         return nodes
     }
 
+    static let scopeMatcher = MatchAnyOf {
+        // functions/methods
+        Match(type: .oneOf(["function_declaration", "method_declaration"]), key: "scope") {
+            Match(type: .exact("block"), key: "block")
+        }
+        // interfaces/structs in type declarations
+        Match(type: .exact("type_declaration"), key: "scope") {
+            Match(type: .exact("type_spec")) {
+                MatchAnyOf {
+                    Match(type: .exact("struct_type")) {
+                        Match(type: .exact("field_declaration_list"), key: "block")
+                    }
+                    Match(type: .exact("interface_type")) {
+                        Match(type: .exact("{"), key: "block")
+                    }
+                }
+            }
+        }
+        // anonymous structs/interfaces
+        NotMatch(type: .exact("type_spec")) {
+            MatchAnyOf {
+                Match(type: .exact("struct_type"), key: "scope") {
+                    Match(type: .exact("field_declaration_list"), key: "block")
+                }
+                Match(type: .exact("interface_type"), key: "scope") {
+                    Match(type: .exact("{"), key: "block")
+                }
+            }
+        }
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let scopeNode = result["scope"]!
+            let blockNode = result["block"]!
+
+            return Scope(
+                prefixStart: Scope.Index(line: scopeNode.start.line, char: scopeNode.start.char),
+                prefixEnd: Scope.Index(line: blockNode.start.line, char: blockNode.start.char + 1),
+                end: Scope.Index(line: scopeNode.end.line, char: scopeNode.end.char)
+            )
+        }
+
+        return astQuerier.doQuery(query)
+    }
 }

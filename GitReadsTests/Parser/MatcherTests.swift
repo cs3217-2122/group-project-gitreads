@@ -8,8 +8,99 @@
 import XCTest
 @testable import GitReads
 
-// swiftlint:disable function_body_length type_body_length
+// swiftlint:disable function_body_length type_body_length file_length
 class MatcherTests: XCTestCase {
+
+    func testGolang() async throws {
+        let golang = """
+                     package main
+
+                     import (
+                         "fmt"
+                     )
+
+                     func main() {
+                         var (
+                             a = "hello"
+                             b = "world"
+                             c = []struct {
+                                 hi       int
+                                 expected int
+                             }{
+                                 {1, 2},
+                             }
+                             d = map[int]interface {
+                                 read()
+                             }{}
+                         )
+
+                         fmt.Printf("%s %s %v %v!", a, b, c, d)
+                     }
+
+                     type Lol struct {
+                         Hello string
+                         World string
+                     }
+
+                     func (l *Lol) print() {
+                         fmt.Printf("%s, %s", l.Hello, l.World)
+                     }
+
+                     type Lmao interface {
+                         Sum(a, b int) int
+                         Close()
+                     }
+                     """
+
+        let rootNode = try await GoParser.getAstFromApi(fileString: golang)
+        guard let rootNode = rootNode else {
+            XCTFail("root node is nil")
+            return
+        }
+
+        let scopes = Set(GoParser.getScopes(root: rootNode))
+
+        let expected = Set([
+            Scope(
+                prefixStart: Scope.Index(line: 6, char: 0),
+                prefixEnd: Scope.Index(line: 6, char: 13),
+                end: Scope.Index(line: 22, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 10, char: 14),
+                prefixEnd: Scope.Index(line: 10, char: 22),
+                end: Scope.Index(line: 13, char: 9)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 16, char: 20),
+                prefixEnd: Scope.Index(line: 16, char: 31),
+                end: Scope.Index(line: 18, char: 9)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 24, char: 0),
+                prefixEnd: Scope.Index(line: 24, char: 17),
+                end: Scope.Index(line: 27, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 29, char: 0),
+                prefixEnd: Scope.Index(line: 29, char: 23),
+                end: Scope.Index(line: 31, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 33, char: 0),
+                prefixEnd: Scope.Index(line: 33, char: 21),
+                end: Scope.Index(line: 36, char: 1)
+            )
+        ])
+
+        XCTAssertEqual(expected, scopes, """
+
+                                         Missing elements: \(expected.subtracting(scopes))
+                                         Extra elements: \(scopes.subtracting(expected))
+                                         """
+        )
+    }
+
     func testJavascript() async throws {
         let javascript = """
                          class User {
