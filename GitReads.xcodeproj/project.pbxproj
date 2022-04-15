@@ -19,6 +19,8 @@
 		6E5DA5992808C689009D0D03 /* MatchChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA5982808C689009D0D03 /* MatchChildren.swift */; };
 		6E5DA59B2808C741009D0D03 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA59A2808C741009D0D03 /* Match.swift */; };
 		6E5DA59D2808C918009D0D03 /* ASTQuerier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA59C2808C918009D0D03 /* ASTQuerier.swift */; };
+		6E5DA5A52808EA33009D0D03 /* MatchOptional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA5A42808EA33009D0D03 /* MatchOptional.swift */; };
+		6E5DA5A72808EE79009D0D03 /* MatchChildrenPositionally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DA5A62808EE79009D0D03 /* MatchChildrenPositionally.swift */; };
 		6E631E5F27F701C400E13A30 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E5E27F701C400E13A30 /* MarkdownUI */; };
 		6E631E6227F713CD00E13A30 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = 6E631E6127F713CD00E13A30 /* Fuse */; };
 		6E631E6427F7A95900E13A30 /* RepoHomePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */; };
@@ -196,6 +198,8 @@
 		6E5DA5982808C689009D0D03 /* MatchChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchChildren.swift; sourceTree = "<group>"; };
 		6E5DA59A2808C741009D0D03 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		6E5DA59C2808C918009D0D03 /* ASTQuerier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTQuerier.swift; sourceTree = "<group>"; };
+		6E5DA5A42808EA33009D0D03 /* MatchOptional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchOptional.swift; sourceTree = "<group>"; };
+		6E5DA5A62808EE79009D0D03 /* MatchChildrenPositionally.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchChildrenPositionally.swift; sourceTree = "<group>"; };
 		6E631E6327F7A95900E13A30 /* RepoHomePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoHomePageViewModel.swift; sourceTree = "<group>"; };
 		6E631E6627F7AF0100E13A30 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		6E631E6827F8622000E13A30 /* RepoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoService.swift; sourceTree = "<group>"; };
@@ -387,9 +391,11 @@
 				6E5DA5902808172F009D0D03 /* MatcherBuilder.swift */,
 				6E5DA5922808C545009D0D03 /* Matcher.swift */,
 				6E5DA5942808C55E009D0D03 /* MatchResult.swift */,
-				6E5DA5962808C62C009D0D03 /* MatchAnyOf.swift */,
-				6E5DA5982808C689009D0D03 /* MatchChildren.swift */,
 				6E5DA59A2808C741009D0D03 /* Match.swift */,
+				6E5DA5962808C62C009D0D03 /* MatchAnyOf.swift */,
+				6E5DA5A42808EA33009D0D03 /* MatchOptional.swift */,
+				6E5DA5982808C689009D0D03 /* MatchChildren.swift */,
+				6E5DA5A62808EE79009D0D03 /* MatchChildrenPositionally.swift */,
 				6E5DA59C2808C918009D0D03 /* ASTQuerier.swift */,
 			);
 			path = Matchers;
@@ -1079,6 +1085,7 @@
 				DE05002C27F4563500ABEC27 /* AdvancedSearchView.swift in Sources */,
 				B297732D27DF371400E117EE /* DummyFile.swift in Sources */,
 				6E631E6727F7AF0100E13A30 /* ErrorHandler.swift in Sources */,
+				6E5DA5A72808EE79009D0D03 /* MatchChildrenPositionally.swift in Sources */,
 				6ED322E027E1F71D00F0AD09 /* GitHubBranch.swift in Sources */,
 				FF7471AF27F8403500566ECB /* PseudoParser.swift in Sources */,
 				B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */,
@@ -1167,6 +1174,7 @@
 				6E5DA5972808C62C009D0D03 /* MatchAnyOf.swift in Sources */,
 				6E631E7427F946AD00E13A30 /* FavouritesViewModel.swift in Sources */,
 				DE43326827F42E220012FD81 /* FileNameSearchVisitor.swift in Sources */,
+				6E5DA5A52808EA33009D0D03 /* MatchOptional.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

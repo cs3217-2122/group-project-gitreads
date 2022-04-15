@@ -8,7 +8,7 @@ protocol Matcher {
 }
 
 /// Matcher that matches any node.
-struct AnyMatcher: Matcher {
+struct MatchAny: Matcher {
     let key: String?
 
     init(key: String? = nil) {

@@ -20,10 +20,12 @@ class JavascriptParser: FileParser {
             declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
         }
 
+        let scopes = getScopes(root: rootNode)
+
         return ParseOutput(fileContents: fileString,
                            lines: lines,
                            declarations: declarations,
-                           scopes: []
+                           scopes: scopes
         )
     }
 
@@ -31,7 +33,7 @@ class JavascriptParser: FileParser {
         []
     }
 
-    static func getAstLocally(fileString: String) async throws -> ASTNode? {
+    static func getAstLocally(fileString: String) async throws -> ASTNode {
         let stsTree = try LocalClient.getSTSTree(fileString: fileString, language: Language.javascript)
 
         return ASTNode.buildAstFromSTSTree(tree: stsTree)
@@ -69,5 +71,63 @@ class JavascriptParser: FileParser {
         }
 
         return nodes
+    }
+
+    static let scopeMatcher = MatchAnyOf {
+        // Function declarations
+        Match(type: .contains("function_declaration"), key: "scope") {
+            Match(type: .exact("statement_block"), key: "body")
+        }
+        // Function expressions
+        Match(type: .oneOf(["function", "generator_function"]), key: "scope") {
+            Match(type: .exact("statement_block"), key: "body")
+        }
+        // Arrow functions
+        Match(type: .exact("arrow_function"), key: "scope") { _ in // match children positionally
+            MatchAny()
+            Match(type: .exact("=>"), key: "prefix")
+            MatchOptional {
+                Match(type: .exact("statement_block"), key: "body")
+            }
+        }
+        // Class declarations
+        Match(type: .exact("class_declaration"), key: "scope") {
+            Match(type: .exact("class_body"), key: "body")
+        }
+        // Class/Object methods
+        Match(type: .exact("method_definition"), key: "scope") {
+            Match(type: .exact("statement_block"), key: "body")
+        }
+    }
+
+    static func getScopes(root: ASTNode) -> [Scope] {
+        let astQuerier = ASTQuerier(root: root)
+
+        let query = Query(matcher: scopeMatcher) { result -> Scope in
+            let scopeNode = result["scope"]!
+
+            let prefixStart = Scope.Index(line: scopeNode.start.line, char: scopeNode.start.char)
+            let end = Scope.Index(line: scopeNode.end.line, char: scopeNode.end.char)
+
+            let bodyNode = result["body"]
+
+            guard let bodyNode = bodyNode else {
+                // if no body node, then there has to be a prefix node
+                let prefixNode = result["prefix"]!
+                return Scope(
+                    prefixStart: prefixStart,
+                    prefixEnd: Scope.Index(line: prefixNode.end.line, char: prefixNode.end.char),
+                    end: end
+                )
+            }
+
+            return Scope(
+                prefixStart: prefixStart,
+                prefixEnd: Scope.Index(line: bodyNode.start.line, char: bodyNode.start.char + 1),
+                end: end
+            )
+        }
+
+        return astQuerier.doQuery(query)
     }
 }

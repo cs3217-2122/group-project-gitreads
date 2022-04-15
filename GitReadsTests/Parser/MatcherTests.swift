@@ -8,8 +8,88 @@
 import XCTest
 @testable import GitReads
 
-// swiftlint:disable function_body_length
+// swiftlint:disable function_body_length type_body_length
 class MatcherTests: XCTestCase {
+    func testJavascript() async throws {
+        let javascript = """
+                         class User {
+                           constructor(name) {
+                             this.name = name;
+                           }
+
+                           sayHi() {
+                             alert(this.name);
+                           }
+                         }
+
+                         function things() {
+                             return {
+                                 hello() {
+                                     console.log("hello")
+                                 },
+                                 squares: [1, 2, 3].map(x => { return x * x }),
+                                 cubes: [1, 2, 3].map((x) => x * x * x)
+                             }
+                         }
+
+                         let myAdd = function(a, b) {
+                             return a + b;
+                         }
+                         """
+
+        let rootNode = try await JavascriptParser.getAstLocally(fileString: javascript)
+        let scopes = Set(JavascriptParser.getScopes(root: rootNode))
+
+        let expected = Set([
+            Scope(
+                prefixStart: Scope.Index(line: 0, char: 0),
+                prefixEnd: Scope.Index(line: 0, char: 12),
+                end: Scope.Index(line: 8, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 1, char: 2),
+                prefixEnd: Scope.Index(line: 1, char: 21),
+                end: Scope.Index(line: 3, char: 3)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 5, char: 2),
+                prefixEnd: Scope.Index(line: 5, char: 11),
+                end: Scope.Index(line: 7, char: 3)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 10, char: 0),
+                prefixEnd: Scope.Index(line: 10, char: 19),
+                end: Scope.Index(line: 18, char: 1)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 12, char: 8),
+                prefixEnd: Scope.Index(line: 12, char: 17),
+                end: Scope.Index(line: 14, char: 9)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 15, char: 31),
+                prefixEnd: Scope.Index(line: 15, char: 37),
+                end: Scope.Index(line: 15, char: 52)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 16, char: 29),
+                prefixEnd: Scope.Index(line: 16, char: 35),
+                end: Scope.Index(line: 16, char: 45)
+            ),
+            Scope(
+                prefixStart: Scope.Index(line: 20, char: 12),
+                prefixEnd: Scope.Index(line: 20, char: 28),
+                end: Scope.Index(line: 22, char: 1)
+            )
+        ])
+
+        XCTAssertEqual(expected, scopes, """
+
+                                         Missing elements: \(expected.subtracting(scopes))
+                                         Extra elements: \(scopes.subtracting(expected))
+                                         """
+        )
+    }
 
     func testJSON() async throws {
         let json = """
@@ -63,7 +143,8 @@ class MatcherTests: XCTestCase {
                                          Missing elements: \(expected.subtracting(scopes))
                                          Extra elements: \(scopes.subtracting(expected))
                                          """
-        )    }
+        )
+    }
 
     func testHTML() async throws {
         let html = """

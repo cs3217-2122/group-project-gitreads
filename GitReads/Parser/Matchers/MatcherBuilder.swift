@@ -6,7 +6,15 @@
 /// are constructed.
 @resultBuilder
 struct MatcherBuilder {
-    static func buildBlock(_ matchers: Matcher...) -> [Matcher] {
-        matchers
+    static func buildExpression(_ matcher: Matcher) -> [Matcher] {
+        [matcher]
+    }
+
+    static func buildBlock(_ matchers: [Matcher]...) -> [Matcher] {
+        matchers.flatMap { $0 }
+    }
+
+    static func buildArray(_ matchers: [[Matcher]]) -> [Matcher] {
+        matchers.flatMap { $0 }
     }
 }

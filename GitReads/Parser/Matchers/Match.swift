@@ -32,6 +32,18 @@
 /// Match(type: .contains("definition")) {
 ///     Match(type: .exact("identifier"))
 /// }
+/// ```
+///
+/// - Match children positionally (ie. the children must be in the exact order indicated by the matchers)
+/// ```
+/// Match(type: .contains("definition")) { count in
+///     for _ in 1..<count {
+///         MatchAny()
+///     }
+///     // only match the last element
+///     Match(type: .exact("identifier"))
+/// }
+/// ```
 struct Match: Matcher {
     private let matchFunc: (ASTNode) -> Bool
     private let key: String?
@@ -45,6 +57,17 @@ struct Match: Matcher {
         self.init(
             key: key, { nodeTypeMatcher.match(type: $0.type) },
             children: children
+        )
+    }
+
+    init(
+        type nodeTypeMatcher: NodeTypeMatcher,
+        key: String? = nil,
+        @MatcherBuilder childrenPositionally: @escaping (Int) -> [Matcher]
+    ) {
+        self.init(
+            key: key, { nodeTypeMatcher.match(type: $0.type) },
+            childrenPositionally: childrenPositionally
         )
     }
 
@@ -69,11 +92,21 @@ struct Match: Matcher {
 
     init(
         key: String? = nil,
+        _ matchFunc: @escaping (ASTNode) -> Bool,
+        @MatcherBuilder childrenPositionally: @escaping (Int) -> [Matcher]
+    ) {
+        self.matchFunc = matchFunc
+        self.key = key
+        self.childrenMatcher = MatchChildrenPositionally(children: childrenPositionally)
+    }
+
+    init(
+        key: String? = nil,
         _ matchFunc: @escaping (ASTNode) -> Bool
     ) {
         self.matchFunc = matchFunc
         self.key = key
-        self.childrenMatcher = AnyMatcher()
+        self.childrenMatcher = MatchAny()
     }
 
     func match(node: ASTNode) -> MatchResult {
