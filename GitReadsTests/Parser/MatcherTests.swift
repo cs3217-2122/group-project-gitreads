@@ -8,6 +8,61 @@ import XCTest
 // swiftlint:disable function_body_length type_body_length file_length
 class MatcherTests: XCTestCase {
 
+    func testGoDeclarations() async throws {
+        let go = #"""
+                package main
+
+                import (
+                    "fmt"
+                )
+
+                var (
+                    stuff = map[int]string{
+                        5: "123",
+                    }
+                    no = "yes"
+                )
+
+                const (
+                    hello = "world"
+                    pi = 3.14
+                )
+
+                func doSomething(a, b int, c string) int {
+                    var zero, hero int
+                    first, second := a + b, c
+                    return first
+                }
+
+                type Duration = int
+
+                type Dog struct {
+                    Name string
+                    GoodBoy, Neutered bool
+                }
+
+                type Barker interface {
+                    woof(doge int)
+                    bark()
+                }
+
+                func (d *Dog) woof(doge int) {
+                    fmt.Printf("woof i am %s", d.Name)
+                }
+                """#
+
+        let rootNode = try await GoParser.getAstFromApi(fileString: go)
+        guard let rootNode = rootNode else {
+            XCTFail("root node nil")
+            return
+        }
+
+        let declarations = GoDeclarationParser.getDeclarations(rootNode: rootNode, fileString: go)
+        for declaration in declarations {
+            print(declaration)
+        }
+    }
+
     func testJavascriptDeclarations() async throws {
         let js = #"""
                 let a = 2

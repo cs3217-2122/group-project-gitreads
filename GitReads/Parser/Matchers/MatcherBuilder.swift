@@ -10,6 +10,10 @@ struct MatcherBuilder {
         [matcher]
     }
 
+    static func buildExpression(_ matcher: [Matcher]) -> [Matcher] {
+        matcher
+    }
+
     static func buildBlock(_ matchers: [Matcher]...) -> [Matcher] {
         matchers.flatMap { $0 }
     }

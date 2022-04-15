@@ -44,11 +44,7 @@ class CodeViewModel: ObservableObject {
         let minificationPlugin = MinificationPlugin(parseOutput: parseOutput)
 
         let lineViewModels = parseOutput.lines.map { LineViewModel(line: $0) }
-        for lineViewModel in lineViewModels {
-            for tokenViewModel in lineViewModel.tokenViewModels {
-                minificationPlugin.registerTokenViewModel(tokenViewModel)
-            }
-        }
+        minificationPlugin.registerLines(lineViewModels)
 
         self.lineViewModels = lineViewModels
         self.plugins.append(minificationPlugin)

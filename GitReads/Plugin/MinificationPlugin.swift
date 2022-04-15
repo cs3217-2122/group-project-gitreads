@@ -64,17 +64,21 @@ class MinificationPlugin: Plugin {
         )
     }
 
-    func registerTokenViewModel(_ tokenViewModel: TokenViewModel) {
-        // TODO: add proper logic to determine whether should minify
-        let token = tokenViewModel.token
-        guard token.type == .variable && token.value.count > 5 else {
-            return
-        }
+    func registerLines(_ lineViewModels: [LineViewModel]) {
+        for lineViewModel in lineViewModels {
+            for tokenViewModel in lineViewModel.tokenViewModels {
+                // TODO: add proper logic to determine whether should minify
+                let token = tokenViewModel.token
+                guard token.type == .variable && token.value.count > 5 else {
+                    continue
+                }
 
-        tokenViewModel.minified = true
-        let state = minificationStates[token.value, default: MinificationState(minified: true)]
-        state.addViewModel(tokenViewModel)
-        minificationStates[token.value] = state
+                tokenViewModel.minified = true
+                let state = minificationStates[token.value, default: MinificationState(minified: true)]
+                state.addViewModel(tokenViewModel)
+                minificationStates[token.value] = state
+            }
+        }
     }
 
     // TODO: possibly add a top level option to minify/show everything

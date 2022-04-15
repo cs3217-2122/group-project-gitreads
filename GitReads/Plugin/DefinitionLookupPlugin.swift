@@ -59,7 +59,11 @@ struct DefinitionLookupView: View {
                 }
 
                 if definitionLookupState.loading {
-                    ProgressView()
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
 
                 if !definitionLookupState.loading && definitionLookupState.options.isEmpty {

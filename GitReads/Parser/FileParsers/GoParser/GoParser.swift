@@ -18,7 +18,7 @@ class GoParser: FileParser {
 
         var declarations = [Declaration]()
         if includeDeclarations {
-            declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
+            declarations = GoDeclarationParser.getDeclarations(rootNode: rootNode, fileString: fileString)
         }
 
         var scopes: [Scope] = []
@@ -31,10 +31,6 @@ class GoParser: FileParser {
                            declarations: declarations,
                            scopes: scopes
         )
-    }
-
-    static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {
-        []
     }
 
     static func getAstFromApi(fileString: String) async throws -> ASTNode? {
