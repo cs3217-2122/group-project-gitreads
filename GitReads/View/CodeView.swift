@@ -39,7 +39,9 @@ struct CodeView: View {
                             })
                         }
                     }
-                }.font(.system(size: CGFloat($fontSize.wrappedValue)))
+                }
+                .foregroundColor(.black)
+                .font(.system(size: CGFloat($fontSize.wrappedValue)))
                 VStack {
                     if isScrollView {
                         ScrollLineView(

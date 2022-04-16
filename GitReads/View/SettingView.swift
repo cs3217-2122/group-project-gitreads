@@ -23,19 +23,15 @@ struct SettingView: View {
                     .foregroundColor(.accentColor)
                     .onTapGesture(perform: closeSideBar)
             }
-            Group {
-                HStack {
-                    Button(action: decreaseSize, label: {
-                        Image(systemName: "minus.circle").padding()
-                        })
-                    Text(String(size))
-                    Button(action: increaseSize, label: {
-                        Image(systemName: "plus.circle").padding()
+            Text("Font Size")
+            HStack {
+                Button(action: decreaseSize, label: {
+                    Image(systemName: "minus.circle").padding()
                     })
-                }
-                Toggle(isOn: $isScrollView) {
-                    Text("Scroll view")
-                }.padding()
+                Text(String(size))
+                Button(action: increaseSize, label: {
+                    Image(systemName: "plus.circle").padding()
+                })
             }
             Spacer()
         }

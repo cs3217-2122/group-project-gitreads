@@ -56,6 +56,7 @@ struct TokenView: View {
         }
         .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
         .frame(width: width(text))
+        .foregroundColor(.black)
     }
 
     func width(_ str: String) -> CGFloat {
