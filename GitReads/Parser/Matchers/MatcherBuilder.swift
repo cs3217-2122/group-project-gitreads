@@ -14,6 +14,14 @@ struct MatcherBuilder {
         matcher
     }
 
+    static func buildExpression(_ matcher: Matcher?) -> [Matcher] {
+        guard let matcher = matcher else {
+            return []
+        }
+
+        return [matcher]
+    }
+
     static func buildBlock(_ matchers: [Matcher]...) -> [Matcher] {
         matchers.flatMap { $0 }
     }

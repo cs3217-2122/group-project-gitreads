@@ -8,6 +8,35 @@ import XCTest
 // swiftlint:disable function_body_length type_body_length file_length
 class MatcherTests: XCTestCase {
 
+    func testPythonDeclarations() async throws {
+        let python = #"""
+                     blahh = 5
+                     (lol), _, *rofl, lmao = (4, 6, 7, 8, 9)
+                     ([(dog), cat], _, *bird, (hamster)) = something
+                     [red, blue, *green, yellow] = array
+
+                     def add(a, b = blahh, c: str, d: int = 5, *e, **f, (g, *h)):
+                       return a + b
+
+                     class ExampleClass(object):
+                       class_attr = 0
+
+                       def __init__(self, instance_attr):
+                         self.instance_attr = instance_attr
+                     """#
+
+        let rootNode = try await PythonParser.getAstFromApi(fileString: python)
+        guard let rootNode = rootNode else {
+            XCTFail("root node nil")
+            return
+        }
+
+        let declarations = PythonDeclarationParser.getDeclarations(rootNode: rootNode, fileString: python)
+        for declaration in declarations {
+            print(declaration)
+        }
+    }
+
     func testGoDeclarations() async throws {
         let go = #"""
                 package main
@@ -86,7 +115,7 @@ class MatcherTests: XCTestCase {
                 }
 
                 let { hey, qwerqwer = undefined, ...rest } = hi
-                const [beef, chicken = 5, , ...fish] = something
+                const [beef, { chicken, [duck, { goose } = undefined] = 3 } = 5, , ...fish] = something
                 const {abcde = 5} = hi;
                 """#
 

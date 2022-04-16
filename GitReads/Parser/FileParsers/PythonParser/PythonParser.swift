@@ -18,7 +18,7 @@ class PythonParser: FileParser {
 
         var declarations = [Declaration]()
         if includeDeclarations {
-            declarations = getDeclarations(rootNode: rootNode, fileString: fileString)
+            declarations = PythonDeclarationParser.getDeclarations(rootNode: rootNode, fileString: fileString)
         }
 
         var scopes: [Scope] = []
@@ -31,10 +31,6 @@ class PythonParser: FileParser {
                            declarations: declarations,
                            scopes: scopes
         )
-    }
-
-    static func getDeclarations(rootNode: ASTNode?, fileString: String) -> [Declaration] {
-        []
     }
 
     static func getAstFromApi(fileString: String) async throws -> ASTNode? {

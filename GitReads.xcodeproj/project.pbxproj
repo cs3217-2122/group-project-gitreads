@@ -49,6 +49,7 @@
 		6E67ED1C27F6EDE000C75F8C /* SelectBranchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67ED1B27F6EDE000C75F8C /* SelectBranchView.swift */; };
 		6EC96B40280A19470048EB9A /* JavascriptDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B3F280A19470048EB9A /* JavascriptDeclarationParser.swift */; };
 		6EC96B42280A34FD0048EB9A /* GoDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B41280A34FD0048EB9A /* GoDeclarationParser.swift */; };
+		6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -227,6 +228,7 @@
 		6E67ED1B27F6EDE000C75F8C /* SelectBranchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBranchView.swift; sourceTree = "<group>"; };
 		6EC96B3F280A19470048EB9A /* JavascriptDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptDeclarationParser.swift; sourceTree = "<group>"; };
 		6EC96B41280A34FD0048EB9A /* GoDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoDeclarationParser.swift; sourceTree = "<group>"; };
+		6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonDeclarationParser.swift; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -843,6 +845,7 @@
 			children = (
 				FF81069727FC2694005F349F /* PythonParser.swift */,
 				FF81069927FC26A2005F349F /* PythonNodeTypeSimplifier.swift */,
+				6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */,
 			);
 			path = PythonParser;
 			sourceTree = "<group>";
@@ -1126,6 +1129,7 @@
 				B2561AA228014AA8002AAA6F /* TestTokenPlugin.swift in Sources */,
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
+				6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */,
 				B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */,
 				B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */,
 				6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */,
