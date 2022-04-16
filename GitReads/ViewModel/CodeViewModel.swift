@@ -15,7 +15,7 @@ class CodeViewModel: ObservableObject {
 
     @Published var lineViewModels: [LineViewModel] = []
 
-    private var plugins: [Plugin] = [GetCommentPlugin(), MakeCommentPlugin()]
+    private var plugins: [Plugin] = [CommentPlugin(), CodeCollapsePlugin()]
     let file: File
 
     init(file: File) {
@@ -54,10 +54,9 @@ class CodeViewModel: ObservableObject {
                        screenViewModel: ScreenViewModel) -> [LineAction] {
         var result: [LineAction] = []
         for plugin in plugins {
-            if let action = plugin.getLineAction(file: file, lineNum: lineNum,
-                                                 screenViewModel: screenViewModel, codeViewModel: self) {
-                result.append(action)
-            }
+            let action = plugin.getLineAction(file: file, lineNum: lineNum,
+                                              screenViewModel: screenViewModel, codeViewModel: self)
+            result.append(contentsOf: action)
         }
         return result
     }
@@ -66,10 +65,9 @@ class CodeViewModel: ObservableObject {
                         screenViewModel: ScreenViewModel) -> [TokenAction] {
         var result: [TokenAction] = []
         for plugin in plugins {
-            if let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
-                                                  screenViewModel: screenViewModel, codeViewModel: self) {
-                result.append(action)
-            }
+            let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
+                                               screenViewModel: screenViewModel, codeViewModel: self)
+            result.append(contentsOf: action)
         }
         return result
     }

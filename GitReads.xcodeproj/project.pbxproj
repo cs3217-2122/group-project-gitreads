@@ -95,13 +95,12 @@
 		B22D52F327DB224800CD5E01 /* WrapLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F227DB224800CD5E01 /* WrapLineView.swift */; };
 		B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D52F827DB46EA00CD5E01 /* TokenView.swift */; };
 		B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242ECAD27FAD37400993012 /* CodeViewModel.swift */; };
-		B2561AA228014AA8002AAA6F /* TestTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */; };
 		B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263F0A327E5F98A00CDD569 /* SettingView.swift */; };
+		B265A008280A8B8F0075B5D6 /* CodeCollapsePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
 		B299CA4D27EB187E00AB4FEC /* Courier.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B299CA4B27EB154600AB4FEC /* Courier.ttf */; };
 		B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */; };
-		B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */; };
-		B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */; };
+		B2C56BE527F4535B006389E5 /* CommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C56BE427F4535B006389E5 /* CommentPlugin.swift */; };
 		B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C77B5627E480110072B80A /* SettingViewModel.swift */; };
 		B2CA818127FC0EFD00298887 /* WrappingStack in Frameworks */ = {isa = PBXBuildFile; productRef = B2CA818027FC0EFD00298887 /* WrappingStack */; };
 		B2E956D927F1F12000FBA708 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E956D827F1F12000FBA708 /* Plugin.swift */; };
@@ -279,14 +278,13 @@
 		B22D52F227DB224800CD5E01 /* WrapLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapLineView.swift; sourceTree = "<group>"; };
 		B22D52F827DB46EA00CD5E01 /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
 		B242ECAD27FAD37400993012 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
-		B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTokenPlugin.swift; sourceTree = "<group>"; };
 		B263F0A327E5F98A00CDD569 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCollapsePlugin.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
 		B299CA4B27EB154600AB4FEC /* Courier.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Courier.ttf; sourceTree = "<group>"; };
 		B299CA4C27EB155600AB4FEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAction.swift; sourceTree = "<group>"; };
-		B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCommentPlugin.swift; sourceTree = "<group>"; };
-		B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentPlugin.swift; sourceTree = "<group>"; };
+		B2C56BE427F4535B006389E5 /* CommentPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPlugin.swift; sourceTree = "<group>"; };
 		B2C77B5627E480110072B80A /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		B2E956D827F1F12000FBA708 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
 		B2E956DA27F1F2C300FBA708 /* LineAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAction.swift; sourceTree = "<group>"; };
@@ -686,11 +684,10 @@
 				B2E956D827F1F12000FBA708 /* Plugin.swift */,
 				B2E956DA27F1F2C300FBA708 /* LineAction.swift */,
 				B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */,
-				B2C56BE427F4535B006389E5 /* GetCommentPlugin.swift */,
-				B2AF9D0E27F59F3A00C2CFEA /* MakeCommentPlugin.swift */,
-				B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */,
+				B2C56BE427F4535B006389E5 /* CommentPlugin.swift */,
 				DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */,
 				6E5DA5862805C8EC009D0D03 /* MinificationPlugin.swift */,
+				B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -1130,11 +1127,10 @@
 				DE43326C27F449950012FD81 /* SearchBarView.swift in Sources */,
 				FF73473327F8A41E009A8949 /* JavascriptParser.swift in Sources */,
 				DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */,
-				B2561AA228014AA8002AAA6F /* TestTokenPlugin.swift in Sources */,
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
 				6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */,
-				B2C56BE527F4535B006389E5 /* GetCommentPlugin.swift in Sources */,
+				B2C56BE527F4535B006389E5 /* CommentPlugin.swift in Sources */,
 				B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */,
 				6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */,
 				DE43323227E1EF4B0012FD81 /* Language.swift in Sources */,
@@ -1165,12 +1161,12 @@
 				FF8106A327FC34C7005F349F /* FunctionDeclaration.swift in Sources */,
 				6E5DA5872805C8EC009D0D03 /* MinificationPlugin.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
-				B2AF9D0F27F59F3A00C2CFEA /* MakeCommentPlugin.swift in Sources */,
 				FF7471B227F8485A00566ECB /* GoNodeTypeSimplifier.swift in Sources */,
 				B2C77B5727E480110072B80A /* SettingViewModel.swift in Sources */,
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
 				6E631E6B27F88A2400E13A30 /* ParseOutput.swift in Sources */,
+				B265A008280A8B8F0075B5D6 /* CodeCollapsePlugin.swift in Sources */,
 				FF8106AA27FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */,

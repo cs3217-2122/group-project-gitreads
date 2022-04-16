@@ -25,40 +25,50 @@ struct CodeView: View {
         }
     }
 
+    func needHighlight(_ lineActions: [LineAction]) -> Bool {
+        for lineAction in lineActions where lineAction.isHighlighted {
+            return true
+        }
+        return false
+    }
+
     func line(lineNum: Int, reader: ScrollViewProxy) -> some View {
         HStack(alignment: .center) {
-            Menu(String(lineNum + 1)) {
+            if codeViewModel.lineViewModels[lineNum].isShowing {
                 let options = codeViewModel.getLineOption(lineNum: lineNum,
                                                           screenViewModel: viewModel)
-                ForEach(0..<options.count, id: \.self) { pos in
-                    if let buttonText = options[pos].text {
-                        Button(buttonText, action: {
-                            options[pos].action(viewModel, codeViewModel, lineNum)
-                            codeViewModel.setLineAction(lineAction: options[pos])
-                        })
+                Menu(String(lineNum + 1)) {
+                    ForEach(0..<options.count, id: \.self) { pos in
+                        if let buttonText = options[pos].text {
+                            Button(buttonText, action: {
+                                options[pos].action(viewModel, codeViewModel, lineNum)
+                                codeViewModel.setLineAction(lineAction: options[pos])
+                            })
+                        }
                     }
                 }
-            }.font(.system(size: CGFloat($fontSize.wrappedValue)))
-            VStack {
-                if isScrollView {
-                    ScrollLineView(
-                        viewModel: viewModel,
-                        codeViewModel: codeViewModel,
-                        lineViewModel: codeViewModel.lineViewModels[lineNum],
-                        lineNum: lineNum,
-                        fontSize: $fontSize
-                    )
-                } else {
-                    WrapLineView(
-                        viewModel: viewModel,
-                        codeViewModel: codeViewModel,
-                        lineViewModel: codeViewModel.lineViewModels[lineNum],
-                        lineNum: lineNum,
-                        fontSize: $fontSize
-                    )
+                .foregroundColor(needHighlight(options) ? .red : .black)
+                .font(.system(size: CGFloat($fontSize.wrappedValue)))
+                VStack {
+                    if isScrollView {
+                        ScrollLineView(
+                            viewModel: viewModel,
+                            codeViewModel: codeViewModel,
+                            lineViewModel: codeViewModel.lineViewModels[lineNum],
+                            lineNum: lineNum,
+                            fontSize: $fontSize
+                        )
+                    } else {
+                        WrapLineView(
+                            viewModel: viewModel,
+                            codeViewModel: codeViewModel,
+                            lineViewModel: codeViewModel.lineViewModels[lineNum],
+                            lineNum: lineNum,
+                            fontSize: $fontSize
+                        )
+                    }
                 }
             }
-            Spacer()
         }
         .id(lineNum)
         .padding(.leading, 6)
