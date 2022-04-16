@@ -38,11 +38,7 @@ struct GetCommentView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Viewing comment on line \(lineNum + 1)")
-                Spacer()
-                Button("Close", action: { codeViewModel.resetAction() })
-            }
+            Text("Viewing comment on line \(lineNum + 1)")
             Text("")
             Text(comment)
         }.padding()
