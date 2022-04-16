@@ -16,12 +16,21 @@ struct CodeView: View {
     @State private var parseOutput: Result<ParseOutput, Error>?
 
     func pluginHeader(_ view: AnyView) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             Button("Close") {
                 codeViewModel.resetAction()
-            }.frame(alignment: .trailing)
+            }
+            .padding(.vertical, 10)
 
             view
+        }
+        .background {
+            Color.white
+                .shadow(
+                    color: .black.opacity(0.25),
+                    radius: 7,
+                    x: 0, y: 0
+                )
         }
     }
 
@@ -32,12 +41,41 @@ struct CodeView: View {
         return false
     }
 
+    func textContent(lineNum: Int) -> some View {
+        VStack {
+            if isScrollView {
+                ScrollLineView(
+                    viewModel: viewModel,
+                    codeViewModel: codeViewModel,
+                    lineViewModel: codeViewModel.lineViewModels[lineNum],
+                    lineNum: lineNum,
+                    fontSize: $fontSize
+                )
+            } else {
+                WrapLineView(
+                    viewModel: viewModel,
+                    codeViewModel: codeViewModel,
+                    lineViewModel: codeViewModel.lineViewModels[lineNum],
+                    lineNum: lineNum,
+                    fontSize: $fontSize
+                )
+            }
+        }
+    }
+
     func line(lineNum: Int, reader: ScrollViewProxy) -> some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: 0) {
             if codeViewModel.lineViewModels[lineNum].isShowing {
-                let options = codeViewModel.getLineOption(lineNum: lineNum,
-                                                          screenViewModel: viewModel)
-                Menu(String(lineNum + 1)) {
+                let options = codeViewModel.getLineOption(
+                    lineNum: lineNum,
+                    screenViewModel: viewModel
+                )
+
+                let maxLineNumStr = String(codeViewModel.lineViewModels.count)
+                let font = UIFont(name: "Courier", size: CGFloat($fontSize.wrappedValue))
+                let lineNumWidth = maxLineNumStr.width(for: font)
+
+                Menu(String(lineNum + 1).leftPadding(toLength: maxLineNumStr.count, withPad: " ")) {
                     ForEach(0..<options.count, id: \.self) { pos in
                         if let buttonText = options[pos].text {
                             Button(buttonText, action: {
@@ -48,30 +86,21 @@ struct CodeView: View {
                     }
                 }
                 .foregroundColor(needHighlight(options) ? .red : .black)
-                .font(.system(size: CGFloat($fontSize.wrappedValue)))
-                VStack {
-                    if isScrollView {
-                        ScrollLineView(
-                            viewModel: viewModel,
-                            codeViewModel: codeViewModel,
-                            lineViewModel: codeViewModel.lineViewModels[lineNum],
-                            lineNum: lineNum,
-                            fontSize: $fontSize
-                        )
-                    } else {
-                        WrapLineView(
-                            viewModel: viewModel,
-                            codeViewModel: codeViewModel,
-                            lineViewModel: codeViewModel.lineViewModels[lineNum],
-                            lineNum: lineNum,
-                            fontSize: $fontSize
-                        )
-                    }
-                }
+                .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
+                .frame(width: lineNumWidth)
+                .padding(.vertical, 4)
+                .padding(.leading, 7)
+                .padding(.trailing, 3)
+                .background(Color(white: 0.85))
+
+                textContent(lineNum: lineNum)
+                    .frame(height: " ".height(for: font))
+                    .padding(.leading, 9)
+                    .padding(.vertical, 4)
+                    .background(Color(white: lineNum.isMultiple(of: 2) ? 1 : 0.98))
             }
         }
         .id(lineNum)
-        .padding(.leading, 6)
         .onAppear {
             if let scrollTo = codeViewModel.scrollTo {
                 withAnimation { reader.scrollTo(scrollTo, anchor: .top) }
@@ -81,10 +110,10 @@ struct CodeView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView {
                 ScrollViewReader { reader in
-                    LazyVStack {
+                    LazyVStack(spacing: 0) {
                         ForEach(0..<codeViewModel.lineViewModels.count, id: \.self) { lineNum in
                             line(lineNum: lineNum, reader: reader)
                         }
@@ -95,9 +124,6 @@ struct CodeView: View {
                 Task {
                     self.parseOutput = await codeViewModel.file.parseOutput.value
                     if let parseOutput = self.parseOutput, case let .success(output) = parseOutput {
-//                        for declaration in output.declarations {
-//                            print(declaration)
-//                        }
                         codeViewModel.setParseOutput(output)
                     }
                 }

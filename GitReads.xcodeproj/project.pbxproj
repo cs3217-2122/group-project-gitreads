@@ -50,7 +50,8 @@
 		6EC96B40280A19470048EB9A /* JavascriptDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B3F280A19470048EB9A /* JavascriptDeclarationParser.swift */; };
 		6EC96B42280A34FD0048EB9A /* GoDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B41280A34FD0048EB9A /* GoDeclarationParser.swift */; };
 		6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */; };
-		6EC96B46280B446B0048EB9A /* String+Width.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B45280B446B0048EB9A /* String+Width.swift */; };
+		6EC96B46280B446B0048EB9A /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B45280B446B0048EB9A /* String+Size.swift */; };
+		6EC96B48280B4DE00048EB9A /* String+LeftPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -229,7 +230,8 @@
 		6EC96B3F280A19470048EB9A /* JavascriptDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptDeclarationParser.swift; sourceTree = "<group>"; };
 		6EC96B41280A34FD0048EB9A /* GoDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoDeclarationParser.swift; sourceTree = "<group>"; };
 		6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonDeclarationParser.swift; sourceTree = "<group>"; };
-		6EC96B45280B446B0048EB9A /* String+Width.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Width.swift"; sourceTree = "<group>"; };
+		6EC96B45280B446B0048EB9A /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
+		6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LeftPadding.swift"; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -452,7 +454,8 @@
 				6E67ECF227E6D9C600C75F8C /* Publisher+AsyncMap.swift */,
 				6E67ED0F27E9BB7B00C75F8C /* PaginatedResponse.swift */,
 				DE05003127F468F500ABEC27 /* String+Ranges.swift */,
-				6EC96B45280B446B0048EB9A /* String+Width.swift */,
+				6EC96B45280B446B0048EB9A /* String+Size.swift */,
+				6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1071,7 +1074,7 @@
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
 				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
 				DE251EC6280322C00087ADB2 /* DefinitionLookupPlugin.swift in Sources */,
-				6EC96B46280B446B0048EB9A /* String+Width.swift in Sources */,
+				6EC96B46280B446B0048EB9A /* String+Size.swift in Sources */,
 				FF8106A827FC3FF1005F349F /* StructDeclaration.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
 				6E5DA5932808C545009D0D03 /* Matcher.swift in Sources */,
@@ -1166,6 +1169,7 @@
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
 				6E631E6B27F88A2400E13A30 /* ParseOutput.swift in Sources */,
+				6EC96B48280B4DE00048EB9A /* String+LeftPadding.swift in Sources */,
 				B265A008280A8B8F0075B5D6 /* CodeCollapsePlugin.swift in Sources */,
 				FF8106AA27FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,

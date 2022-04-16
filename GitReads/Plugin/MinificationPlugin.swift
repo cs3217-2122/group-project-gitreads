@@ -135,7 +135,7 @@ class MinificationPlugin: Plugin {
         let lengthValid = token.value.count > 4
         return typeValid && lengthValid
     }
-    
+
     private func minLineLengthToMinify() -> Int {
         var fontSize = UserDefaults.standard.integer(forKey: SettingViewModel.fontSizeKey)
         if fontSize == 0 {
@@ -148,10 +148,10 @@ class MinificationPlugin: Plugin {
                 fontSize = 25
             }
         }
-        
+
         let screenWidth = UIScreen.main.bounds.width
         let font = UIFont(name: "Courier", size: CGFloat(fontSize))
-        
+
         let charWidth = " ".width(for: font)
         return Int(ceil(screenWidth / charWidth) - 2) // subtract 2 to roughly account for the line margin
     }

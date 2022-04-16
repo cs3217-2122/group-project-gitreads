@@ -31,12 +31,13 @@ struct ScreenView: View {
     }
 
     func repoView(repo: Repo) -> some View {
-        HStack {
+        HStack(spacing: 2) {
             if let sideBarViewModel = sideBarViewModel,
                viewModel.showSideBar {
                 FilesSideBar(
                     viewModel: sideBarViewModel,
-                    closeSideBar: viewModel.toggleSideBar)
+                    closeSideBar: viewModel.toggleSideBar
+                )
             }
             VStack {
                 HStack {
