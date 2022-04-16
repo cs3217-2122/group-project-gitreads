@@ -65,10 +65,9 @@ class CodeViewModel: ObservableObject {
                         screenViewModel: ScreenViewModel) -> [TokenAction] {
         var result: [TokenAction] = []
         for plugin in plugins {
-            if let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
-                                                  screenViewModel: screenViewModel, codeViewModel: self) {
-                result.append(action)
-            }
+            let action = plugin.getTokenAction(file: file, lineNum: lineNum, posNum: posNum,
+                                               screenViewModel: screenViewModel, codeViewModel: self)
+                result.append(contentsOf: action)
         }
         return result
     }

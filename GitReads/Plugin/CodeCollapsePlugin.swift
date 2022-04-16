@@ -44,7 +44,7 @@ class CodeCollapsePlugin: Plugin {
                         lineNum: Int,
                         posNum: Int,
                         screenViewModel: ScreenViewModel,
-                        codeViewModel: CodeViewModel) -> TokenAction? {
-        nil
+                        codeViewModel: CodeViewModel) -> [TokenAction] {
+        []
     }
 }

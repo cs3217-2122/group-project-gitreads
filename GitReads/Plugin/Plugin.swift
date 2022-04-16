@@ -12,5 +12,5 @@ protocol Plugin {
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int,
                         screenViewModel: ScreenViewModel,
-                        codeViewModel: CodeViewModel) -> TokenAction?
+                        codeViewModel: CodeViewModel) -> [TokenAction]
 }
