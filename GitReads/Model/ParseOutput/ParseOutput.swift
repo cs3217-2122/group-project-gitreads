@@ -8,19 +8,14 @@ struct ParseOutput: Codable {
     var declarations: [Declaration]
     let scopes: [Scope]
 
-    var declarationsInScope: [Scope: [Declaration]] = [:]
-    var tokensInScope: [Scope: [Token]] = [:]
+    lazy var declarationsInScope: [Scope: [Declaration]] = {
+        scopes.reduce(into: [Scope: [Declaration]]()) { dict, scope in
+            dict[scope] = declarations.filter { scope.contains(declaration: $0) }
+        }
+    }()
 
-    init(fileContents: String, lines: [Line], declarations: [Declaration], scopes: [Scope]) {
-        self.fileContents = fileContents
-        self.lines = lines
-        self.declarations = declarations
-        self.scopes = scopes
-
-        for scope in scopes {
-            let containedDeclarations = declarations.filter { scope.contains(declaration: $0) }
-            declarationsInScope[scope] = containedDeclarations
-
+    lazy var tokensInScope: [Scope: [Token]] = {
+        scopes.reduce(into: [Scope: [Token]]()) { dict, scope in
             let containedTokens = lines.flatMap { line -> [Token] in
                 if !scope.contains(line: line) {
                     return []
@@ -28,8 +23,16 @@ struct ParseOutput: Codable {
 
                 return line.tokens.filter { scope.contains(token: $0, onLineNumber: line.lineNumber) }
             }
-            tokensInScope[scope] = containedTokens
+
+            dict[scope] = containedTokens
         }
+    }()
+
+    init(fileContents: String, lines: [Line], declarations: [Declaration], scopes: [Scope]) {
+        self.fileContents = fileContents
+        self.lines = lines
+        self.declarations = declarations
+        self.scopes = scopes
     }
 
     private enum CodingKeys: CodingKey {
@@ -63,7 +66,6 @@ struct ParseOutput: Codable {
                                              forKey: .typeDeclaration)
         declarations += try container.decode([PreprocDeclaration].self,
                                              forKey: .preprocDeclaration)
-
     }
 
     func encode(to encoder: Encoder) throws {

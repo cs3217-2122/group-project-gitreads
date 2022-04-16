@@ -60,9 +60,7 @@ struct TokenView: View {
 
     func width(_ str: String) -> CGFloat {
         let font = UIFont(name: "Courier", size: CGFloat($fontSize.wrappedValue))
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        let size = str.size(withAttributes: fontAttributes as [NSAttributedString.Key: Any])
-        return size.width
+        return str.width(for: font)
     }
 }
 

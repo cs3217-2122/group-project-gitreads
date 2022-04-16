@@ -85,9 +85,9 @@ struct CodeView: View {
                 Task {
                     self.parseOutput = await codeViewModel.file.parseOutput.value
                     if let parseOutput = self.parseOutput, case let .success(output) = parseOutput {
-                        for declaration in output.declarations {
-                            print(declaration)
-                        }
+//                        for declaration in output.declarations {
+//                            print(declaration)
+//                        }
                         codeViewModel.setParseOutput(output)
                     }
                 }

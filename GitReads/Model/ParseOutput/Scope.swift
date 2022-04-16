@@ -32,14 +32,32 @@ struct Scope: Codable, Hashable {
             return false
         }
 
-        return token.startIdx >= prefixStart.char && token.endIdx <= end.char
+        if lineNumber == prefixStart.line {
+            return token.startIdx >= prefixStart.char
+        }
+
+        if lineNumber == end.line {
+            return token.endIdx <= end.char
+        }
+
+        return true
     }
 
     func contains(declaration: Declaration) -> Bool {
-        declaration.start[0] >= prefixStart.line
-        && declaration.end[0] <= end.line
-        && declaration.start[1] >= prefixStart.char
-        && declaration.end[1] <= end.char
+        let linesContained = declaration.start[0] >= prefixStart.line && declaration.end[0] <= end.line
+        if !linesContained {
+            return false
+        }
+
+        if declaration.start[0] == prefixStart.line {
+            return declaration.start[1] >= prefixStart.char
+        }
+
+        if declaration.end[0] == end.line {
+            return declaration.end[1] <= end.char
+        }
+
+        return true
     }
 
     private func contains(lineNumber: Int) -> Bool {

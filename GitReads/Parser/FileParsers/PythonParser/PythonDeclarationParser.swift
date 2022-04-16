@@ -159,7 +159,7 @@ struct PythonDeclarationParser {
         }
     }
 
-    static let parametersMatcher = Match(type: .exact("parameters")) { count in
+    static let parametersMatcher = Match(type: .oneOf(["parameters", "lambda_parameters"])) { count in
         Match(type: .exact("("))
         for _ in 2..<count {
             let key = "identifier-" + UUID().uuidString

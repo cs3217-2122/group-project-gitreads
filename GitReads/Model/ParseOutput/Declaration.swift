@@ -10,3 +10,15 @@ protocol Declaration: Codable {
     var end: [Int] { get set }
     var identifier: String { get set }
 }
+
+struct DeclarationKey: Hashable {
+    let start: [Int]
+    let end: [Int]
+    let identifier: String
+}
+
+extension Declaration {
+    var key: DeclarationKey {
+        DeclarationKey(start: start, end: end, identifier: identifier)
+    }
+}

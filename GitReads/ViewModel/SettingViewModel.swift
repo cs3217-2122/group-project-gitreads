@@ -9,19 +9,19 @@ import Foundation
 import SwiftUI
 
 class SettingViewModel: ObservableObject {
-    private let fontSizeKey = "fontSizeSetting"
-    private let isScrollViewKey = "isScrollViewSetting"
+    static let fontSizeKey = "fontSizeSetting"
+    static let isScrollViewKey = "isScrollViewSetting"
 
     @Published private(set) var showSideBar = false
     @Published var fontSize: Int {
         didSet {
-            UserDefaults.standard.set(fontSize, forKey: fontSizeKey)
+            UserDefaults.standard.set(fontSize, forKey: SettingViewModel.fontSizeKey)
         }
     }
 
     @Published var isScrollView: Bool {
         didSet {
-            UserDefaults.standard.set(isScrollView, forKey: isScrollViewKey)
+            UserDefaults.standard.set(isScrollView, forKey: SettingViewModel.isScrollViewKey)
         }
     }
 
@@ -29,7 +29,7 @@ class SettingViewModel: ObservableObject {
     let maxSize = 30
 
     init() {
-        let fontSize = UserDefaults.standard.integer(forKey: fontSizeKey)
+        let fontSize = UserDefaults.standard.integer(forKey: SettingViewModel.fontSizeKey)
         if fontSize != 0 {
             self.fontSize = fontSize
         } else {
@@ -44,8 +44,8 @@ class SettingViewModel: ObservableObject {
         }
 
         self.isScrollView = true
-        if self.isKeyPresentInUserDefaults(key: isScrollViewKey) {
-            self.isScrollView = UserDefaults.standard.bool(forKey: isScrollViewKey)
+        if self.isKeyPresentInUserDefaults(key: SettingViewModel.isScrollViewKey) {
+            self.isScrollView = UserDefaults.standard.bool(forKey: SettingViewModel.isScrollViewKey)
         }
     }
 
