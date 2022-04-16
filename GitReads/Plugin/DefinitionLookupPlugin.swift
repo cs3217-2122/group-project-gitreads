@@ -9,8 +9,8 @@ struct DefinitionLookupPlugin: Plugin {
     let repo: Repo
 
     func getLineAction(file: File, lineNum: Int, screenViewModel: ScreenViewModel,
-                       codeViewModel: CodeViewModel) -> LineAction? {
-        nil
+                       codeViewModel: CodeViewModel) -> [LineAction] {
+        []
     }
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int, screenViewModel: ScreenViewModel,

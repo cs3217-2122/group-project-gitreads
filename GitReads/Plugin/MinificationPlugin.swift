@@ -39,8 +39,8 @@ class MinificationPlugin: Plugin {
         lineNum: Int,
         screenViewModel: ScreenViewModel,
         codeViewModel: CodeViewModel
-    ) -> LineAction? {
-        nil
+    ) -> [LineAction] {
+        []
     }
 
     func getTokenAction(
