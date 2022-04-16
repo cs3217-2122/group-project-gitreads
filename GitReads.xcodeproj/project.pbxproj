@@ -96,6 +96,7 @@
 		B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B242ECAD27FAD37400993012 /* CodeViewModel.swift */; };
 		B2561AA228014AA8002AAA6F /* TestTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */; };
 		B263F0A427E5F98A00CDD569 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263F0A327E5F98A00CDD569 /* SettingView.swift */; };
+		B265A008280A8B8F0075B5D6 /* CodeCollapsePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */; };
 		B297732D27DF371400E117EE /* DummyFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297732C27DF371400E117EE /* DummyFile.swift */; };
 		B299CA4D27EB187E00AB4FEC /* Courier.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B299CA4B27EB154600AB4FEC /* Courier.ttf */; };
 		B2AF9D0D27F5953600C2CFEA /* TokenAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF9D0C27F5953600C2CFEA /* TokenAction.swift */; };
@@ -279,6 +280,7 @@
 		B242ECAD27FAD37400993012 /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
 		B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTokenPlugin.swift; sourceTree = "<group>"; };
 		B263F0A327E5F98A00CDD569 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCollapsePlugin.swift; sourceTree = "<group>"; };
 		B297732C27DF371400E117EE /* DummyFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyFile.swift; sourceTree = "<group>"; };
 		B299CA4B27EB154600AB4FEC /* Courier.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Courier.ttf; sourceTree = "<group>"; };
 		B299CA4C27EB155600AB4FEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				B2561AA128014AA8002AAA6F /* TestTokenPlugin.swift */,
 				DE251EC5280322C00087ADB2 /* DefinitionLookupPlugin.swift */,
 				6E5DA5862805C8EC009D0D03 /* MinificationPlugin.swift */,
+				B265A007280A8B8F0075B5D6 /* CodeCollapsePlugin.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -1167,6 +1170,7 @@
 				6ED3227127DC88F400F0AD09 /* GitContent.swift in Sources */,
 				FF1A42DE27F1803D00D6F322 /* ASTNode.swift in Sources */,
 				6E631E6B27F88A2400E13A30 /* ParseOutput.swift in Sources */,
+				B265A008280A8B8F0075B5D6 /* CodeCollapsePlugin.swift in Sources */,
 				FF8106AA27FC5764005F349F /* ParseOutputCachedDataFetcherFactory.swift in Sources */,
 				B223E1CF27D9DDA7008ACEEF /* GitReadsApp.swift in Sources */,
 				FFE8F2BE27E85D4200D82823 /* WebApiClient.swift in Sources */,

@@ -37,11 +37,7 @@ struct MakeCommentView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("You are commenting on line \(lineNum + 1)")
-                Spacer()
-                Button("Cancel", action: { codeViewModel.resetAction() })
-            }
+            Text("You are commenting on line \(lineNum + 1)")
             TextField("Enter", text: $text, onCommit: {
                 if !text.isEmpty {
                     let defaults = UserDefaults.standard
