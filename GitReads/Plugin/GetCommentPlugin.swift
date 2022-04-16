@@ -15,10 +15,12 @@ struct GetCommentPlugin: Plugin {
             if let comments = defaults.object(forKey: url) as? [String: [String: String]],
                let fileComment = comments[file.path.string],
                let comment = fileComment[String(lineNum)] {
-                return LineAction(text: comment, action: { _, _, _ in },
-                                  view: AnyView(GetCommentView(comment: comment,
-                                                               lineNum: lineNum,
-                                                               codeViewModel: codeViewModel)))
+                var lineAction = LineAction(text: comment, action: { _, _, _ in },
+                                       view: AnyView(GetCommentView(comment: comment,
+                                                                    lineNum: lineNum,
+                                                                    codeViewModel: codeViewModel)))
+                lineAction.isHighlighted = true
+                return lineAction
             }
         }
         return nil

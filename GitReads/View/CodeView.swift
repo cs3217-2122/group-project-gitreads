@@ -25,12 +25,19 @@ struct CodeView: View {
         }
     }
 
+    func needHighlight(_ lineActions: [LineAction]) -> Bool {
+        for lineAction in lineActions where lineAction.isHighlighted {
+            return true
+        }
+        return false
+    }
+
     func line(lineNum: Int, reader: ScrollViewProxy) -> some View {
         HStack(alignment: .center) {
             if codeViewModel.lineViewModels[lineNum].isShowing {
+                let options = codeViewModel.getLineOption(lineNum: lineNum,
+                                                          screenViewModel: viewModel)
                 Menu(String(lineNum + 1)) {
-                    let options = codeViewModel.getLineOption(lineNum: lineNum,
-                                                              screenViewModel: viewModel)
                     ForEach(0..<options.count, id: \.self) { pos in
                         if let buttonText = options[pos].text {
                             Button(buttonText, action: {
@@ -40,7 +47,7 @@ struct CodeView: View {
                         }
                     }
                 }
-                .foregroundColor(.black)
+                .foregroundColor(needHighlight(options) ? .red : .black)
                 .font(.system(size: CGFloat($fontSize.wrappedValue)))
                 VStack {
                     if isScrollView {

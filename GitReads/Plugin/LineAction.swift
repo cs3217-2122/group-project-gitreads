@@ -10,6 +10,7 @@ struct LineAction {
     var text: String?
     var action: (ScreenViewModel, CodeViewModel, Int) -> Void
     var pluginView: AnyView?
+    var isHighlighted = false
 
     init(text: String?,
          action: @escaping (ScreenViewModel, CodeViewModel, Int) -> Void,

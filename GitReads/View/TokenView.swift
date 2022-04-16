@@ -23,6 +23,13 @@ struct TokenView: View {
     @State private var currentActiveAction: ((ScreenViewModel, CodeViewModel, Int, Int, String) -> Void)?
     @State private var text = ""
 
+    func needHighlight(_ tokenActions: [TokenAction]) -> Bool {
+        for tokenAction in tokenActions where tokenAction.isHighlighted {
+            return true
+        }
+        return false
+    }
+
     var body: some View {
         let options = codeViewModel.getTokenOption(
             lineNum: lineNum,
@@ -56,7 +63,7 @@ struct TokenView: View {
         }
         .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
         .frame(width: width(text))
-        .foregroundColor(.black)
+        .foregroundColor(needHighlight(options) ? .red : .black)
     }
 
     func width(_ str: String) -> CGFloat {
