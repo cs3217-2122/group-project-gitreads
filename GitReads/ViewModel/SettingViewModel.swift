@@ -11,6 +11,7 @@ import SwiftUI
 class SettingViewModel: ObservableObject {
     static let fontSizeKey = "fontSizeSetting"
     static let isScrollViewKey = "isScrollViewSetting"
+    static let themeKey = "themeSetting"
 
     @Published private(set) var showSideBar = false
     @Published var fontSize: Int {
@@ -24,6 +25,8 @@ class SettingViewModel: ObservableObject {
             UserDefaults.standard.set(isScrollView, forKey: SettingViewModel.isScrollViewKey)
         }
     }
+
+    @Published private(set) var activeTheme: Theme
 
     let minSize = 10
     let maxSize = 30
@@ -44,6 +47,13 @@ class SettingViewModel: ObservableObject {
         }
 
         self.isScrollView = true
+        let themeName = UserDefaults.standard.string(forKey: SettingViewModel.themeKey)
+        if let themeName = themeName {
+            self.activeTheme = themes[themeName] ?? OneLightTheme()
+        } else {
+            self.activeTheme = OneLightTheme()
+        }
+
         if self.isKeyPresentInUserDefaults(key: SettingViewModel.isScrollViewKey) {
             self.isScrollView = UserDefaults.standard.bool(forKey: SettingViewModel.isScrollViewKey)
         }
@@ -70,6 +80,13 @@ class SettingViewModel: ObservableObject {
     func decreaseSize() {
         if fontSize > minSize {
             fontSize -= 1
+        }
+    }
+
+    func setTheme(name: String) {
+        if let theme = themes[name] {
+            activeTheme = theme
+            UserDefaults.standard.set(name, forKey: SettingViewModel.themeKey)
         }
     }
 

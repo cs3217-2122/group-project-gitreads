@@ -63,6 +63,7 @@ struct ScreenView: View {
                     openFile: $viewModel.openFile,
                     fontSize: $settings.fontSize,
                     isScrollView: $settings.isScrollView,
+                    activeTheme: settings.activeTheme,
                     removeFile: { file in
                         viewModel.removeFile(file: file)
                     })
@@ -82,11 +83,15 @@ struct ScreenView: View {
     }
 
     var settingsView: some View {
-        SettingView(closeSideBar: settings.toggleSideBar,
-                    increaseSize: settings.increaseSize,
-                    decreaseSize: settings.decreaseSize,
-                    isScrollView: $settings.isScrollView,
-                    size: settings.fontSize)
+        SettingView(
+            closeSideBar: settings.toggleSideBar,
+            increaseSize: settings.increaseSize,
+            decreaseSize: settings.decreaseSize,
+            setActiveTheme: settings.setTheme,
+            isScrollView: $settings.isScrollView,
+            activeTheme: settings.activeTheme,
+            size: settings.fontSize
+        )
     }
 }
 

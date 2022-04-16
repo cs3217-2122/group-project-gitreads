@@ -8,7 +8,6 @@ class AppDependencies: ObservableObject {
 
     let gitClient: GitClient
     let repoService: RepoService
-
     init() {
         let api = GitHubApi()
         let githubFetcherFactory = GitHubCachedDataFetcherFactory()

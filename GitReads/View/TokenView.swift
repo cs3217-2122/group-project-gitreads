@@ -14,6 +14,7 @@ struct TokenView: View {
 
     let lineNum: Int
     let pos: Int
+    let activeTheme: Theme
 
     var token: Token {
         tokenViewModel.token
@@ -54,21 +55,32 @@ struct TokenView: View {
         } label: {
             Text(text).background {
                 if tokenViewModel.minified {
-                    // TODO: can improve looks when minified
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(.gray)
-                        .opacity(0.15)
+                        .fill(Color(
+                            hue: hueForMinifiedText(token.value),
+                            saturation: 0.25,
+                            lightness: 0.4,
+                            opacity: 0.15)
+                        )
                 }
             }
         }
         .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
         .frame(width: width(text))
-        .foregroundColor(needHighlight(options) ? .red : .black)
+        .foregroundColor(needHighlight(options) ? .red : colorFor(token.type))
+    }
+
+    func hueForMinifiedText(_ text: String) -> Double {
+        Double(token.value.asciiValues.map { Int($0) }.reduce(0, +) % 360) / 360.0
     }
 
     func width(_ str: String) -> CGFloat {
         let font = UIFont(name: "Courier", size: CGFloat($fontSize.wrappedValue))
         return str.width(for: font)
+    }
+
+    func colorFor(_ type: TokenType) -> Color {
+        activeTheme.colorFor(type)
     }
 }
 
@@ -76,9 +88,14 @@ struct TokenView_Previews: PreviewProvider {
     @State static var fontSize = 25
     static var previews: some View {
         let token = Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 4)
-        TokenView(viewModel: ScreenViewModel(),
-                  codeViewModel: CodeViewModel(file: DummyFile.getFile()),
-                  tokenViewModel: TokenViewModel(token: token),
-                  lineNum: 0, pos: 0, fontSize: $fontSize)
+        TokenView(
+            viewModel: ScreenViewModel(),
+            codeViewModel: CodeViewModel(file: DummyFile.getFile()),
+            tokenViewModel: TokenViewModel(token: token),
+            lineNum: 0,
+            pos: 0,
+            activeTheme: OneLightTheme(),
+            fontSize: $fontSize
+        )
     }
 }

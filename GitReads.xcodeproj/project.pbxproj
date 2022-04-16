@@ -52,6 +52,11 @@
 		6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */; };
 		6EC96B46280B446B0048EB9A /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B45280B446B0048EB9A /* String+Size.swift */; };
 		6EC96B48280B4DE00048EB9A /* String+LeftPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */; };
+		6EC96B4B280B5B8E0048EB9A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B4A280B5B8E0048EB9A /* Theme.swift */; };
+		6EC96B4D280B602D0048EB9A /* Color+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B4C280B602D0048EB9A /* Color+Init.swift */; };
+		6EC96B4F280B64D80048EB9A /* OneLightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */; };
+		6EC96B51280B65280048EB9A /* VisualStudioTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */; };
+		6EC96B53280B727E0048EB9A /* StringProtocol+AsciiValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B52280B727E0048EB9A /* StringProtocol+AsciiValues.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -232,6 +237,11 @@
 		6EC96B43280ABB7A0048EB9A /* PythonDeclarationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonDeclarationParser.swift; sourceTree = "<group>"; };
 		6EC96B45280B446B0048EB9A /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
 		6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LeftPadding.swift"; sourceTree = "<group>"; };
+		6EC96B4A280B5B8E0048EB9A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		6EC96B4C280B602D0048EB9A /* Color+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Init.swift"; sourceTree = "<group>"; };
+		6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLightTheme.swift; sourceTree = "<group>"; };
+		6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualStudioTheme.swift; sourceTree = "<group>"; };
+		6EC96B52280B727E0048EB9A /* StringProtocol+AsciiValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+AsciiValues.swift"; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -445,6 +455,16 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		6EC96B49280B5B810048EB9A /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				6EC96B4A280B5B8E0048EB9A /* Theme.swift */,
+				6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */,
+				6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
 		6ED3225D27DBE8E900F0AD09 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +476,8 @@
 				DE05003127F468F500ABEC27 /* String+Ranges.swift */,
 				6EC96B45280B446B0048EB9A /* String+Size.swift */,
 				6EC96B47280B4DE00048EB9A /* String+LeftPadding.swift */,
+				6EC96B4C280B602D0048EB9A /* Color+Init.swift */,
+				6EC96B52280B727E0048EB9A /* StringProtocol+AsciiValues.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -604,6 +626,7 @@
 		B223E1FE27D9DDCD008ACEEF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6EC96B49280B5B810048EB9A /* Themes */,
 				FF83C37227FDC0520042A58F /* ParseOutput */,
 				DE43323827EB1A670012FD81 /* RepoVisitor */,
 				DE43323127E1EF4B0012FD81 /* Language.swift */,
@@ -1074,6 +1097,7 @@
 				B22BD4FB27E08CAE0008E9F1 /* ScrollLineView.swift in Sources */,
 				FF73473027F89A1C009A8949 /* JsonNodeTypeSimplifier.swift in Sources */,
 				DE251EC6280322C00087ADB2 /* DefinitionLookupPlugin.swift in Sources */,
+				6EC96B4D280B602D0048EB9A /* Color+Init.swift in Sources */,
 				6EC96B46280B446B0048EB9A /* String+Size.swift in Sources */,
 				FF8106A827FC3FF1005F349F /* StructDeclaration.swift in Sources */,
 				FF11943227E04356001BE497 /* Parser.swift in Sources */,
@@ -1134,6 +1158,7 @@
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
 				6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */,
 				B2C56BE527F4535B006389E5 /* CommentPlugin.swift in Sources */,
+				6EC96B53280B727E0048EB9A /* StringProtocol+AsciiValues.swift in Sources */,
 				B242ECAE27FAD37400993012 /* CodeViewModel.swift in Sources */,
 				6ED322E627E1F71D00F0AD09 /* GitHubRepoContent.swift in Sources */,
 				DE43323227E1EF4B0012FD81 /* Language.swift in Sources */,
@@ -1158,9 +1183,11 @@
 				6E631E6927F8622000E13A30 /* RepoService.swift in Sources */,
 				FF81069827FC2694005F349F /* PythonParser.swift in Sources */,
 				FF5EAA6A27E9FE1400A3825E /* FileParser.swift in Sources */,
+				6EC96B51280B65280048EB9A /* VisualStudioTheme.swift in Sources */,
 				6E5DA5992808C689009D0D03 /* MatchChildren.swift in Sources */,
 				FF83C37427FDC10D0042A58F /* PreprocDeclaration.swift in Sources */,
 				6ED322E127E1F71D00F0AD09 /* GitHubErrorResponse.swift in Sources */,
+				6EC96B4F280B64D80048EB9A /* OneLightTheme.swift in Sources */,
 				FF8106A327FC34C7005F349F /* FunctionDeclaration.swift in Sources */,
 				6E5DA5872805C8EC009D0D03 /* MinificationPlugin.swift in Sources */,
 				B223E20927D9DF87008ACEEF /* Line.swift in Sources */,
@@ -1192,6 +1219,7 @@
 				FF11943827E0702E001BE497 /* Constants.swift in Sources */,
 				6ED3226F27DC88F400F0AD09 /* GitContentType.swift in Sources */,
 				6E5DA5972808C62C009D0D03 /* MatchAnyOf.swift in Sources */,
+				6EC96B4B280B5B8E0048EB9A /* Theme.swift in Sources */,
 				6E631E7427F946AD00E13A30 /* FavouritesViewModel.swift in Sources */,
 				DE43326827F42E220012FD81 /* FileNameSearchVisitor.swift in Sources */,
 				6E5DA5A52808EA33009D0D03 /* MatchOptional.swift in Sources */,

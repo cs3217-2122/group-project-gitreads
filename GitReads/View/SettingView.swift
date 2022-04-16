@@ -11,7 +11,11 @@ struct SettingView: View {
     let closeSideBar: () -> Void
     let increaseSize: () -> Void
     let decreaseSize: () -> Void
+    let setActiveTheme: (String) -> Void
+
     @Binding var isScrollView: Bool
+
+    let activeTheme: Theme
     var size: Int
 
     var body: some View {
@@ -33,6 +37,17 @@ struct SettingView: View {
                     Image(systemName: "plus.circle").padding()
                 })
             }
+            Divider()
+            Text("Theme")
+                .padding(.top, 12)
+            Menu(activeTheme.name) {
+                ForEach(Array(themes.values).sorted { $0.name < $1.name }, id: \.name) { theme in
+                    Button(theme.name) {
+                        setActiveTheme(theme.name)
+                    }
+                }
+            }
+            .padding(.vertical, 12)
             Spacer()
         }
     }
@@ -40,7 +55,16 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     @State static var bool = true
+
     static var previews: some View {
-        SettingView(closeSideBar: {}, increaseSize: {}, decreaseSize: {}, isScrollView: $bool, size: 10)
+        SettingView(
+            closeSideBar: {},
+            increaseSize: {},
+            decreaseSize: {},
+            setActiveTheme: { _ in },
+            isScrollView: $bool,
+            activeTheme: OneLightTheme(),
+            size: 10
+        )
     }
 }

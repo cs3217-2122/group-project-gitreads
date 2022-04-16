@@ -10,8 +10,10 @@ import SwiftUI
 struct CodeView: View {
     @StateObject var viewModel: ScreenViewModel
     @StateObject var codeViewModel: CodeViewModel
+
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
+    let activeTheme: Theme
 
     @State private var parseOutput: Result<ParseOutput, Error>?
 
@@ -49,6 +51,7 @@ struct CodeView: View {
                     codeViewModel: codeViewModel,
                     lineViewModel: codeViewModel.lineViewModels[lineNum],
                     lineNum: lineNum,
+                    activeTheme: activeTheme,
                     fontSize: $fontSize
                 )
             } else {
@@ -57,6 +60,7 @@ struct CodeView: View {
                     codeViewModel: codeViewModel,
                     lineViewModel: codeViewModel.lineViewModels[lineNum],
                     lineNum: lineNum,
+                    activeTheme: activeTheme,
                     fontSize: $fontSize
                 )
             }
@@ -91,13 +95,13 @@ struct CodeView: View {
                 .padding(.vertical, 4)
                 .padding(.leading, 7)
                 .padding(.trailing, 3)
-                .background(Color(white: 0.85))
+                .background(Color(white: 0.90))
 
                 textContent(lineNum: lineNum)
                     .frame(height: " ".height(for: font))
                     .padding(.leading, 9)
                     .padding(.vertical, 4)
-                    .background(Color(white: lineNum.isMultiple(of: 2) ? 1 : 0.98))
+                    .background(Color(white: lineNum.isMultiple(of: 2) ? 1 : 0.99))
             }
         }
         .id(lineNum)
@@ -152,7 +156,8 @@ struct CodeView_Previews: PreviewProvider {
             viewModel: ScreenViewModel(),
             codeViewModel: CodeViewModel(file: DummyFile.getFile()),
             fontSize: $fontSize,
-            isScrollView: $bool
+            isScrollView: $bool,
+            activeTheme: OneLightTheme()
         ).previewInterfaceOrientation(.portrait)
     }
 }

@@ -14,6 +14,7 @@ struct WrapLineView: View {
     @ObservedObject var lineViewModel: LineViewModel
 
     let lineNum: Int
+    let activeTheme: Theme
     @Binding var fontSize: Int
 
     var body: some View {
@@ -25,6 +26,7 @@ struct WrapLineView: View {
                     tokenViewModel: lineViewModel.tokenViewModels[pos],
                     lineNum: lineNum,
                     pos: pos,
+                    activeTheme: activeTheme,
                     fontSize: $fontSize
                 )
             }
@@ -50,6 +52,8 @@ struct WrapLineView_Previews: PreviewProvider {
                 Token(type: .keyword, value: "TEST", startIdx: 0, endIdx: 1)
             ])),
             lineNum: 0,
-            fontSize: $fontSize)
+            activeTheme: OneLightTheme(),
+            fontSize: $fontSize
+        )
     }
 }

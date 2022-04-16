@@ -39,6 +39,8 @@ struct WindowView: View {
     @Binding var openFile: CodeViewModel?
     @Binding var fontSize: Int
     @Binding var isScrollView: Bool
+
+    let activeTheme: Theme
     let removeFile: (File) -> Void
 
     var body: some View {
@@ -64,7 +66,8 @@ struct WindowView: View {
                         viewModel: viewModel,
                         codeViewModel: codeViewModel,
                         fontSize: $fontSize,
-                        isScrollView: $isScrollView
+                        isScrollView: $isScrollView,
+                        activeTheme: activeTheme
                     ).opacity(codeViewModel == openFile ? 1 : 0)
                 }
             }
@@ -89,6 +92,7 @@ struct WindowView_Previews: PreviewProvider {
 
     @State static var fontSize = 25
     @State static var isScrollView = true
+
     static var previews: some View {
         var files = [
             File(path: Path(components: "file1.txt"),
@@ -119,6 +123,7 @@ struct WindowView_Previews: PreviewProvider {
             openFile: $openFile,
             fontSize: $fontSize,
             isScrollView: $isScrollView,
+            activeTheme: OneLightTheme(),
             removeFile: { file in
                 files = files.filter({ vm in
                     vm.file != file

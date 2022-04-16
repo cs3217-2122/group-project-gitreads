@@ -13,6 +13,8 @@ struct ScrollLineView: View {
     @ObservedObject var lineViewModel: LineViewModel
 
     let lineNum: Int
+    let activeTheme: Theme
+
     @Binding var fontSize: Int
 
     var body: some View {
@@ -25,6 +27,7 @@ struct ScrollLineView: View {
                         tokenViewModel: lineViewModel.tokenViewModels[pos],
                         lineNum: lineNum,
                         pos: pos,
+                        activeTheme: activeTheme,
                         fontSize: $fontSize
                     )
                 }
@@ -57,6 +60,7 @@ struct ScrollLineView_Previews: PreviewProvider {
                 Token(type: .keyword, value: "14TEST", startIdx: 0, endIdx: 1)
             ])),
             lineNum: 1,
+            activeTheme: OneLightTheme(),
             fontSize: $fontSize
         )
     }
