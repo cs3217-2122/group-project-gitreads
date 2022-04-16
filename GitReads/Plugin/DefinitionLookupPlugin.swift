@@ -9,20 +9,20 @@ struct DefinitionLookupPlugin: Plugin {
     let repo: Repo
 
     func getLineAction(file: File, lineNum: Int, screenViewModel: ScreenViewModel,
-                       codeViewModel: CodeViewModel) -> LineAction? {
-        nil
+                       codeViewModel: CodeViewModel) -> [LineAction] {
+        []
     }
 
     func getTokenAction(file: File, lineNum: Int, posNum: Int, screenViewModel: ScreenViewModel,
-                        codeViewModel: CodeViewModel) -> TokenAction? {
+                        codeViewModel: CodeViewModel) -> [TokenAction] {
         if let parserOutput = file.parseOutput.fetchedValue, case let .success(parserOutput) = parserOutput {
             let token = parserOutput.lines[lineNum].tokens[posNum]
 
             guard token.type == .methodCall || token.type == .functionCall || token.type == .type else {
-                return nil
+                return []
             }
 
-            return TokenAction(
+            return [TokenAction(
                 text: "Definition Lookup",
                 action: { _, _, _, _ in },
                 view: AnyView(DefinitionLookupView(
@@ -30,9 +30,9 @@ struct DefinitionLookupPlugin: Plugin {
                     language: file.language,
                     token: token,
                     onSelect: screenViewModel.navigateTo(_:)))
-            )
+            )]
         }
-        return nil
+        return []
     }
 }
 
