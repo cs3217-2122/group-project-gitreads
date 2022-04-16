@@ -39,8 +39,8 @@ class MinificationPlugin: Plugin {
         lineNum: Int,
         screenViewModel: ScreenViewModel,
         codeViewModel: CodeViewModel
-    ) -> LineAction? {
-        nil
+    ) -> [LineAction] {
+        []
     }
 
     func getTokenAction(
@@ -49,19 +49,19 @@ class MinificationPlugin: Plugin {
         posNum: Int,
         screenViewModel: ScreenViewModel,
         codeViewModel: CodeViewModel
-    ) -> TokenAction? {
+    ) -> [TokenAction] {
         let tokenViewModel = codeViewModel.lineViewModels[lineNum].tokenViewModels[posNum]
         guard let state = minificationStates[tokenViewModel.token.value] else {
-            return nil
+            return []
         }
 
-        return TokenAction(
+        return [TokenAction(
             text: state.minified ? "Show full" : "Minify",
             action: { _, _, _, _ in
                 state.toggle()
             },
             view: nil
-        )
+        )]
     }
 
     func registerLines(_ lineViewModels: [LineViewModel]) {
