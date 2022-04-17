@@ -145,7 +145,7 @@ class RepoParser {
     private func detectLanguage(name: String) -> Language {
         let type = getFileType(name)
         switch type {
-        case "js":
+        case "js", "cjs", "mjs":
             return Language.javascript
         case "py":
             return Language.python
