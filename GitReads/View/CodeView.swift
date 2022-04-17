@@ -33,12 +33,12 @@ struct CodeView: View {
         .background {
             Color.white
                 .shadow(
-                    color: .black.opacity(0.25),
-                    radius: 7,
+                    color: .black.opacity(0.2),
+                    radius: 5,
                     x: 0, y: 0
                 )
+                .mask(Rectangle().padding(.top, -20))
         }
-        .mask(Rectangle().padding(.top, -20))
     }
 
     func needHighlight(_ lineActions: [LineAction]) -> Bool {
