@@ -24,7 +24,11 @@ struct CodeView: View {
             }
             .padding(.vertical, 10)
 
-            view
+            HStack {
+                Spacer()
+                view
+                Spacer()
+            }
         }
         .background {
             Color.white
@@ -34,6 +38,7 @@ struct CodeView: View {
                     x: 0, y: 0
                 )
         }
+        .mask(Rectangle().padding(.top, -20))
     }
 
     func needHighlight(_ lineActions: [LineAction]) -> Bool {
