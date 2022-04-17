@@ -23,6 +23,7 @@ class MinificationPlugin: Plugin {
 
         func addViewModel(_ viewModel: TokenViewModel) {
             viewModels.append(viewModel)
+            viewModel.minified = minified
         }
 
         func toggle() {

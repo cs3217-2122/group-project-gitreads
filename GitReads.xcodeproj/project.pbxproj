@@ -57,6 +57,7 @@
 		6EC96B4F280B64D80048EB9A /* OneLightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */; };
 		6EC96B51280B65280048EB9A /* VisualStudioTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */; };
 		6EC96B53280B727E0048EB9A /* StringProtocol+AsciiValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B52280B727E0048EB9A /* StringProtocol+AsciiValues.swift */; };
+		6EC96B55280BE0260048EB9A /* GitHubTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC96B54280BE0260048EB9A /* GitHubTheme.swift */; };
 		6ED3225127D9F77E00F0AD09 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225027D9F77E00F0AD09 /* .gitignore */; };
 		6ED3225327D9F82000F0AD09 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6ED3225227D9F82000F0AD09 /* .swiftlint.yml */; };
 		6ED3225F27DBE90400F0AD09 /* LazyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */; };
@@ -242,6 +243,7 @@
 		6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLightTheme.swift; sourceTree = "<group>"; };
 		6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualStudioTheme.swift; sourceTree = "<group>"; };
 		6EC96B52280B727E0048EB9A /* StringProtocol+AsciiValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+AsciiValues.swift"; sourceTree = "<group>"; };
+		6EC96B54280BE0260048EB9A /* GitHubTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubTheme.swift; sourceTree = "<group>"; };
 		6ED3225027D9F77E00F0AD09 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		6ED3225227D9F82000F0AD09 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		6ED3225E27DBE90400F0AD09 /* LazyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDataSource.swift; sourceTree = "<group>"; };
@@ -459,8 +461,9 @@
 			isa = PBXGroup;
 			children = (
 				6EC96B4A280B5B8E0048EB9A /* Theme.swift */,
-				6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */,
 				6EC96B4E280B64D80048EB9A /* OneLightTheme.swift */,
+				6EC96B50280B65280048EB9A /* VisualStudioTheme.swift */,
+				6EC96B54280BE0260048EB9A /* GitHubTheme.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -1154,6 +1157,7 @@
 				DE43326C27F449950012FD81 /* SearchBarView.swift in Sources */,
 				FF73473327F8A41E009A8949 /* JavascriptParser.swift in Sources */,
 				DE05003227F468F500ABEC27 /* String+Ranges.swift in Sources */,
+				6EC96B55280BE0260048EB9A /* GitHubTheme.swift in Sources */,
 				DE43323A27EB1A760012FD81 /* RepoVisitor.swift in Sources */,
 				B22D52F927DB46EA00CD5E01 /* TokenView.swift in Sources */,
 				6EC96B44280ABB7A0048EB9A /* PythonDeclarationParser.swift in Sources */,

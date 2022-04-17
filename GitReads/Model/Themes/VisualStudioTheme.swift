@@ -4,13 +4,13 @@
 
 import SwiftUI
 
+// swiftlint:disable cyclomatic_complexity
 // Based on: https://github.com/PrismJS/prism-themes/blob/master/themes/prism-vs.css
 struct VisualStudioTheme: Theme {
     let name = "Visual Studio"
+    let base = Color(hex: 0x393A34)
 
     func colorFor(_ type: TokenType) -> Color {
-        let base = Color(hex: 0x393A34)
-
         switch type {
         case .functionCall, .functionDeclaration, .specialFunctionDeclaration,
              .methodCall, .methodDeclaration,

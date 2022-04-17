@@ -10,6 +10,9 @@ protocol Theme {
 }
 
 let themes: [String: Theme] = [
-    OneLightTheme().name: OneLightTheme(),
-    VisualStudioTheme().name: VisualStudioTheme()
-]
+    OneLightTheme(),
+    VisualStudioTheme(),
+    GitHubTheme()
+].reduce(into: [String: Theme]()) { (dict, theme: Theme) in
+    dict[theme.name] = theme
+}

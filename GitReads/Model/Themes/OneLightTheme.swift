@@ -6,9 +6,8 @@ import SwiftUI
 
 // Based on: https://github.com/PrismJS/prism-themes/blob/master/themes/prism-one-light.css
 struct OneLightTheme: Theme {
-    let base = Color(hue: 230 / 360, saturation: 0.08, lightness: 0.24)
-
     let name = "One Light"
+    let base = Color(hue: 230 / 360, saturation: 0.08, lightness: 0.24)
 
     func colorFor(_ type: TokenType) -> Color {
         switch type {
