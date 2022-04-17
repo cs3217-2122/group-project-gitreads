@@ -17,7 +17,7 @@ struct CodeView: View {
 
     @State private var parseOutput: Result<ParseOutput, Error>?
 
-    func pluginHeader(_ view: AnyView) -> some View {
+    func pluginHeader<T: View>(_ view: T) -> some View {
         VStack(spacing: 0) {
             Button("Close") {
                 codeViewModel.resetAction()
@@ -139,11 +139,11 @@ struct CodeView: View {
             }
 
             if let action = codeViewModel.activeLineAction, let pluginView = action.pluginView {
-                pluginHeader(pluginView)
+                pluginHeader(pluginView.id(UUID()))
             }
 
             if let action = codeViewModel.activeTokenAction, let pluginView = action.pluginView {
-                pluginHeader(pluginView)
+                pluginHeader(pluginView.id(UUID()))
             }
         }
 
