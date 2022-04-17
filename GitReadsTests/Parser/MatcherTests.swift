@@ -95,8 +95,8 @@ class MatcherTests: XCTestCase {
     func testJavascriptDeclarations() async throws {
         let js = #"""
                 let a = 2
-                const b = 3
-                var c = "aff"
+                let { b, c: { d } } = a
+                const { arr: [array, ...rests] } = undefined
 
                 function helloooooo(ab = 5, bc, ...cd) {}
 

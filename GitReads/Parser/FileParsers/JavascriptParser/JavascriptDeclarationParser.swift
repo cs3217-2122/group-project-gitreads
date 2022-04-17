@@ -85,6 +85,11 @@ struct JavascriptDeclarationParser {
                             objectPatternMatcher(depth: depth + 1)
                         }
                     }
+                    Match(type: .exact("pair_pattern")) { _ in
+                        Match(type: .exact("property_identifier"))
+                        MatchAny()
+                        variablePatternMatcher(depth: depth + 1)
+                    }
                     Match(type: .exact(","))
                 }
             }
@@ -124,13 +129,17 @@ struct JavascriptDeclarationParser {
         }
     }
 
+    static func variablePatternMatcher(depth: Int = 0) -> Matcher {
+        MatchAnyOf {
+            Match(type: .exact("identifier"), key: "identifier")
+            objectPatternMatcher(depth: depth)
+            arrayPatternMatcher(depth: depth)
+        }
+    }
+
     static let variableDeclarationMatcher = MatchAnyOf {
-        Match(type: .exact("variable_declarator")) {
-            MatchAnyOf {
-                Match(type: .exact("identifier"), key: "identifier")
-                objectPatternMatcher()
-                arrayPatternMatcher()
-            }
+        Match(type: .exact("variable_declarator")) { _ in
+            variablePatternMatcher()
         }
         Match(type: .exact("formal_parameters")) { count in
             Match(type: .exact("("))
