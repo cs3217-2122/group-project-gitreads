@@ -94,7 +94,7 @@ struct CodeView: View {
                         }
                     }
                 }
-                .foregroundColor(needHighlight(options) ? .red : .black)
+                .foregroundColor(needHighlight(options) ? .orange : .black)
                 .font(Font.custom("Courier", size: CGFloat($fontSize.wrappedValue)))
                 .frame(width: lineNumWidth)
                 .padding(.vertical, 4)
