@@ -8,10 +8,26 @@ struct TabView: View {
     let file: File
     let selected: Bool
     let closeFile: () -> Void
+    @StateObject var viewModel: ScreenViewModel
+    @StateObject var codeViewModel: CodeViewModel
 
     var body: some View {
         HStack {
-            Text(file.name)
+            if !codeViewModel.lineViewModels.isEmpty {
+                let options = codeViewModel.getFileOption(
+                    screenViewModel: viewModel
+                )
+                Text(file.name).contextMenu {
+                    ForEach(0..<options.count, id: \.self) { pos in
+                        if let buttonText = options[pos].text {
+                            Button(buttonText, action: {
+                                options[pos].action(viewModel, codeViewModel)
+                                codeViewModel.setFileAction(fileAction: options[pos])
+                            })
+                        }
+                    }
+                }
+            }
 
             if selected {
                 Image(systemName: "xmark")
@@ -34,7 +50,6 @@ struct TabView: View {
 }
 
 struct WindowView: View {
-    let codeViewModels: [CodeViewModel]
     @StateObject var viewModel: ScreenViewModel
     @Binding var openFile: CodeViewModel?
     @Binding var fontSize: Int
@@ -47,21 +62,23 @@ struct WindowView: View {
         VStack(spacing: 0) {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(codeViewModels, id: \.file) { codeViewModel in
+                    ForEach(viewModel.codeViewModels, id: \.file) { codeViewModel in
                         TabView(
                             file: codeViewModel.file,
                             selected: codeViewModel == openFile,
-                            closeFile: { removeFile(codeViewModel.file) })
-                            .onTapGesture {
-                                openFile = codeViewModel
-                            }
+                            closeFile: { removeFile(codeViewModel.file) },
+                            viewModel: viewModel,
+                            codeViewModel: codeViewModel
+                        ).onTapGesture {
+                            openFile = codeViewModel
+                        }
                     }
 
                 }
             }
             Divider()
             ZStack {
-                ForEach(codeViewModels, id: \.file) { codeViewModel in
+                ForEach(viewModel.codeViewModels, id: \.file) { codeViewModel in
                     CodeView(
                         viewModel: viewModel,
                         codeViewModel: codeViewModel,
@@ -88,7 +105,7 @@ struct WindowView_Previews: PreviewProvider {
             sha: "deadbeef",
             language: .others,
             parseOutput: EMPTY_PARSE_OUTPUT
-    ))
+        ))
 
     @State static var fontSize = 25
     @State static var isScrollView = true
@@ -118,7 +135,6 @@ struct WindowView_Previews: PreviewProvider {
         ]
             .map { CodeViewModel(file: $0) }
         return WindowView(
-            codeViewModels: files,
             viewModel: ScreenViewModel(),
             openFile: $openFile,
             fontSize: $fontSize,

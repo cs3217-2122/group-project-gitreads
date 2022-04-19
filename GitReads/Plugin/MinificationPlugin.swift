@@ -82,6 +82,10 @@ class MinificationPlugin: Plugin {
         }
     }
 
+    func getFileAction(file: File, screenViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> [FileAction] {
+        []
+    }
+
     func getLineAction(
         file: File,
         lineNum: Int,

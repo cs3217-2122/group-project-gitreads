@@ -6,6 +6,10 @@
 //
 
 protocol Plugin {
+    func getFileAction(file: File,
+                       screenViewModel: ScreenViewModel,
+                       codeViewModel: CodeViewModel) -> [FileAction]
+
     func getLineAction(file: File, lineNum: Int,
                        screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> [LineAction]

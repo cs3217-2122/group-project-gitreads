@@ -7,6 +7,8 @@ struct ParseOutput: Codable {
     let lines: [Line]
     var declarations: [Declaration]
     let scopes: [Scope]
+    let scopeLineNums: [Int]
+    let collapsedScopeLineNums: [Int]
 
     lazy var declarationsInScope: [Scope: [Declaration]] = {
         scopes.reduce(into: [Scope: [Declaration]]()) { dict, scope in
@@ -33,12 +35,49 @@ struct ParseOutput: Codable {
         self.lines = lines
         self.declarations = declarations
         self.scopes = scopes
+        self.scopeLineNums = ParseOutput.getScopeLineNums(scopes: scopes)
+        self.collapsedScopeLineNums = ParseOutput.getCollapsedScopeLineNums(scopes: scopes, lines: lines)
+    }
+
+    private static func getCollapsedScopeLineNums(scopes: [Scope], lines: [Line]) -> [Int] {
+        var lineNums = [Int]()
+        for scope in scopes {
+            for i in scope.prefixStart.line...scope.prefixEnd.line {
+                lineNums.append(i)
+            }
+            if scope.prefixEnd.line != scope.end.line {
+                lineNums.append(scope.end.line)
+                if lines.count > scope.end.line + 1
+                    && lines[scope.end.line + 1].content.isEmpty {
+                    lineNums.append(scope.end.line + 1)
+                }
+            }
+        }
+
+        if !lineNums.isEmpty && !lines.isEmpty && lines[lineNums[lineNums.count - 1]].content.isEmpty {
+            lineNums.remove(at: lineNums.count - 1)
+        }
+
+        return lineNums
+    }
+
+    private static func getScopeLineNums(scopes: [Scope]) -> [Int] {
+        var lineNums = [Int]()
+        for scope in scopes {
+            for i in scope.prefixStart.line...scope.end.line {
+                lineNums.append(i)
+            }
+        }
+
+        return lineNums
     }
 
     private enum CodingKeys: CodingKey {
         case fileContents
         case lines
         case scopes
+        case scopeLineNums
+        case scopePrefixLineNums
         case variableDeclaration
         case functionDeclaration
         case classDeclaration
@@ -52,6 +91,8 @@ struct ParseOutput: Codable {
         fileContents = try container.decode(String.self, forKey: .fileContents)
         lines = try container.decode([Line].self, forKey: .lines)
         scopes = try container.decode([Scope].self, forKey: .scopes)
+        scopeLineNums = try container.decode([Int].self, forKey: .scopeLineNums)
+        collapsedScopeLineNums = try container.decode([Int].self, forKey: .scopePrefixLineNums)
 
         declarations = []
         declarations += try container.decode([VariableDeclaration].self,
@@ -73,6 +114,8 @@ struct ParseOutput: Codable {
         try container.encode(fileContents, forKey: .fileContents)
         try container.encode(lines, forKey: .lines)
         try container.encode(scopes, forKey: .scopes)
+        try container.encode(scopeLineNums, forKey: .scopeLineNums)
+        try container.encode(collapsedScopeLineNums, forKey: .scopePrefixLineNums)
 
         let variableDeclarations = declarations.compactMap { $0 as? VariableDeclaration }
         let functionDeclarations = declarations.compactMap { $0 as? FunctionDeclaration }

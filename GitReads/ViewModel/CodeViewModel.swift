@@ -9,13 +9,14 @@ import Combine
 
 class CodeViewModel: ObservableObject {
     @Published private(set) var parseOutput: ParseOutput?
+    @Published var activeFileAction: FileAction?
     @Published var activeLineAction: LineAction?
     @Published var activeTokenAction: TokenAction?
     @Published private(set) var scrollTo: Int?
 
     @Published var lineViewModels: [LineViewModel] = []
 
-    private var plugins: [Plugin] = [CommentPlugin(), CodeCollapsePlugin()]
+    private var plugins: [Plugin] = [CommentPlugin(), CodeCollapsePlugin(), CollapsedViewPlugin()]
     let file: File
 
     init(file: File) {
@@ -28,6 +29,14 @@ class CodeViewModel: ObservableObject {
 
     var scopes: [Scope] {
         parseOutput?.scopes ?? []
+    }
+
+    var collapsedScopeLineNums: [Int] {
+        parseOutput?.collapsedScopeLineNums ?? []
+    }
+
+    var scopeLineNums: [Int] {
+        parseOutput?.scopeLineNums ?? []
     }
 
     func addPlugin(_ plugin: Plugin) {
@@ -48,6 +57,17 @@ class CodeViewModel: ObservableObject {
 
         self.lineViewModels = lineViewModels
         self.plugins.append(minificationPlugin)
+    }
+
+    func getFileOption(screenViewModel: ScreenViewModel) -> [FileAction] {
+        var result: [FileAction] = []
+        for plugin in plugins {
+            let action = plugin.getFileAction(file: file,
+                                              screenViewModel: screenViewModel,
+                                              codeViewModel: self)
+            result.append(contentsOf: action)
+        }
+        return result
     }
 
     func getLineOption(lineNum: Int,
@@ -73,8 +93,14 @@ class CodeViewModel: ObservableObject {
     }
 
     func resetAction() {
+        activeFileAction = nil
         activeLineAction = nil
         activeTokenAction = nil
+    }
+
+    func setFileAction(fileAction: FileAction) {
+        resetAction()
+        activeFileAction = fileAction
     }
 
     func setLineAction(lineAction: LineAction) {

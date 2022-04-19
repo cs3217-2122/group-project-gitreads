@@ -16,22 +16,26 @@ class CodeCollapsePlugin: Plugin {
             do {
                 let scopes = try value.get().scopes
                 for scope in scopes where scope.prefixStart.line == lineNum {
-                    if codeViewModel.lineViewModels[lineNum + 1].isShowing {
+                    if codeViewModel.lineViewModels[scope.prefixEnd.line + 1].isShowing {
                         return [LineAction(text: "Collapse Code",
                                            action: { _, _, _ in
-                            for line in (scope.prefixStart.line + 1)..<scope.end.line {
-                                codeViewModel.lineViewModels[line].isShowing = false
+                            if scope.prefixEnd.line + 1 <= scope.end.line {
+                                for line in (scope.prefixEnd.line + 1)..<scope.end.line {
+                                    codeViewModel.lineViewModels[line].isShowing = false
+                                }
                             }
-                                          },
-                                          view: nil)]
+                        },
+                                           view: nil)]
                     }
                     return [LineAction(text: "Expand Code",
                                        action: { _, _, _ in
-                        for line in (scope.prefixStart.line + 1)..<scope.end.line {
-                            codeViewModel.lineViewModels[line].isShowing = true
+                        if scope.prefixEnd.line + 1 <= scope.end.line {
+                            for line in (scope.prefixEnd.line + 1)..<scope.end.line {
+                                codeViewModel.lineViewModels[line].isShowing = true
+                            }
                         }
-                                      },
-                                      view: nil)]
+                    },
+                                       view: nil)]
                 }
             } catch {
                 return []
@@ -47,4 +51,9 @@ class CodeCollapsePlugin: Plugin {
                         codeViewModel: CodeViewModel) -> [TokenAction] {
         []
     }
+
+    func getFileAction(file: File, screenViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> [FileAction] {
+        []
+    }
+
 }

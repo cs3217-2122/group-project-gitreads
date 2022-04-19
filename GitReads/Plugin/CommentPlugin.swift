@@ -37,6 +37,10 @@ struct CommentPlugin: Plugin {
                         codeViewModel: CodeViewModel) -> [TokenAction] {
         []
     }
+
+    func getFileAction(file: File, screenViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> [FileAction] {
+        []
+    }
 }
 
 struct GetCommentView: View {

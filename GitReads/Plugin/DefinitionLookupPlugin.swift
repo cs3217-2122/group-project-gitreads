@@ -8,6 +8,10 @@ import SwiftUI
 struct DefinitionLookupPlugin: Plugin {
     let repo: Repo
 
+    func getFileAction(file: File, screenViewModel: ScreenViewModel, codeViewModel: CodeViewModel) -> [FileAction] {
+        []
+    }
+
     func getLineAction(file: File, lineNum: Int, screenViewModel: ScreenViewModel,
                        codeViewModel: CodeViewModel) -> [LineAction] {
         []

@@ -58,7 +58,6 @@ struct ScreenView: View {
                         })
                 }
                 WindowView(
-                    codeViewModels: viewModel.codeViewModels,
                     viewModel: viewModel, // not the ideal case
                     openFile: $viewModel.openFile,
                     fontSize: $settings.fontSize,
