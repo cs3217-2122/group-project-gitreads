@@ -78,6 +78,10 @@ struct PythonDeclarationParser {
         }
     }
 
+    static let keywordSeparatorMatcher = Match(type: .exact("keyword_separator"))
+
+    static let positionalSeparatorMatcher = Match(type: .exact("positional_separator"))
+
     static func tuplePatternMatcher(depth: Int = 0) -> Matcher? {
         if depth > 4 {
             return nil
@@ -136,7 +140,7 @@ struct PythonDeclarationParser {
         MatchAnyOf {
             patternMatcher(key: "identifier")
             Match(type: .exact("pattern_list")) { count in
-                for _ in 1...count {
+                for _ in 0..<count {
                     let key = "identifier-" + UUID().uuidString
                     MatchAnyOf {
                         patternMatcher(key: key)
@@ -160,8 +164,7 @@ struct PythonDeclarationParser {
     }
 
     static let parametersMatcher = Match(type: .oneOf(["parameters", "lambda_parameters"])) { count in
-        Match(type: .exact("("))
-        for _ in 2..<count {
+        for _ in 0..<count {
             let key = "identifier-" + UUID().uuidString
 
             MatchAnyOf {
@@ -171,10 +174,13 @@ struct PythonDeclarationParser {
                 listSplatPatternMatcher(key: key)
                 dictionarySplatPatternMatcher(key: key)
                 tuplePatternMatcher()
+                keywordSeparatorMatcher
+                positionalSeparatorMatcher
+                Match(type: .exact("("))
                 Match(type: .exact(","))
+                Match(type: .exact(")"))
             }
         }
-        Match(type: .exact(")"))
     }
 
     static let variableDeclarationMatcher = MatchAnyOf {

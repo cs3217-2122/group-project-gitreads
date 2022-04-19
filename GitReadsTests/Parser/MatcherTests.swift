@@ -15,6 +15,8 @@ class MatcherTests: XCTestCase {
                      ([(dog), cat], _, *bird, (hamster)) = something
                      [red, blue, *green, yellow] = array
 
+                     fire = lambda water: water
+
                      def add(a, b = blahh, c: str, d: int = 5, *e, **f, (g, *h)):
                        return a + b
 
